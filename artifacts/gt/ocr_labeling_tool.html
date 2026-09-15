@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>OCR 정답지 교정 도구</title>
+<style>
+  :root { --bg:#f5f6f8; --card:#fff; --line:#dfe3e8; --ink:#1c2733; --sub:#6b7787;
+          --draft:#b45309; --draft-bg:#fef3c7; --human:#15803d; --human-bg:#dcfce7;
+          --empty:#b91c1c; --empty-bg:#fee2e2; --edit:#1d4ed8; --edit-bg:#dbeafe; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:'Malgun Gothic','Segoe UI',sans-serif; background:var(--bg); color:var(--ink); }
+  header { position:sticky; top:0; z-index:10; background:var(--card); border-bottom:1px solid var(--line);
+           padding:10px 16px; display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+  h1 { font-size:16px; margin:0 12px 0 0; }
+  .tabs button, .filters button, .actions button {
+    border:1px solid var(--line); background:#fff; padding:6px 12px; border-radius:6px;
+    cursor:pointer; font-size:13px; }
+  .tabs button.on { background:var(--ink); color:#fff; border-color:var(--ink); }
+  .filters button.on { background:var(--edit-bg); color:var(--edit); border-color:var(--edit); }
+  .actions button.primary { background:var(--edit); color:#fff; border-color:var(--edit); }
+  #stats { font-size:12.5px; color:var(--sub); margin-left:auto; }
+  main { max-width:1100px; margin:0 auto; padding:14px 16px 80px; }
+  .row { display:flex; gap:14px; background:var(--card); border:1px solid var(--line);
+         border-radius:10px; padding:12px; margin-bottom:12px; }
+  .row.done { border-left:4px solid var(--human); }
+  .imgbox { flex:0 0 380px; }
+  .imgbox img { max-width:380px; max-height:240px; object-fit:contain; border:1px solid var(--line);
+                border-radius:6px; background:#eee; cursor:zoom-in; display:block; }
+  .imgbox img.zoom { max-width:none; max-height:none; width:auto; cursor:zoom-out; }
+  .meta { font-size:12px; color:var(--sub); margin-top:6px; word-break:break-all; }
+  .badge { display:inline-block; font-size:11px; padding:2px 8px; border-radius:10px; margin-left:6px; }
+  .badge.ocr_draft { background:var(--draft-bg); color:var(--draft); }
+  .badge.human { background:var(--human-bg); color:var(--human); }
+  .badge.empty { background:var(--empty-bg); color:var(--empty); }
+  .badge.swapped { background:var(--draft-bg); color:var(--empty); border:1px solid var(--empty); }
+  .badge.edited { background:var(--edit-bg); color:var(--edit); }
+  .badge.excl { background:var(--empty); color:#fff; }
+  .row.excl { border-left:4px solid var(--empty); opacity:0.55; }
+  .rowbtns .excl-btn { border-color:var(--empty); color:var(--empty); }
+  .txt { flex:1; display:flex; flex-direction:column; gap:6px; }
+  textarea { width:100%; min-height:110px; font-size:15px; padding:8px; border:1px solid var(--line);
+             border-radius:6px; resize:vertical; font-family:'Malgun Gothic',monospace; line-height:1.5; }
+  textarea:focus { outline:2px solid var(--edit); }
+  .hint { font-size:12px; color:var(--sub); }
+  .rowbtns { display:flex; gap:8px; }
+  .rowbtns button { font-size:12px; padding:4px 10px; border:1px solid var(--line); background:#fff;
+                    border-radius:5px; cursor:pointer; }
+  footer { position:fixed; bottom:0; left:0; right:0; background:var(--card); border-top:1px solid var(--line);
+           padding:8px 16px; font-size:12.5px; color:var(--sub); display:flex; gap:16px; align-items:center; }
+</style>
+</head>
+<body>
+<header>
+  <h1>OCR 정답지 교정</h1>
+  <span class="tabs" id="tabs"></span>
+  <span class="filters" id="filters"></span>
+  <span class="actions">
+    <button class="primary" onclick="saveCheckpoint()">중간 저장(파일)</button>
+    <button onclick="document.getElementById('ckpt').click()">저장 불러오기</button>
+    <input type="file" id="ckpt" accept=".json" style="display:none" onchange="loadCheckpoint(this)">
+    <button onclick="exportCsv()">CSV 내보내기</button>
+    <button onclick="resetRegion()">이 지역 수정 초기화</button>
+  </span>
+  <span id="stats"></span>
+</header>
+<main id="list"></main>
+<footer>
+  <b>사용법</b>
+  <span>줄바꿈: 텍스트 안에서 실제 Enter 로 입력 (내보낼 때 자동으로 \n 리터럴로 변환)</span>
+  <span>이미지 클릭 = 원본 크기 확대</span>
+  <span>"이 이미지 제외" = 정답지·학습·평가에서만 제외 (파일 삭제 아님)</span>
+  <span>"안 보이는 글씨(###)" = 읽을 수 없는 작은 글씨 표시 → 채점 제외</span>
+  <span><b>중간 저장(파일)을 수시로 누르세요</b> — 자동 저장은 브라우저에만 남아 초기화될 수 있습니다</span>
+</footer>
+<script>
+const DATA = {"gangnam": [{"image_name": "gangnam__1__crop_001", "gt_text": "milk\\n###", "source": "human"}, {"image_name": "gangnam__2__crop_001", "gt_text": "HERRY S COFFEE\\n###", "source": "human"}, {"image_name": "gangnam__3__crop_001", "gt_text": "Yomenya Goemon\\nJapanese Spaghetti\\n###", "source": "human"}, {"image_name": "gangnam__4__crop_001", "gt_text": "CASA \\nJOVEN\\n###", "source": "human"}, {"image_name": "gangnam__5__crop_001", "gt_text": "MOS BURGER\\n###", "source": "human"}, {"image_name": "gangnam__5__crop_003", "gt_text": "놀부 \\n부대찌개\\n###", "source": "human"}, {"image_name": "gangnam__6__crop_001", "gt_text": "HERRY S COFFEE\\n###", "source": "human"}, {"image_name": "gangnam__7__crop_001", "gt_text": "Pomato\\n###", "source": "human"}, {"image_name": "gangnam__7__crop_002", "gt_text": "딸부자네\\n불백\\n###", "source": "human"}, {"image_name": "gangnam__7__crop_003", "gt_text": "7\\nELEVEN", "source": "ocr_draft"}, {"image_name": "gangnam__8__crop_002", "gt_text": "7\\nELEVEN", "source": "human"}, {"image_name": "gangnam__8__crop_003", "gt_text": "THE FOOT SHOP\\n###", "source": "human"}, {"image_name": "gangnam__9__crop_001", "gt_text": "초 만 원\\n###", "source": "human"}, {"image_name": "gangnam__10__crop_001", "gt_text": "HOTEL\\n###", "source": "human"}, {"image_name": "gangnam__10__crop_002", "gt_text": "Saboten\\n###", "source": "human"}, {"image_name": "gangnam__11__crop_001", "gt_text": "LOTTERIA\\n롯데리아\\n###", "source": "human"}, {"image_name": "gangnam__11__crop_002", "gt_text": "짚동가리쌩주\\n###", "source": "human"}, {"image_name": "gangnam__12__crop_001", "gt_text": "럭셔리브라더스\\n###", "source": "human"}, {"image_name": "gangnam__12__crop_002", "gt_text": "신오약국\\n###", "source": "human"}, {"image_name": "gangnam__13__crop_001", "gt_text": "The Coffee Bean\\n###", "source": "human"}, {"image_name": "gangnam__17__crop_001", "gt_text": "MLB", "source": "human"}, {"image_name": "gangnam__17__crop_002", "gt_text": "espoir", "source": "human"}, {"image_name": "gangnam__18__crop_001", "gt_text": "MLB", "source": "human"}, {"image_name": "gangnam__18__crop_002", "gt_text": "우리은행\\n강남역지점\\n###", "source": "human"}, {"image_name": "gangnam__19__crop_001", "gt_text": "파파스레시피 2F\\n###", "source": "human"}, {"image_name": "gangnam__20__crop_001", "gt_text": "THE \\nPLACE\\nITALIAN URBAN BISTRO", "source": "human"}, {"image_name": "gangnam__21__crop_001", "gt_text": "baskin BR robbins", "source": "human"}, {"image_name": "gangnam__22__crop_001", "gt_text": "혜화 돌쇠\\n아저씨\\n고르곤 졸라 피자", "source": "human"}, {"image_name": "gangnam__23__crop_001", "gt_text": "문교동낙지\\n###", "source": "human"}, {"image_name": "gangnam__24__crop_001", "gt_text": "SUBWAY", "source": "human"}, {"image_name": "gangnam__25__crop_001", "gt_text": "GOLD", "source": "human"}, {"image_name": "gangnam__27__crop_001", "gt_text": "CU\\n###", "source": "human"}, {"image_name": "gangnam__28__crop_001", "gt_text": "THE CAFE 8 6 8\\n###", "source": "human"}, {"image_name": "gangnam__29__crop_001", "gt_text": "opera\\n오페라\\n라이브 유흥주점", "source": "human"}, {"image_name": "gangnam__30__crop_001", "gt_text": "Emoi\\n###", "source": "human"}, {"image_name": "gangnam__31__crop_001", "gt_text": "정통중국요리\\n###", "source": "human"}, {"image_name": "gangnam__32__crop_001", "gt_text": "IZAKAYA TAN\\n###", "source": "human"}, {"image_name": "gangnam__33__crop_001", "gt_text": "DUNKIN\\nDONUTS\\n###", "source": "human"}, {"image_name": "gangnam__34__crop_001", "gt_text": "MINI STOP\\n###", "source": "human"}, {"image_name": "gangnam__35__crop_001", "gt_text": "olleh O", "source": "human"}, {"image_name": "gangnam__35__crop_002", "gt_text": "강남역 \\n효성해링턴타워\\n###", "source": "human"}, {"image_name": "gangnam__35__crop_004", "gt_text": "olleh O\\n###", "source": "human"}, {"image_name": "gangnam__35__crop_006", "gt_text": "강남역 \\n효성해링턴타워\\n###", "source": "human"}, {"image_name": "gangnam__37__crop_001", "gt_text": "eye scream\\n아이스크림안경\\n###", "source": "human"}, {"image_name": "gangnam__38__crop_001", "gt_text": "CANDLE SOAP\\n###", "source": "human"}, {"image_name": "gangnam__39__crop_001", "gt_text": "쭈꾸미불낙", "source": "human"}, {"image_name": "gangnam__40__crop_001", "gt_text": "로빈힐\\nBEER 생맥주\\n###", "source": "human"}, {"image_name": "gangnam__41__crop_001", "gt_text": "모닝글로리\\n###", "source": "human"}, {"image_name": "gangnam__42__crop_001", "gt_text": "이\\n흑마늘족발 보쌈 순대국\\n당\\n###", "source": "human"}, {"image_name": "gangnam__43__crop_001", "gt_text": "7\\nELEVEN", "source": "human"}, {"image_name": "gangnam__44__crop_001", "gt_text": "7\\nELEVEN", "source": "human"}, {"image_name": "gangnam__44__crop_002", "gt_text": "100 국내산 1등급 생고기 \\n영\\n껍데기\\n동\\n###", "source": "human"}, {"image_name": "gangnam__45__crop_001", "gt_text": "영동\\n100 국내산 1등급 생고기\\n껍데기 소금구이", "source": "human"}, {"image_name": "gangnam__46__crop_001", "gt_text": "통돼지찌개집\\n###", "source": "human"}, {"image_name": "gangnam__47__crop_001", "gt_text": "나주\\n###", "source": "human"}, {"image_name": "gangnam__48__crop_001", "gt_text": "FOOD\\nCAFE\\n###", "source": "human"}, {"image_name": "gangnam__49__crop_001", "gt_text": "PARIS BAGUETTE\\n###", "source": "human"}, {"image_name": "gangnam__50__crop_001", "gt_text": "coffeesmith\\n커피스미스", "source": "human"}, {"image_name": "gangnam__51__crop_001", "gt_text": "GS25", "source": "human"}, {"image_name": "gangnam__52__crop_001", "gt_text": "미즈메디 병원\\nMizMedi Hospital", "source": "human"}, {"image_name": "gangnam__54__crop_001", "gt_text": "EM 학원\\n###", "source": "human"}, {"image_name": "gangnam__54__crop_002", "gt_text": "ZUM 줌\\n필라테스 \\n플라잉 요가\\n###", "source": "human"}, {"image_name": "gangnam__55__crop_001", "gt_text": "대성\\nSince 1985\\n대치본점\\n###", "source": "human"}, {"image_name": "gangnam__55__crop_002", "gt_text": "ROYAL KITCHEN\\n###", "source": "human"}, {"image_name": "gangnam__55__crop_003", "gt_text": "로얄키친\\n###", "source": "human"}, {"image_name": "gangnam__56__crop_001", "gt_text": "홍어삼합 생선구이\\n생선조림 갈치조림\\n해남세발낙지\\n###", "source": "human"}, {"image_name": "gangnam__56__crop_002", "gt_text": "부동산 법률중개사\\n믿음부동산 \\n공인중개사 \\n사무소\\n###", "source": "human"}, {"image_name": "gangnam__57__crop_001", "gt_text": "대\\n삼성서점\\n치\\n###", "source": "human"}, {"image_name": "gangnam__57__crop_002", "gt_text": "솔로몬\\n공인중개사사무소\\n###", "source": "human"}, {"image_name": "gangnam__58__crop_001", "gt_text": "VIP\\n노래방", "source": "human"}, {"image_name": "gangnam__58__crop_002", "gt_text": "정관장\\n홍삼\\n###", "source": "human"}, {"image_name": "gangnam__59__crop_001", "gt_text": "메디팜 나리약국\\n###", "source": "human"}, {"image_name": "gangnam__59__crop_002", "gt_text": "VIP\\n노래방", "source": "human"}, {"image_name": "gangnam__59__crop_003", "gt_text": "정관장\\n###", "source": "human"}, {"image_name": "gangnam__60__crop_001", "gt_text": "이수정국어 논술\\n###", "source": "human"}, {"image_name": "gangnam__61__crop_001", "gt_text": "PAIK S COFFEE\\n###", "source": "human"}, {"image_name": "gangnam__61__crop_002", "gt_text": "MINI STOP\\n###", "source": "human"}, {"image_name": "gangnam__62__crop_001", "gt_text": "MINISTOP\\n###", "source": "human"}, {"image_name": "gangnam__62__crop_002", "gt_text": "MINISTOP\\n###", "source": "human"}, {"image_name": "gangnam__63__crop_001", "gt_text": "MINISTOP\\n###", "source": "human"}, {"image_name": "gangnam__64__crop_001", "gt_text": "SUSHI BROS\\n###", "source": "human"}, {"image_name": "gangnam__64__crop_002", "gt_text": "MINI STOP\\n###", "source": "human"}, {"image_name": "gangnam__64__crop_003", "gt_text": "SIZAK STUDY CAFE\\n###", "source": "human"}, {"image_name": "gangnam__65__crop_001", "gt_text": "빽다방\\n###", "source": "human"}, {"image_name": "gangnam__66__crop_002", "gt_text": "으뜸 \\n공인중개사\\n###", "source": "human"}, {"image_name": "gangnam__67__crop_001", "gt_text": "한강 오토바이\\n###", "source": "human"}, {"image_name": "gangnam__67__crop_002", "gt_text": "천재 \\n공인중개사\\n###", "source": "human"}, {"image_name": "gangnam__68__crop_001", "gt_text": "by LYNN\\n###", "source": "human"}, {"image_name": "gangnam__69__crop_001", "gt_text": "미래향\\n정통중화요리", "source": "human"}, {"image_name": "gangnam__70__crop_001", "gt_text": "병천순대\\n전통음식\\n###", "source": "human"}, {"image_name": "gangnam__70__crop_002", "gt_text": "요일\\n메뉴\\n라라감자탕\\n###", "source": "human"}, {"image_name": "gangnam__70__crop_003", "gt_text": "민속주점\\n###", "source": "human"}, {"image_name": "gangnam__71__crop_001", "gt_text": "금초한의원\\n###", "source": "human"}, {"image_name": "gangnam__71__crop_002", "gt_text": "맥주창고\\n###", "source": "human"}, {"image_name": "gangnam__71__crop_003", "gt_text": "박지향 Book Cafe\\n###", "source": "human"}, {"image_name": "gangnam__71__crop_004", "gt_text": "강남김밥\\n###", "source": "human"}, {"image_name": "gangnam__72__crop_001", "gt_text": "CU\\n###", "source": "human"}, {"image_name": "gangnam__73__crop_001", "gt_text": "정재용헤어\\n###", "source": "human"}, {"image_name": "gangnam__73__crop_002", "gt_text": "HAIR SALON\\nby JUNG JAE YONG\\n###", "source": "human"}, {"image_name": "gangnam__74__crop_001", "gt_text": "밥타임\\n###", "source": "human"}, {"image_name": "gangnam__74__crop_002", "gt_text": "MARIAN", "source": "ocr_draft"}, {"image_name": "gangnam__75__crop_001", "gt_text": "함 박 웃 음\\n밥 \\n분식", "source": "human"}, {"image_name": "gangnam__76__crop_001", "gt_text": "강남공인중개사무소\\n유니에셋\\n###", "source": "human"}, {"image_name": "gangnam__76__crop_002", "gt_text": "강남\\n공인중개사\\n사무소\\n유니에셋\\n###", "source": "human"}, {"image_name": "gangnam__77__crop_001", "gt_text": "대치래미안\\n공인중개사사무소\\n###", "source": "human"}, {"image_name": "gangnam__77__crop_002", "gt_text": "영광\\n공인중개사 사무소\\n508-8249\\n###", "source": "human"}, {"image_name": "gangnam__78__crop_001", "gt_text": "영광 \\n공인중개사사무소\\n###", "source": "human"}, {"image_name": "gangnam__78__crop_002", "gt_text": "리빙인테리어\\n###", "source": "human"}, {"image_name": "gangnam__79__crop_001", "gt_text": "GS25\\n###", "source": "human"}, {"image_name": "gangnam__79__crop_002", "gt_text": "시래기국 깡장보리밥\\n###", "source": "human"}, {"image_name": "gangnam__80__crop_001", "gt_text": "GS25\\n###", "source": "human"}, {"image_name": "gangnam__81__crop_001", "gt_text": "GS25\\n###", "source": "human"}, {"image_name": "gangnam__81__crop_002", "gt_text": "시래기국 깡장보리밥\\n계몽돈까스\\n###", "source": "human"}, {"image_name": "gangnam__82__crop_001", "gt_text": "김영희 동태찜 코다리냉면\\n###", "source": "human"}, {"image_name": "gangnam__83__crop_001", "gt_text": "김영희 동태찜 코다리냉면\\n###", "source": "human"}, {"image_name": "gangnam__84__crop_001", "gt_text": "상품권닷컴\\n###", "source": "human"}, {"image_name": "gangnam__84__crop_002", "gt_text": "Pasta Dough\\n###", "source": "human"}, {"image_name": "gangnam__85__crop_001", "gt_text": "상품권닷컴\\n###", "source": "human"}, {"image_name": "gangnam__85__crop_002", "gt_text": "Pasta Dough\\n###", "source": "human"}, {"image_name": "gangnam__85__crop_003", "gt_text": "카츠젠", "source": "human"}, {"image_name": "gangnam__86__crop_001", "gt_text": "대왕\\n부대찌개\\n###", "source": "human"}, {"image_name": "gangnam__86__crop_002", "gt_text": "카츠젠\\n###", "source": "human"}, {"image_name": "gangnam__86__crop_003", "gt_text": "상품권닷컴\\n###", "source": "human"}, {"image_name": "gangnam__87__crop_001", "gt_text": "엠엑스 \\nMX \\n피부과\\n###", "source": "human"}, {"image_name": "gangnam__87__crop_002", "gt_text": "세계맥주할인점\\nBROZ PUB\\n###", "source": "human"}, {"image_name": "gangnam__88__crop_001", "gt_text": "창포\\n###", "source": "human"}, {"image_name": "gangnam__89__crop_001", "gt_text": "Nice to CU\\n###", "source": "human"}, {"image_name": "gangnam__90__crop_001", "gt_text": "Nice to CU\\n###", "source": "human"}, {"image_name": "gangnam__90__crop_002", "gt_text": "필리아 약국\\n###", "source": "human"}, {"image_name": "gangnam__91__crop_001", "gt_text": "Nice to CU", "source": "human"}, {"image_name": "gangnam__92__crop_001", "gt_text": "I Nail", "source": "human"}, {"image_name": "gangnam__94__crop_001", "gt_text": "CAFFE PIE\\n###", "source": "human"}, {"image_name": "gangnam__95__crop_001", "gt_text": "헤어명가\\n###", "source": "human"}, {"image_name": "gangnam__96__crop_001", "gt_text": "비에이블\\n스터디카페 24시\\n###", "source": "human"}, {"image_name": "gangnam__97__crop_001", "gt_text": "7", "source": "human"}, {"image_name": "gangnam__98__crop_001", "gt_text": "KOREA POST\\n서울대치4동\\n우편취급국", "source": "human"}, {"image_name": "gangnam__99__crop_001", "gt_text": "WB \\n워너비\\n###", "source": "human"}, {"image_name": "gangnam__100__crop_001", "gt_text": "BBQ \\nChicken\\n비비큐치킨\\n###", "source": "human"}], "brooklyn": [{"image_name": "brooklyn__1__crop_001", "gt_text": "OFF THE GRILL\\n###", "source": "human"}, {"image_name": "brooklyn__2__crop_001", "gt_text": "DUTCH\\nCLEANERS\\n###", "source": "human"}, {"image_name": "brooklyn__2__crop_002", "gt_text": "VAPE N CLOUD\\n573 NOSTRAND AVE\\n###", "source": "human"}, {"image_name": "brooklyn__2__crop_003", "gt_text": "SPRINT REALTY INC\\n###", "source": "human"}, {"image_name": "brooklyn__3__crop_001", "gt_text": "LAUNDROMAT\\n###", "source": "human"}, {"image_name": "brooklyn__4__crop_001", "gt_text": "SuperMarket\\nCorp\\n###", "source": "human"}, {"image_name": "brooklyn__5__crop_001", "gt_text": "ROYAL\\nBAKERY ROTI\\nINC\\n###", "source": "human"}, {"image_name": "brooklyn__5__crop_002", "gt_text": "Nostrand Gold Dealers\\n577\\n###", "source": "human"}, {"image_name": "brooklyn__7__crop_001", "gt_text": "SPACE AVAILABLE\\n###", "source": "human"}, {"image_name": "brooklyn__8__crop_001", "gt_text": "NAILS\\n###", "source": "human"}, {"image_name": "brooklyn__9__crop_001", "gt_text": "JOHN GARDEN\\nChinese Food to Take out\\n###", "source": "human"}, {"image_name": "brooklyn__10__crop_001", "gt_text": "SPACE\\nAVAILABLE\\nMOD\\n###", "source": "human"}, {"image_name": "brooklyn__10__crop_002", "gt_text": "ISLAND\\nRIBHOUSE\\n###", "source": "human"}, {"image_name": "brooklyn__11__crop_001", "gt_text": "LIT\\nTAX\\nSOLUTIONS\\n###", "source": "human"}, {"image_name": "brooklyn__12__crop_001", "gt_text": "ISLAND\\nRIBHOUSE\\n###", "source": "human"}, {"image_name": "brooklyn__12__crop_002", "gt_text": "SPACE\\nAVAILABLE\\nMOD\\n###", "source": "human"}, {"image_name": "brooklyn__13__crop_001", "gt_text": "FOOD WINE GROCER", "source": "human"}, {"image_name": "brooklyn__13__crop_002", "gt_text": "9ROUND\\n30 MIN KICKBOX\\n###", "source": "human"}, {"image_name": "brooklyn__14__crop_002", "gt_text": "Hello One Nail Spa\\nInc\\n###", "source": "human"}, {"image_name": "brooklyn__15__crop_001", "gt_text": "9 ROUND\\n30 MIN KICKBOX FITNESS", "source": "human"}, {"image_name": "brooklyn__15__crop_002", "gt_text": "FOOD WINE GROCER\\n###", "source": "human"}, {"image_name": "brooklyn__16__crop_001", "gt_text": "FLY WING E BIKE\\n###", "source": "human"}, {"image_name": "brooklyn__16__crop_002", "gt_text": "CAMBRIDGE LEACH INC\\n###", "source": "human"}, {"image_name": "brooklyn__16__crop_003", "gt_text": "BAJI", "source": "human"}, {"image_name": "brooklyn__17__crop_001", "gt_text": "Hello One Nail Spa\\nInc\\n###", "source": "human"}, {"image_name": "brooklyn__17__crop_002", "gt_text": "STORE FOR RENT\\n###", "source": "human"}, {"image_name": "brooklyn__17__crop_003", "gt_text": "total\\nwireless", "source": "human"}, {"image_name": "brooklyn__18__crop_001", "gt_text": "Champion Laundry\\nDry Cleaning Service\\n###", "source": "human"}, {"image_name": "brooklyn__18__crop_002", "gt_text": "ABC\\nBARBER SHOP\\n###", "source": "human"}, {"image_name": "brooklyn__18__crop_003", "gt_text": "FLY WING E BIKE\\n###", "source": "human"}, {"image_name": "brooklyn__19__crop_001", "gt_text": "total\\n###", "source": "human"}, {"image_name": "brooklyn__20__crop_001", "gt_text": "island pops", "source": "human"}, {"image_name": "brooklyn__20__crop_002", "gt_text": "EMS ACCOUNTING SERVICE\\n###", "source": "human"}, {"image_name": "brooklyn__21__crop_001", "gt_text": "Nostrands Nugs", "source": "human"}, {"image_name": "brooklyn__21__crop_002", "gt_text": "4 BROTHERS FOOD CORP\\n###", "source": "human"}, {"image_name": "brooklyn__23__crop_001", "gt_text": "URBAN\\nMARKET BY\\n###", "source": "human"}, {"image_name": "brooklyn__24__crop_001", "gt_text": "RYERSON\\n###", "source": "human"}, {"image_name": "brooklyn__25__crop_001", "gt_text": "URBAN\\nMARKET BY\\n###", "source": "human"}, {"image_name": "brooklyn__26__crop_001", "gt_text": "RYERSON\\n###", "source": "human"}, {"image_name": "brooklyn__27__crop_002", "gt_text": "SHORTY CANDY\\n###", "source": "human"}, {"image_name": "brooklyn__28__crop_001", "gt_text": "GALAXY\\nBEAUTY SHOP\\n###", "source": "human"}, {"image_name": "brooklyn__29__crop_001", "gt_text": "CROWN DISCOUNT STORE 99\\n###", "source": "human"}, {"image_name": "brooklyn__30__crop_002", "gt_text": "SHORT CANDY\\n###", "source": "human"}, {"image_name": "brooklyn__30__crop_003", "gt_text": "812 CORP", "source": "human"}, {"image_name": "brooklyn__31__crop_001", "gt_text": "DELI GRILL\\n###", "source": "human"}, {"image_name": "brooklyn__32__crop_001", "gt_text": "SALS RESTAURANT\\n###", "source": "human"}, {"image_name": "brooklyn__32__crop_002", "gt_text": "EASTERN FRANKLIN\\nWINES LIQUORS\\n###", "source": "human"}, {"image_name": "brooklyn__32__crop_003", "gt_text": "DUNKIN\\nDONUTS", "source": "human"}, {"image_name": "brooklyn__33__crop_001", "gt_text": "Capital One Bank", "source": "human"}, {"image_name": "brooklyn__34__crop_001", "gt_text": "Royal Yard Food\\n###", "source": "human"}, {"image_name": "brooklyn__34__crop_002", "gt_text": "800 Candy Juice Bar", "source": "human"}, {"image_name": "brooklyn__35__crop_001", "gt_text": "STARBUCKS COFFEE", "source": "human"}, {"image_name": "brooklyn__36__crop_001", "gt_text": "EL BARRIO \\nBURRITOS\\n###", "source": "human"}, {"image_name": "brooklyn__36__crop_002", "gt_text": "Nail Salon\\n###", "source": "human"}, {"image_name": "brooklyn__37__crop_001", "gt_text": "E MARTIN\\nSALES RENTALS\\n###", "source": "human"}, {"image_name": "brooklyn__37__crop_002", "gt_text": "GRILL DELI", "source": "human"}, {"image_name": "brooklyn__38__crop_001", "gt_text": "95\\nSouth\\n###", "source": "human"}, {"image_name": "brooklyn__38__crop_002", "gt_text": "PHARMACY\\n###", "source": "human"}, {"image_name": "brooklyn__38__crop_003", "gt_text": "95 South\\n###", "source": "human"}, {"image_name": "brooklyn__38__crop_004", "gt_text": "PHARMACY\\n###", "source": "human"}, {"image_name": "brooklyn__40__crop_001", "gt_text": "SHEER MADNESS", "source": "human"}, {"image_name": "brooklyn__41__crop_001", "gt_text": "FRANKLIN EXPRESS\\nLAUNDRY CENTER", "source": "human"}, {"image_name": "brooklyn__42__crop_001", "gt_text": "Bagel Pub", "source": "human"}, {"image_name": "brooklyn__44__crop_001", "gt_text": "SJ MARKET\\n769", "source": "human"}, {"image_name": "brooklyn__45__crop_001", "gt_text": "HAPPY WOK\\nCHINESE FOOD EAT IN TAKE OUT\\n###", "source": "human"}, {"image_name": "brooklyn__45__crop_002", "gt_text": "PROPERTY FOR SALE\\n###", "source": "human"}, {"image_name": "brooklyn__46__crop_001", "gt_text": "NOOKLYN", "source": "human"}, {"image_name": "brooklyn__47__crop_001", "gt_text": "PROPERTY FOR SALE\\n###", "source": "human"}, {"image_name": "brooklyn__47__crop_002", "gt_text": "MISC", "source": "human"}, {"image_name": "brooklyn__48__crop_001", "gt_text": "RESTAURANT\\n###", "source": "human"}, {"image_name": "brooklyn__48__crop_002", "gt_text": "DELI GROCERY\\n###", "source": "human"}, {"image_name": "brooklyn__49__crop_001", "gt_text": "enterprise\\nrent a car", "source": "human"}, {"image_name": "brooklyn__49__crop_002", "gt_text": "enterprise\\nrent a car", "source": "human"}, {"image_name": "brooklyn__50__crop_001", "gt_text": "THE NEW ATLANTIC\\nRestaurant\\nSPANISH AMERICAN CUISINE\\n###", "source": "human"}, {"image_name": "brooklyn__51__crop_001", "gt_text": "enterprise\\nrent a car", "source": "human"}, {"image_name": "brooklyn__52__crop_001", "gt_text": "StateFarm\\n###", "source": "human"}, {"image_name": "brooklyn__54__crop_001", "gt_text": "R FERRARO\\nCOLLISION\\n###", "source": "human"}, {"image_name": "brooklyn__54__crop_002", "gt_text": "CAROUSEL BEVERAGES\\n###", "source": "human"}, {"image_name": "brooklyn__55__crop_001", "gt_text": "MIGHTY QUINNS\\n###", "source": "human"}, {"image_name": "brooklyn__57__crop_001", "gt_text": "CAROUSEL BEVERAGES\\n###", "source": "human"}, {"image_name": "brooklyn__57__crop_003", "gt_text": "Powerplay\\n###", "source": "human"}, {"image_name": "brooklyn__58__crop_001", "gt_text": "Powerplay\\n###", "source": "human"}, {"image_name": "brooklyn__59__crop_001", "gt_text": "NEW MILLENNIUM MOTORS INC\\n###", "source": "human"}, {"image_name": "brooklyn__60__crop_001", "gt_text": "Powerplay\\n###", "source": "human"}, {"image_name": "brooklyn__60__crop_004", "gt_text": "RISE \\nDEVELOPMENT\\n###", "source": "human"}, {"image_name": "brooklyn__61__crop_001", "gt_text": "DONATO\\n###", "source": "human"}, {"image_name": "brooklyn__61__crop_002", "gt_text": "DONATO INC\\nPlumbing Heating\\n###", "source": "human"}, {"image_name": "brooklyn__62__crop_001", "gt_text": "DRUG\\nSTORE\\n###", "source": "human"}, {"image_name": "brooklyn__63__crop_001", "gt_text": "FOOD CENTER\\n###", "source": "human"}, {"image_name": "brooklyn__63__crop_002", "gt_text": "GRANDMA\\nLAUNDRY CORNER INC", "source": "human"}, {"image_name": "brooklyn__64__crop_001", "gt_text": "BEAUTY SALON\\n###", "source": "human"}, {"image_name": "brooklyn__65__crop_001", "gt_text": "HARDEE\\n###", "source": "human"}, {"image_name": "brooklyn__66__crop_001", "gt_text": "DELI\\nINC", "source": "human"}, {"image_name": "brooklyn__66__crop_002", "gt_text": "871\\nMOZEB", "source": "human"}, {"image_name": "brooklyn__68__crop_001", "gt_text": "UNISEX SALON\\n###", "source": "human"}, {"image_name": "brooklyn__68__crop_002", "gt_text": "Franklin Eyecare\\n###", "source": "human"}, {"image_name": "brooklyn__69__crop_001", "gt_text": "AMY UNIQUE NAILS INC\\nPROFESSIONAL NAIL CARE DESIGNS\\n###", "source": "human"}, {"image_name": "brooklyn__69__crop_002", "gt_text": "SMOK \\nSHOP\\n###", "source": "human"}, {"image_name": "brooklyn__69__crop_003", "gt_text": "Lemon\\nGrass\\nJAMAICAN CUISINE\\n###", "source": "human"}, {"image_name": "brooklyn__70__crop_001", "gt_text": "JUICY KING CRAB\\n###", "source": "human"}, {"image_name": "brooklyn__70__crop_002", "gt_text": "JUICY KING CRAB\\n###", "source": "human"}, {"image_name": "brooklyn__71__crop_001", "gt_text": "NAILS\\n###", "source": "human"}, {"image_name": "brooklyn__73__crop_001", "gt_text": "POPEYES", "source": "human"}, {"image_name": "brooklyn__73__crop_002", "gt_text": "SuperFoodtown", "source": "human"}, {"image_name": "brooklyn__75__crop_001", "gt_text": "NEXT LEVEL\\nFashions\\n###", "source": "human"}, {"image_name": "brooklyn__75__crop_002", "gt_text": "Modern Nails\\n###", "source": "human"}, {"image_name": "brooklyn__76__crop_001", "gt_text": "Modern Nails\\n###", "source": "human"}, {"image_name": "brooklyn__77__crop_001", "gt_text": "Modern Nails\\n###", "source": "human"}, {"image_name": "brooklyn__77__crop_002", "gt_text": "Mini Market\\n###", "source": "human"}, {"image_name": "brooklyn__78__crop_001", "gt_text": "MNS 99 CENTS UP INC", "source": "human"}, {"image_name": "brooklyn__79__crop_001", "gt_text": "HAIR STUDIO\\n###", "source": "human"}, {"image_name": "brooklyn__80__crop_001", "gt_text": "FULTON\\n###", "source": "human"}, {"image_name": "brooklyn__80__crop_002", "gt_text": "Soldier Restaurant Inc\\nBuffet\\n###", "source": "human"}, {"image_name": "brooklyn__80__crop_003", "gt_text": "HAIR STUDIO\\n###", "source": "human"}, {"image_name": "brooklyn__81__crop_001", "gt_text": "BEAUTY SUPPLY\\n###", "source": "human"}, {"image_name": "brooklyn__83__crop_001", "gt_text": "FULTON\\n###", "source": "human"}, {"image_name": "brooklyn__83__crop_002", "gt_text": "A GUSTO\\n###", "source": "human"}, {"image_name": "brooklyn__85__crop_002", "gt_text": "LAUNDROMAT\\n###", "source": "human"}, {"image_name": "brooklyn__86__crop_002", "gt_text": "Dominos\\n###", "source": "human"}, {"image_name": "brooklyn__87__crop_001", "gt_text": "DOG DAYCARE", "source": "human"}, {"image_name": "brooklyn__88__crop_001", "gt_text": "Blooming Brows\\n###", "source": "human"}, {"image_name": "brooklyn__89__crop_001", "gt_text": "Dreamer\\nNails\\n###", "source": "human"}, {"image_name": "brooklyn__90__crop_001", "gt_text": "AR POSTAL MULTISERVICES\\n###", "source": "human"}, {"image_name": "brooklyn__91__crop_001", "gt_text": "SOGHO HAIR Salon BRAIDING\\n###", "source": "human"}, {"image_name": "brooklyn__92__crop_002", "gt_text": "NAIL", "source": "human"}, {"image_name": "brooklyn__93__crop_001", "gt_text": "AMINATA\\nBRAIDING STYLING\\n###", "source": "human"}, {"image_name": "brooklyn__94__crop_001", "gt_text": "RICKY S\\n###", "source": "human"}, {"image_name": "brooklyn__94__crop_002", "gt_text": "NEW PEOPLES RESTAURANT\\nCHINESE FOOD TO TAKE OUT\\n###", "source": "human"}, {"image_name": "brooklyn__94__crop_003", "gt_text": "HARDWARE\\n###", "source": "human"}, {"image_name": "brooklyn__95__crop_001", "gt_text": "NEW PEOPLES RESTAURANT\\nCHINESE FOOD TO TAKE OUT\\n###", "source": "human"}, {"image_name": "brooklyn__95__crop_002", "gt_text": "HARDWARE\\n###", "source": "human"}, {"image_name": "brooklyn__96__crop_001", "gt_text": "Rockaway GOURMET DELI GRILL\\n###", "source": "human"}, {"image_name": "brooklyn__97__crop_001", "gt_text": "BEAUTY SUPPLY INC\\n###", "source": "human"}, {"image_name": "brooklyn__97__crop_002", "gt_text": "NAILS Inc\\n###", "source": "human"}, {"image_name": "brooklyn__97__crop_003", "gt_text": "Rockaway GOURMET DELI GRILL\\n###", "source": "human"}, {"image_name": "brooklyn__98__crop_001", "gt_text": "BARGAINLAND\\nDEPARTMENT STORES\\n###", "source": "human"}, {"image_name": "brooklyn__98__crop_002", "gt_text": "BEAUTY SUPPLY INC\\n###", "source": "human"}, {"image_name": "brooklyn__98__crop_003", "gt_text": "NAILS Inc\\n###", "source": "human"}, {"image_name": "brooklyn__99__crop_002", "gt_text": "eyes nyc\\n###", "source": "human"}, {"image_name": "brooklyn__100__crop_001", "gt_text": "BARGAINLAND\\nDEPARTMENT STORES\\n###", "source": "human"}, {"image_name": "brooklyn__100__crop_002", "gt_text": "HIGH\\nUNIVERSE\\n###", "source": "human"}], "suwon": [{"image_name": "suwon__1__crop_001", "gt_text": "baskin\\nBR\\nrobbins", "source": "human"}, {"image_name": "suwon__1__crop_002", "gt_text": "SUNS\\nBURGER\\n눈꽃빙수\\n###", "source": "human"}, {"image_name": "suwon__2__crop_002", "gt_text": "T WORLD", "source": "human"}, {"image_name": "suwon__2__crop_003", "gt_text": "T WORLD", "source": "human"}, {"image_name": "suwon__2__crop_004", "gt_text": "LaLa COIN", "source": "human"}, {"image_name": "suwon__3__crop_001", "gt_text": "돼랑\\n###", "source": "human"}, {"image_name": "suwon__4__crop_001", "gt_text": "동태탕\\n왕해물찜\\n###", "source": "human"}, {"image_name": "suwon__4__crop_002", "gt_text": "밥\\n해주는\\n남자", "source": "human"}, {"image_name": "suwon__5__crop_001", "gt_text": "진미치킨\\n###", "source": "human"}, {"image_name": "suwon__5__crop_002", "gt_text": "역전 진미 치킨\\n###", "source": "human"}, {"image_name": "suwon__7__crop_001", "gt_text": "sharalla\\nBrush\\n###", "source": "human"}, {"image_name": "suwon__8__crop_001", "gt_text": "경훈약국", "source": "human"}, {"image_name": "suwon__9__crop_001", "gt_text": "ISaac\\n###", "source": "human"}, {"image_name": "suwon__10__crop_001", "gt_text": "7\\nELEVEN", "source": "human"}, {"image_name": "suwon__10__crop_002", "gt_text": "Bur3wa", "source": "human"}, {"image_name": "suwon__10__crop_003", "gt_text": "ZOO COFFEE\\n###", "source": "human"}, {"image_name": "suwon__11__crop_001", "gt_text": "천사네일\\n###", "source": "human"}, {"image_name": "suwon__12__crop_001", "gt_text": "JS 미용재료\\n###", "source": "human"}, {"image_name": "suwon__13__crop_001", "gt_text": "Chou\\nCake House\\n###", "source": "human"}, {"image_name": "suwon__13__crop_002", "gt_text": "뼈나라 감자탕\\n###", "source": "human"}, {"image_name": "suwon__14__crop_001", "gt_text": "에이스 PC\\n###", "source": "human"}, {"image_name": "suwon__15__crop_001", "gt_text": "HAIR\\nCARE\\n커리어 헤어 디자인\\n###", "source": "human"}, {"image_name": "suwon__16__crop_001", "gt_text": "골드문주차장", "source": "human"}, {"image_name": "suwon__17__crop_001", "gt_text": "야\\n포장마차\\n광\\n###", "source": "human"}, {"image_name": "suwon__18__crop_001", "gt_text": "삼정세탁\\n###", "source": "human"}, {"image_name": "suwon__19__crop_001", "gt_text": "이지비아\\n###", "source": "human"}, {"image_name": "suwon__20__crop_001", "gt_text": "권약국\\n###", "source": "human"}, {"image_name": "suwon__20__crop_002", "gt_text": "권약국\\n###", "source": "human"}, {"image_name": "suwon__21__crop_001", "gt_text": "태평갈매기\\n###", "source": "human"}, {"image_name": "suwon__22__crop_001", "gt_text": "천사강아지\\n###", "source": "human"}, {"image_name": "suwon__23__crop_001", "gt_text": "백학다방\\n###", "source": "human"}, {"image_name": "suwon__24__crop_001", "gt_text": "이동통신\\n예일음악사\\n###", "source": "human"}, {"image_name": "suwon__25__crop_001", "gt_text": "로맨틱 커피숍\\n###", "source": "human"}, {"image_name": "suwon__25__crop_002", "gt_text": "모범약국\\n###", "source": "human"}, {"image_name": "suwon__26__crop_001", "gt_text": "조이모텔", "source": "human"}, {"image_name": "suwon__27__crop_001", "gt_text": "한일통닭\\n호프\\n###", "source": "human"}, {"image_name": "suwon__28__crop_001", "gt_text": "설미순대국\\n###", "source": "human"}, {"image_name": "suwon__29__crop_001", "gt_text": "MALU HOTEL", "source": "human"}, {"image_name": "suwon__30__crop_001", "gt_text": "G\\nMALU HOTEL\\n###", "source": "human"}, {"image_name": "suwon__31__crop_001", "gt_text": "최가네\\n두부해물마을\\n###", "source": "human"}, {"image_name": "suwon__32__crop_001", "gt_text": "신바람돼지주물럭\\n###", "source": "human"}, {"image_name": "suwon__33__crop_001", "gt_text": "하우주 스즈키 수원대리점\\n###", "source": "human"}, {"image_name": "suwon__34__crop_001", "gt_text": "쪽갈비전문점\\n예감\\n###", "source": "human"}, {"image_name": "suwon__35__crop_001", "gt_text": "용인\\n전통\\n순대국\\n###", "source": "human"}, {"image_name": "suwon__36__crop_001", "gt_text": "대구반야월막창\\n###", "source": "human"}, {"image_name": "suwon__36__crop_002", "gt_text": "지하철\\n###", "source": "human"}, {"image_name": "suwon__36__crop_003", "gt_text": "색다른HAIR", "source": "ocr_draft"}, {"image_name": "suwon__37__crop_001", "gt_text": "미가락\\n###", "source": "human"}, {"image_name": "suwon__37__crop_002", "gt_text": "육회한 남자\\n###", "source": "human"}, {"image_name": "suwon__39__crop_001", "gt_text": "7형제 감자탕\\n###", "source": "human"}, {"image_name": "suwon__40__crop_001", "gt_text": "BAR\\nBOBOS", "source": "human"}, {"image_name": "suwon__40__crop_002", "gt_text": "참한고기", "source": "human"}, {"image_name": "suwon__41__crop_001", "gt_text": "한라돈\\n###", "source": "human"}, {"image_name": "suwon__42__crop_001", "gt_text": "BAR \\BOBOS", "source": "human"}, {"image_name": "suwon__42__crop_002", "gt_text": "두리아족보쌈\\n###", "source": "human"}, {"image_name": "suwon__42__crop_003", "gt_text": "아리랑\\n빈대떡\\n###", "source": "human"}, {"image_name": "suwon__43__crop_001", "gt_text": "통큰해물\\n###", "source": "human"}, {"image_name": "suwon__43__crop_002", "gt_text": "미소갈비", "source": "human"}, {"image_name": "suwon__44__crop_001", "gt_text": "세렌디피티\\n###", "source": "human"}, {"image_name": "suwon__45__crop_001", "gt_text": "여왕통골뱅이\\n###", "source": "human"}, {"image_name": "suwon__45__crop_002", "gt_text": "부부식당\\n###", "source": "human"}, {"image_name": "suwon__46__crop_001", "gt_text": "김밥친구\\n###", "source": "human"}, {"image_name": "suwon__46__crop_002", "gt_text": "Day Hair\\n###", "source": "human"}, {"image_name": "suwon__47__crop_001", "gt_text": "불날개닭발\\n###", "source": "human"}, {"image_name": "suwon__47__crop_002", "gt_text": "굿모닝\\n공인중개사 \\n사무소\\n###", "source": "human"}, {"image_name": "suwon__48__crop_001", "gt_text": "황소고집\\n한우곱창\\n###", "source": "human"}, {"image_name": "suwon__48__crop_002", "gt_text": "불날개닭발\\n###", "source": "human"}, {"image_name": "suwon__49__crop_001", "gt_text": "세진상사\\n전기\\n철물\\n건축자재\\n###", "source": "human"}, {"image_name": "suwon__50__crop_001", "gt_text": "조순헤어샵\\n###", "source": "human"}, {"image_name": "suwon__50__crop_002", "gt_text": "G G Be\\n지지비네일\\n###", "source": "human"}, {"image_name": "suwon__51__crop_001", "gt_text": "비젼 \\n공인중개사\\n###", "source": "human"}, {"image_name": "suwon__52__crop_001", "gt_text": "모나리자 \\n미용실\\n###", "source": "human"}, {"image_name": "suwon__53__crop_001", "gt_text": "SooChon\\n###", "source": "human"}, {"image_name": "suwon__54__crop_001", "gt_text": "북촌손만두\\n###", "source": "human"}, {"image_name": "suwon__55__crop_001", "gt_text": "불닭발\\n엽기떡볶이\\n###", "source": "human"}, {"image_name": "suwon__56__crop_001", "gt_text": "삼아 주단 이불\\n###", "source": "human"}, {"image_name": "suwon__57__crop_001", "gt_text": "약", "source": "human"}, {"image_name": "suwon__58__crop_001", "gt_text": "BYC\\n###", "source": "human"}, {"image_name": "suwon__58__crop_002", "gt_text": "한솥\\n###", "source": "human"}, {"image_name": "suwon__59__crop_001", "gt_text": "전주콩나루\\n콩나물국밥\\n###", "source": "human"}, {"image_name": "suwon__59__crop_002", "gt_text": "황금의 집\\n###", "source": "human"}, {"image_name": "suwon__59__crop_003", "gt_text": "남성컷\\n###", "source": "human"}, {"image_name": "suwon__60__crop_001", "gt_text": "한빛약국", "source": "human"}, {"image_name": "suwon__60__crop_002", "gt_text": "약", "source": "human"}, {"image_name": "suwon__61__crop_001", "gt_text": "전주콩나루 \\n황금의집 \\n콩나물국밥\\n###", "source": "human"}, {"image_name": "suwon__61__crop_002", "gt_text": "전주콩나루 콩나물국밥\\n###", "source": "human"}, {"image_name": "suwon__62__crop_001", "gt_text": "권약국", "source": "human"}, {"image_name": "suwon__62__crop_002", "gt_text": "권약국", "source": "human"}, {"image_name": "suwon__63__crop_001", "gt_text": "산 이 내 린 밥 상\\n곤드레밥집\\n###", "source": "human"}, {"image_name": "suwon__64__crop_001", "gt_text": "곤드레밥집\\n###", "source": "human"}, {"image_name": "suwon__65__crop_001", "gt_text": "대우\\n마이홈\\n###", "source": "human"}, {"image_name": "suwon__65__crop_002", "gt_text": "콩미가 손두부\\n###", "source": "human"}, {"image_name": "suwon__65__crop_003", "gt_text": "VALE", "source": "ocr_draft"}, {"image_name": "suwon__66__crop_001", "gt_text": "대우 마이홈\\n###", "source": "human"}, {"image_name": "suwon__66__crop_002", "gt_text": "VALENTI\\n###", "source": "human"}, {"image_name": "suwon__67__crop_001", "gt_text": "어부돈가\\n###", "source": "human"}, {"image_name": "suwon__68__crop_001", "gt_text": "VALENTI\\n###", "source": "human"}, {"image_name": "suwon__69__crop_001", "gt_text": "신성 자동차 정비\\n###", "source": "human"}, {"image_name": "suwon__70__crop_001", "gt_text": "신성공업사\\n###", "source": "human"}, {"image_name": "suwon__70__crop_002", "gt_text": "신성", "source": "human"}, {"image_name": "suwon__71__crop_001", "gt_text": "참숯구이\\n###", "source": "human"}, {"image_name": "suwon__72__crop_001", "gt_text": "골목집\\n###", "source": "human"}, {"image_name": "suwon__73__crop_001", "gt_text": "원조\\n해장국 수육\\n###", "source": "human"}, {"image_name": "suwon__73__crop_002", "gt_text": "유치회관\\n###", "source": "human"}, {"image_name": "suwon__74__crop_001", "gt_text": "4900냥\\n순대국\\n###", "source": "human"}, {"image_name": "suwon__75__crop_001", "gt_text": "교육그룹 정진\\n###", "source": "human"}, {"image_name": "suwon__76__crop_001", "gt_text": "24시 정통마사지\\n###", "source": "human"}, {"image_name": "suwon__76__crop_002", "gt_text": "럭셔리\\n노래팡팡\\n지하", "source": "human"}, {"image_name": "suwon__77__crop_001", "gt_text": "스타일\\nMOTEL", "source": "human"}, {"image_name": "suwon__77__crop_002", "gt_text": "스타일", "source": "human"}, {"image_name": "suwon__78__crop_001", "gt_text": "모텔 스타일주차장", "source": "human"}, {"image_name": "suwon__79__crop_001", "gt_text": "소원식당\\n기사식당\\n###", "source": "human"}, {"image_name": "suwon__81__crop_001", "gt_text": "시골집\\n###", "source": "human"}, {"image_name": "suwon__82__crop_001", "gt_text": "시골집\\n###", "source": "human"}, {"image_name": "suwon__83__crop_001", "gt_text": "시온성\\n###", "source": "human"}, {"image_name": "suwon__83__crop_002", "gt_text": "짱\\nPC방", "source": "human"}, {"image_name": "suwon__84__crop_001", "gt_text": "수임 엔틱 가구", "source": "human"}, {"image_name": "suwon__85__crop_001", "gt_text": "대게 킹크랩 랍스터\\n대 게 나 라 수원점\\n###", "source": "human"}, {"image_name": "suwon__86__crop_001", "gt_text": "수입 엔틱 가구", "source": "human"}, {"image_name": "suwon__86__crop_002", "gt_text": "VERONA\\n###", "source": "human"}, {"image_name": "suwon__87__crop_001", "gt_text": "HOTEL ILMARE", "source": "human"}, {"image_name": "suwon__89__crop_001", "gt_text": "유료주차장\\n###", "source": "human"}, {"image_name": "suwon__90__crop_001", "gt_text": "가르마\\nGarma Hair\\n###", "source": "human"}, {"image_name": "suwon__91__crop_001", "gt_text": "부안 바지락촌\\n###", "source": "human"}, {"image_name": "suwon__92__crop_001", "gt_text": "본\\n신촌옥 설렁탕 해장국\\n점\\n###", "source": "human"}, {"image_name": "suwon__93__crop_002", "gt_text": "PREMIUM MULTI SHOP\\n###", "source": "human"}, {"image_name": "suwon__94__crop_001", "gt_text": "라미 웨딩쥬얼리\\n###", "source": "human"}, {"image_name": "suwon__96__crop_001", "gt_text": "르노삼성자동차 인계점\\n###", "source": "human"}, {"image_name": "suwon__97__crop_001", "gt_text": "어구미\\n###", "source": "human"}, {"image_name": "suwon__98__crop_001", "gt_text": "어구미\\n###", "source": "human"}, {"image_name": "suwon__99__crop_001", "gt_text": "RESTAURANT", "source": "human"}, {"image_name": "suwon__100__crop_001", "gt_text": "전주 콩나물국밥\\n###", "source": "human"}]};
+const REGIONS = Object.keys(DATA);
+let region = REGIONS[0];
+let filter = 'need';   // need | all | empty | edited
+
+let dirty = false;   // edits since last checkpoint/CSV export
+window.addEventListener('beforeunload', ev => {
+  if (dirty) { ev.preventDefault(); ev.returnValue = ''; }
+});
+
+const LS = (r) => 'ocr_gt_edit_v2__' + r;
+function loadEdits(r){ try { return JSON.parse(localStorage.getItem(LS(r))||'{}'); } catch(e){ return {}; } }
+function saveEdit(r, name, text){
+  const e = loadEdits(r); e[name] = text; localStorage.setItem(LS(r), JSON.stringify(e));
+  dirty = true;
+}
+function delEdit(r, name){
+  const e = loadEdits(r); delete e[name]; localStorage.setItem(LS(r), JSON.stringify(e));
+  dirty = true;
+}
+const LSX = (r) => 'ocr_gt_excl_v2__' + r;
+function loadExcl(r){ try { return JSON.parse(localStorage.getItem(LSX(r))||'{}'); } catch(e){ return {}; } }
+function toggleExcl(name){
+  const e = loadExcl(region);
+  if (e[name]) delete e[name]; else e[name] = true;
+  localStorage.setItem(LSX(region), JSON.stringify(e));
+  dirty = true;
+  render();
+}
+
+// ---- file checkpoint: survives browser-storage wipes, portable between the
+// ---- local tool and the remote page (same JSON shape in both)
+function saveCheckpoint(){
+  const data = {kind:'ocr_gt_checkpoint', edits:{}, excl:{}};
+  for (const r of REGIONS){ data.edits[r] = loadEdits(r); data.excl[r] = loadExcl(r); }
+  const d = new Date(), p = n => String(n).padStart(2,'0');
+  const blob = new Blob([JSON.stringify(data)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `ocr_gt_checkpoint_${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}_${p(d.getHours())}${p(d.getMinutes())}.json`;
+  a.click(); URL.revokeObjectURL(a.href);
+  dirty = false;
+}
+function loadCheckpoint(inp){
+  const f = inp.files && inp.files[0];
+  if (!f) return;
+  f.text().then(t => {
+    let d;
+    try { d = JSON.parse(t); } catch(e){ alert('JSON 파싱 실패: 체크포인트 파일이 아닙니다'); return; }
+    if (!d || d.kind !== 'ocr_gt_checkpoint'){ alert('체크포인트 파일이 아닙니다'); return; }
+    let ne = 0, nx = 0;
+    for (const r of REGIONS){
+      const e = loadEdits(r), x = loadExcl(r);
+      Object.assign(e, (d.edits && d.edits[r]) || {});
+      Object.assign(x, (d.excl  && d.excl[r])  || {});
+      localStorage.setItem(LS(r), JSON.stringify(e));
+      localStorage.setItem(LSX(r), JSON.stringify(x));
+      ne += Object.keys((d.edits && d.edits[r]) || {}).length;
+      nx += Object.keys((d.excl  && d.excl[r])  || {}).length;
+    }
+    inp.value = '';
+    dirty = false;
+    render();
+    alert(`불러오기 완료: 수정 ${ne}건 · 제외 ${nx}건 복원`);
+  });
+}
+
+// draft CSV stores literal backslash-n; editor shows real newlines
+const toEditor  = s => (s||'').replace(/\\n/g, '\n');
+const toLiteral = s => (s||'').replace(/\r\n/g,'\n').replace(/\r/g,'\n').trim().replace(/\n/g,'\\n');
+
+function rows(){
+  const edits = loadEdits(region), excl = loadExcl(region);
+  return DATA[region].map(r => ({...r, edited: Object.prototype.hasOwnProperty.call(edits, r.image_name),
+                                 excluded: !!excl[r.image_name],
+                                 cur: Object.prototype.hasOwnProperty.call(edits, r.image_name) ? edits[r.image_name] : toEditor(r.gt_text)}));
+}
+function visible(r){
+  if (filter==='all') return true;
+  if (filter==='need') return r.source!=='human';
+  if (filter==='empty') return r.source==='empty';
+  if (filter==='swapped') return r.source==='swapped';
+  if (filter==='edited') return r.edited;
+  if (filter==='excl') return r.excluded;
+  return true;
+}
+
+function render(){
+  // tabs
+  document.getElementById('tabs').innerHTML = REGIONS.map(r =>
+    `<button class="${r===region?'on':''}" onclick="setRegion('${r}')">${r}</button>`).join('');
+  const labels = {need:'교정 필요', all:'전체', empty:'empty만', swapped:'재배정 확인', edited:'수정한 것만', excl:'제외한 것만'};
+  document.getElementById('filters').innerHTML = Object.entries(labels).map(([k,v]) =>
+    `<button class="${k===filter?'on':''}" onclick="setFilter('${k}')">${v}</button>`).join('');
+
+  const all = rows(), shown = all.filter(visible);
+  const need = all.filter(r => r.source!=='human');
+  const done = need.filter(r => r.edited);
+  const nExcl = all.filter(r => r.excluded).length;
+  document.getElementById('stats').textContent =
+    `${region}: 교정 대상 ${need.length}개 중 ${done.length}개 수정됨 · 제외 ${nExcl}개 · 표시 ${shown.length}행`;
+
+  document.getElementById('list').innerHTML = shown.map(r => `
+    <div class="row ${r.excluded?'excl':(r.edited?'done':'')}" id="row_${r.image_name}">
+      <div class="imgbox">
+        <img src="crop/${region}/${r.image_name}.jpg" loading="lazy"
+             onclick="this.classList.toggle('zoom')" alt="${r.image_name}">
+        <div class="meta">${r.image_name}
+          <span class="badge ${r.source}">${r.source}</span>
+          ${r.excluded?'<span class="badge excl">제외됨</span>':(r.edited?'<span class="badge edited">수정됨</span>':'')}
+        </div>
+      </div>
+      <div class="txt">
+        <textarea data-name="${r.image_name}" ${r.excluded?'disabled':''}
+          oninput="onEdit(this)">${escapeHtml(r.cur)}</textarea>
+        <div class="rowbtns">
+          <button onclick="revert('${r.image_name}')">원래대로</button>
+          <button onclick="clearText('${r.image_name}')">텍스트 없음(빈칸)</button>
+          <button onclick="addDontcare('${r.image_name}')" title="사람 눈에도 안 보이는 작은 글씨가 있으면 ### 줄 추가 — 채점 제외">안 보이는 글씨(###)</button>
+          <button class="excl-btn" onclick="toggleExcl('${r.image_name}')">${r.excluded?'제외 취소':'이 이미지 제외'}</button>
+        </div>
+        <div class="hint">${r.excluded?'제외됨 — 정답지·학습·평가에서만 빠지고 이미지 파일은 그대로 남습니다':'여러 줄이면 그대로 Enter 로 줄 나눠 입력'}</div>
+      </div>
+    </div>`).join('') || '<p style="color:#6b7787">표시할 행이 없습니다.</p>';
+}
+function escapeHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+
+function onEdit(ta){ saveEdit(region, ta.dataset.name, ta.value); refreshStatsOnly(ta.dataset.name); }
+function refreshStatsOnly(name){
+  const all = rows();
+  const need = all.filter(r => r.source!=='human');
+  const done = need.filter(r => r.edited);
+  document.getElementById('stats').textContent =
+    `${region}: 교정 대상 ${need.length}개 중 ${done.length}개 수정됨`;
+  const el = document.getElementById('row_'+name);
+  if (el) { el.classList.add('done'); }
+}
+function revert(name){
+  delEdit(region, name);
+  render();
+}
+function clearText(name){
+  saveEdit(region, name, '');
+  render();
+}
+function addDontcare(name){
+  const r = rows().find(x => x.image_name === name);
+  const cur = (r ? r.cur : '').replace(/\s+$/, '');
+  if (/(^|\n)###$/.test(cur)) return;                 // already ends with a ### line
+  saveEdit(region, name, cur ? cur + '\n###' : '###');
+  render();
+}
+function setRegion(r){ region=r; render(); window.scrollTo(0,0); }
+function setFilter(f){ filter=f; render(); window.scrollTo(0,0); }
+function resetRegion(){
+  if (confirm(region+' 지역의 수정·제외 내용을 모두 지울까요? (초안으로 되돌림)')){
+    localStorage.removeItem(LS(region)); localStorage.removeItem(LSX(region)); render();
+  }
+}
+
+function csvField(s){ return '"' + (s||'').replace(/"/g,'""') + '"'; }
+function exportCsv(){
+  const all = rows();
+  let out = '\uFEFFimage_name,gt_text,source\r\n';
+  for (const r of all){
+    const text = toLiteral(r.cur);
+    // excluded wins; otherwise edited rows (or already-human rows) count as human
+    const src = r.excluded ? 'excluded' : (r.edited ? 'human' : r.source);
+    out += csvField(r.image_name) + ',' + csvField(text) + ',' + csvField(src) + '\r\n';
+  }
+  const blob = new Blob([out], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'ocr_' + region + '_gt_draft_edited.csv';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  dirty = false;
+}
+render();
+</script>
+</body>
+</html>

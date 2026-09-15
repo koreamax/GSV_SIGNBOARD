@@ -1,0 +1,52 @@
+diff --git a/openrec/postprocess/ctc_postprocess.py b/openrec/postprocess/ctc_postprocess.py
+index 8c164cd..706311f 100644
+--- a/openrec/postprocess/ctc_postprocess.py
++++ b/openrec/postprocess/ctc_postprocess.py
+@@ -104,7 +104,7 @@ class CTCLabelDecode(BaseRecLabelDecode):
+     def __call__(self, preds, batch=None, **kwargs):
+         # preds = preds['res']
+         if kwargs.get('torch_tensor', True):
+-            preds = preds.detach().cpu().numpy()
++            preds = preds.detach().float().cpu().numpy()
+         preds_idx = preds.argmax(axis=2)
+         preds_prob = preds.max(axis=2)
+         text = self.decode(preds_idx, preds_prob, is_remove_duplicate=True)
+diff --git a/tools/data/ratio_dataset_tvresize.py b/tools/data/ratio_dataset_tvresize.py
+index c9f8a4c..e542877 100644
+--- a/tools/data/ratio_dataset_tvresize.py
++++ b/tools/data/ratio_dataset_tvresize.py
+@@ -82,6 +82,21 @@ class RatioDataSetTVResize(Dataset):
+             wh_ratio.append(float(w) / float(h))
+         return wh_ratio
+ 
++    # --- Windows(spawn) DataLoader 워커용: lmdb Environment/Transaction 은 pickle 불가 → 경로만 넘기고 재오픈
++    def __getstate__(self):
++        st = self.__dict__.copy()
++        st['lmdb_sets'] = {k: {kk: vv for kk, vv in v.items() if kk not in ('env', 'txn')}
++                           for k, v in self.lmdb_sets.items()}
++        return st
++
++    def __setstate__(self, st):
++        self.__dict__.update(st)
++        for k, v in self.lmdb_sets.items():
++            env = lmdb.open(v['dirpath'], max_readers=32, readonly=True, lock=False,
++                            readahead=False, meminit=False)
++            v['env'] = env
++            v['txn'] = env.begin(write=False)
++
+     def load_hierarchical_lmdb_dataset(self, data_dir_list, ratio_list):
+         lmdb_sets = {}
+         dataset_idx = 0
+diff --git a/tools/engine/trainer.py b/tools/engine/trainer.py
+index cf96993..58e0b86 100644
+--- a/tools/engine/trainer.py
++++ b/tools/engine/trainer.py
+@@ -155,7 +155,7 @@ class Trainer(object):
+                 self.model, [self.local_rank], find_unused_parameters=False)
+ 
+         # amp
+-        self.scaler = (torch.amp.GradScaler() if self.cfg['Global'].get(
++        self.scaler = (torch.cuda.amp.GradScaler() if self.cfg['Global'].get(
+             'use_amp', False) else None)
+ 
+         self.logger.info(

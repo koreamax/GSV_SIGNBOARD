@@ -1,0 +1,42 @@
+# ---- environments / caches ----
+.venv/
+.venv_surya/
+__pycache__/
+*.pyc
+.claude/
+*.stackdump
+
+# ---- model weights / checkpoints (GB-scale) ----
+*.pt
+*.pth
+*.ckpt
+*.pdparams
+*.pdopt
+*.pdmodel
+*.pdiparams
+*.onnx
+*.safetensors
+pretrained/
+output/
+runs/
+
+# ---- data & experiment outputs ----
+artifacts/*
+!artifacts/gt/
+artifacts/gt/*
+!artifacts/gt/*.csv
+!artifacts/gt/ocr_labeling_tool.html
+!artifacts/str_baselines/
+artifacts/str_baselines/*
+!artifacts/str_baselines/*.md
+!artifacts/str_baselines/*.csv
+!artifacts/str_baselines/*.txt
+
+# ---- third-party clones (kept out; our changes live in external_patches/) ----
+external/
+
+# ---- misc ----
+*.log
+*.lock
+Thumbs.db
+desktop.ini

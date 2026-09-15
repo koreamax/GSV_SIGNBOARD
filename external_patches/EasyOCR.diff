@@ -1,0 +1,91 @@
+diff --git a/trainer/dataset.py b/trainer/dataset.py
+index a6485ee..ac7b46c 100644
+--- a/trainer/dataset.py
++++ b/trainer/dataset.py
+@@ -10,7 +10,7 @@ from natsort import natsorted
+ from PIL import Image
+ import numpy as np
+ from torch.utils.data import Dataset, ConcatDataset, Subset
+-from torch._utils import _accumulate
++from itertools import accumulate as _accumulate
+ import torchvision.transforms as transforms
+ 
+ def contrast_grey(img):
+@@ -98,12 +98,12 @@ class Batch_Balanced_Dataset(object):
+ 
+         for i, data_loader_iter in enumerate(self.dataloader_iter_list):
+             try:
+-                image, text = data_loader_iter.next()
++                image, text = next(data_loader_iter)
+                 balanced_batch_images.append(image)
+                 balanced_batch_texts += text
+             except StopIteration:
+                 self.dataloader_iter_list[i] = iter(self.data_loader_list[i])
+-                image, text = self.dataloader_iter_list[i].next()
++                image, text = next(self.dataloader_iter_list[i])
+                 balanced_batch_images.append(image)
+                 balanced_batch_texts += text
+             except ValueError:
+@@ -139,12 +139,27 @@ def hierarchical_dataset(root, opt, select_data='/'):
+ 
+     return concatenated_dataset, dataset_log
+ 
++def _build_ocr_augment():
++    """Mild, legibility-preserving augmentation for text crops (train only)."""
++    return transforms.Compose([
++        transforms.RandomApply([transforms.RandomRotation(3, fill=255)], p=0.3),
++        transforms.RandomApply([transforms.ColorJitter(brightness=0.3, contrast=0.3)], p=0.5),
++        transforms.RandomApply([transforms.RandomPerspective(distortion_scale=0.1, p=1.0, fill=255)], p=0.2),
++        transforms.RandomApply([transforms.GaussianBlur(3, sigma=(0.1, 1.5))], p=0.2),
++    ])
++
++
+ class OCRDataset(Dataset):
+ 
+     def __init__(self, root, opt):
+ 
+         self.root = root
+         self.opt = opt
++        # Augment only training data; gated by opt.augment (default off).
++        is_train = os.path.basename(os.path.normpath(root)) != "val"
++        self._augment = _build_ocr_augment() if (bool(opt.get("augment", False)) and is_train) else None
++        if self._augment is not None:
++            print(f"[AUG] augmentation ON for {root}")
+         print(root)
+         self.df = pd.read_csv(os.path.join(root,'labels.csv'), sep='^([^,]+),', engine='python', usecols=['filename', 'words'], keep_default_na=False)
+         self.nSamples = len(self.df)
+@@ -180,6 +195,9 @@ class OCRDataset(Dataset):
+         else:
+             img = Image.open(img_fpath).convert('L')
+ 
++        if self._augment is not None:
++            img = self._augment(img)
++
+         if not self.opt.sensitive:
+             label = label.lower()
+ 
+diff --git a/trainer/test.py b/trainer/test.py
+index 48eaa76..9aff9a2 100644
+--- a/trainer/test.py
++++ b/trainer/test.py
+@@ -40,6 +40,7 @@ def validation(model, criterion, evaluation_loader, converter, opt, device):
+             # Calculate evaluation loss for CTC decoder.
+             preds_size = torch.IntTensor([preds.size(1)] * batch_size)
+             # permute 'preds' to use CTCloss format
++            # cudnn CTC loss requires CPU int targets (log_probs may stay on CUDA)
+             cost = criterion(preds.log_softmax(2).permute(1, 0, 2), text_for_loss, preds_size, length_for_loss)
+ 
+             if opt.decode == 'greedy':
+diff --git a/trainer/train.py b/trainer/train.py
+index e0066f3..2c621e0 100644
+--- a/trainer/train.py
++++ b/trainer/train.py
+@@ -45,7 +45,7 @@ def train(opt, show_number = 2, amp=False):
+     valid_loader = torch.utils.data.DataLoader(
+         valid_dataset, batch_size=min(32, opt.batch_size),
+         shuffle=True,  # 'True' to check training progress with validation function.
+-        num_workers=int(opt.workers), prefetch_factor=512,
++        num_workers=int(opt.workers), prefetch_factor=(2 if int(opt.workers) > 0 else None),
+         collate_fn=AlignCollate_valid, pin_memory=True)
+     log.write(valid_dataset_log)
+     print('-' * 80)

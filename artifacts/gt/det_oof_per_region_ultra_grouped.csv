@@ -1,0 +1,5 @@
+region,folds,instances,mAP50_inst_weighted,mAP50_simple_mean
+gangnam,5,147,0.8397,0.8434
+brooklyn,5,173,0.9013,0.9026
+suwon,5,137,0.9063,0.9092
+ALL,,457,0.8830,

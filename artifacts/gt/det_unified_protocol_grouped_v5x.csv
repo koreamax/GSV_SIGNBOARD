@@ -1,0 +1,2 @@
+model,fold0,fold1,fold2,fold3,fold4,mean,AP50_gangnam,AP50_brooklyn,AP50_suwon
+yolov5x,0.9002,0.8375,0.7453,0.8294,0.7721,0.8169,0.8146,0.8560,0.7437

@@ -1,0 +1,503 @@
+region,det_crop,status,gt_crop,gt_tag,pred_name,pred_tag,ocr_text
+gangnam,gangnam__1__crop_001,TP,gangnam__1__crop_001,amenity=karaoke_box,K MUSIC TOWN,amenity=karaoke_box,milk / 크뮤직타운 / K MUSIC TOWN / OPEN 6PM · CLOSE 10AM B1
+gangnam,gangnam__1__crop_002,FP,,,T,unknown,T
+gangnam,gangnam__10__crop_001,TP,gangnam__10__crop_001,tourism=hotel,HOTEL,tourism=hotel,HOTEL / T
+gangnam,gangnam__10__crop_002,TP,gangnam__10__crop_002,amenity=restaurant,Saboten,amenity=restaurant,Saboten / THE ORIGINAL SHINJUKU DONBURI / ISU
+gangnam,gangnam__100__crop_001,TP,gangnam__100__crop_001,amenity=fast_food,비비큐치킨,amenity=fast_food,Welcome / W / the BBQ World / BBQ Chicken / SJU / 대치점556-7001 / 1588-9282 / 올리브 럭셔리 치킨 / 비비큐치킨
+gangnam,gangnam__11__crop_001,TP,gangnam__11__crop_002,amenity=bar,ROOM.HOF SOJU 강남역점,amenity=restaurant,© 2022 Google / Korean Pub / 가맹문의 1599-0078 ROOM.HOF SOJU 강남역점 02)532-0870 / www. zipsseng.net / 진동하리생각
+gangnam,gangnam__11__crop_002,TP,gangnam__11__crop_001,amenity=fast_food,롯데리아,amenity=fast_food,롯데리아 / D / LOTTERIA / 강남역점
+gangnam,gangnam__12__crop_001,TP,gangnam__12__crop_001,office=company,럭셔리브라더스,office=company,럭셔리브라더스
+gangnam,gangnam__14__crop_001,FP,,,HOLLYWOOD Café & Restaurant,amenity=cafe,"비빔국수 / 7,000 / 수제돈까스 / 콩나물국밥 6,000 / HOLLYWOOD Café & Restaurant"
+gangnam,gangnam__15__crop_001,FP,,,전영준프로초밥,amenity=restaurant,전영준프로초밥 / 강남직영점 / 한마로 H기 / 국내극영화협찬 / 전병률조명 / 전병률 / 흥업주식회사 / 1977
+gangnam,gangnam__16__crop_001,TP,gangnam__16__crop_001,,Yomenya Goemon,amenity=restaurant,Yomenya Goemon / Japanese Spaghetti
+gangnam,gangnam__18__crop_001,TP,gangnam__18__crop_002,amenity=bank,우리은행,amenity=bank,우리은행 / 강남역지점 / 365코너 2층까지
+gangnam,gangnam__18__crop_002,FP,,,MLB,unknown,MLB
+gangnam,gangnam__19__crop_001,TP,gangnam__19__crop_001,amenity=restaurant,파파스레시피,amenity=restaurant,쭈꾸미불고기전문 / 파파스레시피 2F / T.567-4900 / 파닭레시피
+gangnam,gangnam__2__crop_001,TP,gangnam__2__crop_001,amenity=cafe,HERRY'S COFFEE,amenity=cafe,HERRY'S / COFFEE
+gangnam,gangnam__20__crop_001,TP,gangnam__20__crop_001,amenity=restaurant,THE PLACE ITALIAN URBAN BISTRO,amenity=restaurant,THE / PLACE / ITALIAN URBAN BISTRO
+gangnam,gangnam__20__crop_002,FP,,,THE PLACE ITALIAN URBAN BISTRO,amenity=restaurant,THE / PLACE / ITALIAN URBAN BISTRO
+gangnam,gangnam__21__crop_001,TP,gangnam__21__crop_001,amenity=ice_cream,baskin Robbins,amenity=ice_cream,baskin Robbins
+gangnam,gangnam__22__crop_001,TP,gangnam__22__crop_002,,Google,office=company,SA / 집20 Google / 체인문의: 1688·2868 / 꽃보리 / 행사장섭니다
+gangnam,gangnam__22__crop_002,TP,gangnam__22__crop_001,amenity=restaurant,혜화 돌쇠,amenity=restaurant,2021 Google / 혜화 돌쇠 / 아저씨 / 2021 Google / 고르곤 졸라 피자 / 헤화 동스
+gangnam,gangnam__23__crop_001,FP,,,KOREAN RESTAURANT,amenity=restaurant,뼈대 / 지점문의 / 체인점문의 016737 / 빠데 / KOREAN RESTAURANT / 주소전화 : (032) 677-1337
+gangnam,gangnam__23__crop_002,TP,gangnam__23__crop_001,amenity=restaurant,문교동낙지,amenity=restaurant,문교동낙지 / 전문점 / 본고 땅낙지
+gangnam,gangnam__24__crop_001,TP,gangnam__24__crop_001,amenity=fast_food,SUBWAY,amenity=fast_food,SUBWAY
+gangnam,gangnam__25__crop_001,TP,gangnam__25__crop_001,,GOLD,shop=clothes,GOLD
+gangnam,gangnam__26__crop_001,TP,gangnam__26__crop_001,,맛있는,amenity=cafe,맛있는 / CAFE thanks
+gangnam,gangnam__27__crop_001,TP,gangnam__27__crop_001,shop=convenience,CU,shop=convenience,CU / BGF리테일 / CVS for YOU / BGF레퍼럴
+gangnam,gangnam__28__crop_001,TP,gangnam__28__crop_001,amenity=cafe,THE CAFE,amenity=cafe,THE CAFE 8G8 / 이탈리안 젤라또 커피 / 이탈리안 갤러리 카페
+gangnam,gangnam__29__crop_001,TP,gangnam__29__crop_001,amenity=bar,오페라,amenity=bar,opera / 오페라 / 라이브 유흥주점
+gangnam,gangnam__3__crop_001,TP,gangnam__3__crop_001,amenity=restaurant,Yomenya Goemon,amenity=restaurant,Yomenya Goemon / Japanese Spaghetti
+gangnam,gangnam__3__crop_002,FP,,,CAS,office=company,CAS / JOV
+gangnam,gangnam__30__crop_001,FP,,,새마을휘트니스,leisure=fitness_centre,건강이 생활이 되는 / 새마을휘트니스 26호 강남역점 24시간 운영 / 불랑리스 게승개 / 불랑존 한신옥가 불랑플러스큰 전동안국의자 프리리엄 불스구도업 / 새마을휘트니스 / T.02.562.0161 오시는 길 / G
+gangnam,gangnam__31__crop_001,TP,gangnam__31__crop_001,amenity=restaurant,국빈씨,amenity=restaurant,國 / 국빈씨 Chinese Res / T.566-4531
+gangnam,gangnam__32__crop_001,TP,gangnam__32__crop_001,amenity=bar,IZAKAYATAN,amenity=restaurant,Japanese dish / IZAKAYATAN / 몬크 / fh
+gangnam,gangnam__33__crop_001,TP,gangnam__33__crop_001,shop=bakery,Dunkin',amenity=fast_food,한식 bierhof / bierhof / bierhof / DUNKIN' DONUTS / DD / DUNKIN' / ©2019 Google / 판식 / 뷔페
+gangnam,gangnam__34__crop_001,TP,gangnam__34__crop_001,shop=convenience,MINI STOP,shop=convenience,hiarhof / 비이어호프 / hiarhof / hiarhof / MINI STOP 역삼타위점 / MINI STOP 역 / Mini / MINI CAFE / 협동노동자 / 비이오피 11:30~14:30 / 익산타워
+gangnam,gangnam__36__crop_001,FP,,,삐삐,shop=clothes,삐삐 / 피 / 치킨호프 / 지킨호프 / 참 / 565-5687
+gangnam,gangnam__37__crop_001,TP,gangnam__37__crop_001,shop=optician,아이스크림안녕,amenity=ice_cream,eye scream / 1931 / 아이스크림안녕
+gangnam,gangnam__38__crop_001,TP,gangnam__38__crop_001,amenity=cafe,CANDLE & SOAP,shop=beauty,SOAP / CANDLE / CANDLE & SOAP
+gangnam,gangnam__39__crop_001,TP,gangnam__39__crop_001,amenity=restaurant,세무사김영덕사무,office=company,세무사김영덕사무 / 쭈꾸미불낙 / 566-4574
+gangnam,gangnam__4__crop_001,TP,gangnam__4__crop_001,amenity=bar,CASA JOVEN,amenity=bar,기시도 / CASA / JOVEN / 481-8666
+gangnam,gangnam__40__crop_001,TP,gangnam__40__crop_001,amenity=bar,로빈힐,amenity=bar,로빈힐 BEER & 생맥주 / BEER & 셋째두 / 앙세피로엔 예약 / TT:555-6252
+gangnam,gangnam__41__crop_001,TP,gangnam__41__crop_001,shop=stationery,모닝클로리,shop=stationery,모닝클로리 / 강남역점
+gangnam,gangnam__42__crop_001,TP,gangnam__42__crop_001,amenity=restaurant,불 아능족발 보쌈 순대국,amenity=restaurant,불 아능족발 보쌈 순대국 / 565-8999 / 본점 / 입흑마늘쪽박 빙·본대국
+gangnam,gangnam__43__crop_001,TP,gangnam__43__crop_001,shop=convenience,7ELEVEN,shop=convenience,7ELEVEN
+gangnam,gangnam__44__crop_001,TP,gangnam__44__crop_002,amenity=restaurant,영꺼,amenity=restaurant,"2층으로 오세요 (₩ 6,000) / 오세요 / 100% / 고기 국내산 1등품 생고기 / 영꺼 등곱 데기 / 껍데기 / 김치찌개 동 / 生코기 / 김치제개 / 영팬대기 / 568-9592"
+gangnam,gangnam__44__crop_002,FP,,,고기,amenity=restaurant,생고기 / 고기 / 김치찌개
+gangnam,gangnam__45__crop_001,TP,gangnam__45__crop_001,amenity=restaurant,영동,amenity=restaurant,영동 / 100% 국내산 1등급 생고기 / 껍데기 소금구이
+gangnam,gangnam__45__crop_002,FP,,,영동 식당,amenity=restaurant,영동 식당 김치찌개
+gangnam,gangnam__45__crop_003,FP,,,CASS,amenity=cafe,가고싶은 식당 / CASS
+gangnam,gangnam__46__crop_001,FP,,,토돼지,amenity=restaurant,토돼지김치찌개 / 토돼지 / O / o / 동돼지김치돼지개
+gangnam,gangnam__46__crop_002,FP,,,통돼지찌개집,amenity=restaurant,통돼지찌개집 / 동대길 찌개집
+gangnam,gangnam__46__crop_003,FP,,,사랑그리고구이,amenity=restaurant,화로구이 / 새고기 / 좋은고기 / o / 사랑그리고구이
+gangnam,gangnam__47__crop_001,TP,gangnam__47__crop_001,amenity=restaurant,숙성한우와 나주곰탕,amenity=restaurant,e Ge F3 / 숙성한우와 나주곰탕 전문점 / NAJUGA / 가맹점문의 T.567-9288
+gangnam,gangnam__48__crop_001,TP,gangnam__48__crop_001,amenity=restaurant,FOOD CAFE,amenity=cafe,"FOOD / CAFE 정보통신원 / 김병철, 박선영"
+gangnam,gangnam__49__crop_001,TP,gangnam__49__crop_001,shop=bakery,파리바게뜨,shop=bakery,PARIS BAGUETTE / 파리바게뜨
+gangnam,gangnam__5__crop_001,TP,gangnam__5__crop_001,amenity=fast_food,MOS BURGER,amenity=fast_food,MOS BURGER
+gangnam,gangnam__51__crop_001,TP,gangnam__51__crop_001,shop=convenience,GS25,shop=convenience,o / GS25 / Friendly / Fresh / GS25 / Fresh / Fun
+gangnam,gangnam__52__crop_001,TP,gangnam__52__crop_001,amenity=clinic,미즈메디 병원,amenity=clinic,미즈메디 병원 / Miz Medi Hospital
+gangnam,gangnam__52__crop_002,FP,,,미즈메디 병원,amenity=clinic,미즈메디 병원 / Miz Medi Hospital
+gangnam,gangnam__53__crop_001,TP,gangnam__53__crop_001,,커피볶는집,amenity=cafe,커피볶는집 / 대치본점 / 커피볶는집 / 대치본점 / 체인 / parking / 대치 돈까스 정식 / SINCE 2001 / 대전 문의 TEL:568-6482
+gangnam,gangnam__54__crop_001,TP,gangnam__54__crop_002,leisure=fitness_centre,필라테스 & 플라잉요가,leisure=fitness_centre,대치점 568-1977 / ZUM / 필라테스 & / 플라잉요가 / 0. / 페라테이스 & 페라이밍.요가
+gangnam,gangnam__54__crop_002,TP,gangnam__54__crop_001,amenity=school,ΣEM학원,amenity=school,ΣEM학원 / 수학전문
+gangnam,gangnam__54__crop_003,FP,,,Σ래 ΣEM학원,amenity=school,Σ래 ΣEM학원 / 수학전문
+gangnam,gangnam__55__crop_001,TP,gangnam__55__crop_002,amenity=restaurant,로얄키친,amenity=restaurant,당신만을 위한 작은 부엌 / 로얄키친 / 서울 / ROYAL KITCHEN 02 566 1016
+gangnam,gangnam__55__crop_002,TP,gangnam__55__crop_001,office=estate_agent,대성,office=company,Since 1985 / 대성 / 실 상업공간 리모델링 유지보수 / 대전본점 555-8364
+gangnam,gangnam__55__crop_003,FP,,,발원,office=company,발원 / 21
+gangnam,gangnam__55__crop_004,TP,gangnam__55__crop_003,amenity=restaurant,로얄키친,amenity=restaurant,로얄키친 / 025661016
+gangnam,gangnam__56__crop_001,TP,gangnam__56__crop_002,office=estate_agent,믿음 부동산,office=estate_agent,부동산 법률중개사 / 공인중개사 / 믿음 부동산 / 사무소 / 5555-686
+gangnam,gangnam__56__crop_002,TP,gangnam__56__crop_001,,흥아삼합,amenity=restaurant,홍어삼합 생선구이 / 생선조림 갈치조림 / 해남세발낙지 558-6660 / 흥아삼합 생산구이
+gangnam,gangnam__57__crop_001,TP,gangnam__57__crop_002,office=estate_agent,솔로론 공인중개 사무소,office=estate_agent,솔로론 공인중개 사무소 / 2051-9000 / 허가번호 9250-7290
+gangnam,gangnam__57__crop_002,TP,gangnam__57__crop_001,shop=books,삼성서점,shop=books,대 / 삼성서점 / 지 / 508-1441
+gangnam,gangnam__58__crop_001,TP,gangnam__58__crop_001,amenity=karaoke_box,VIP 노래방,amenity=karaoke_box,VIP 노래방
+gangnam,gangnam__58__crop_002,TP,gangnam__58__crop_002,shop=health_food,정관장,shop=health_food,정관장 / 대치원점 / www.kgc.or.kr / 선취권 (주)한국금속협동조합 / 홍삼 / 566-2206 / 대표번호
+gangnam,gangnam__59__crop_001,TP,gangnam__59__crop_002,amenity=karaoke_box,노래방,amenity=karaoke_box,노래방 / VIP
+gangnam,gangnam__59__crop_002,TP,gangnam__59__crop_001,amenity=pharmacy,메디팜 나리약국,amenity=pharmacy,MEDIPHARM / 메디팜 나리약국 / TEL. 565-6645
+gangnam,gangnam__59__crop_003,TP,gangnam__59__crop_003,shop=health_food,정관장,shop=health_food,正官庄 / www.kgc.or.kr / 신청해 기한 / (주)한국국민상공투자 / 정관장
+gangnam,gangnam__6__crop_001,TP,gangnam__6__crop_001,amenity=cafe,헤리 스 커피,amenity=cafe,HERRY'S COFFEE / 1577-2307 / 헤리 스 커피 서울 본점
+gangnam,gangnam__60__crop_001,TP,gangnam__60__crop_001,amenity=school,이수정 국어 논술,amenity=school,달 / 이수정 국어 논술 / Think Different & Be the Best / 이수정 국어 논술
+gangnam,gangnam__61__crop_001,TP,gangnam__61__crop_002,shop=convenience,MINI STOP,shop=convenience,MINI STOP / 田지시내 2
+gangnam,gangnam__61__crop_002,TP,gangnam__61__crop_001,amenity=cafe,PAIK'S COFFEE,amenity=cafe,PAIK'S COFFEE / 대치동학한가점 02.553.3515 / 대표택배함/02.553.3515
+gangnam,gangnam__62__crop_001,TP,gangnam__62__crop_001,shop=convenience,MINISTOP,shop=convenience,MINISTOP / 대치시내점 / 대지 지사내정
+gangnam,gangnam__62__crop_002,FP,,,미니스톱,shop=convenience,CGA / MINISTOP / 대치시내점
+gangnam,gangnam__63__crop_001,TP,gangnam__63__crop_001,shop=convenience,MINISTOP,shop=convenience,MINISTOP / 대지시내점
+gangnam,gangnam__64__crop_001,TP,gangnam__64__crop_003,amenity=study_cafe,시작 스터디카페,amenity=study_cafe,시작 스터디카페 / SIZAK STUDY CAFE / T. 558.5206
+gangnam,gangnam__64__crop_002,TP,gangnam__64__crop_002,shop=convenience,미니스톱,shop=convenience,MINI STOP / 대치시내점
+gangnam,gangnam__64__crop_003,TP,gangnam__64__crop_001,amenity=restaurant,SUSHI BROS,amenity=restaurant,SUSHI BROS / 초 돈가스전문점 / 6012-5470
+gangnam,gangnam__65__crop_001,TP,gangnam__65__crop_001,amenity=cafe,빽다방,amenity=cafe,빽다방 / 빽다방 / PAIK'S COFFEE · 02.553.1515
+gangnam,gangnam__66__crop_001,FP,,,지도,amenity=school,지도(제목 없음) / 지도에 대한 설명을 입력하세요.
+gangnam,gangnam__66__crop_002,TP,gangnam__66__crop_001,,퓨전 종합분식점,amenity=restaurant,김 / Global No. / 퓨전 종합분식점 대치점 539-1339 / 430 / 표전 통관식별 / 대취지 539-1339
+gangnam,gangnam__66__crop_003,TP,gangnam__66__crop_002,office=estate_agent,으뜸 공인중개사,office=estate_agent,으뜸 공인중개사 / 공안중개사
+gangnam,gangnam__67__crop_001,TP,gangnam__67__crop_002,office=estate_agent,천재 공인중개사 사무소,office=estate_agent,천재 공인중개사 사무소 553-8889 / 대표: 이상례 / 대표: 이성래
+gangnam,gangnam__67__crop_002,TP,gangnam__67__crop_001,shop=motorcycle,한강오토바이,shop=motorcycle,"한강오토바이 / T,553-4801"
+gangnam,gangnam__68__crop_001,FP,,,8888-3,office=company,8888-3
+gangnam,gangnam__68__crop_002,TP,gangnam__68__crop_001,shop=clothes,LYNN,shop=clothes,by LYNN / designed feminine
+gangnam,gangnam__69__crop_001,TP,gangnam__69__crop_001,amenity=restaurant,미래향,amenity=restaurant,미래향 / 정통중화요리 / 정동중학교리
+gangnam,gangnam__7__crop_001,TP,gangnam__7__crop_002,amenity=restaurant,딸부자네물,amenity=restaurant,딸부자네물 / 강남역9구중구 535-8663 / 할무자네 불백 / DDALBUJA BULBAEK / 경상북도 김천시 535-8663
+gangnam,gangnam__7__crop_002,TP,gangnam__7__crop_003,shop=convenience,7ELEVEN,shop=convenience,7ELEVEN
+gangnam,gangnam__7__crop_003,TP,gangnam__7__crop_001,amenity=restaurant,Pomato,amenity=restaurant,G2019 / Pomato / N / 김남2호점62535-2070 / 해인본사021887-4285 / Proud / 경상윤종 02)953-2670
+gangnam,gangnam__7__crop_004,FP,,,Pomato,amenity=restaurant,2019 / Pomato / N / 김남2로점 021535-2670 / 채인본사 021887-4285 / Rloud / 세일점 본사 02)687-4285
+gangnam,gangnam__70__crop_001,TP,gangnam__70__crop_003,amenity=bar,민속주점,amenity=bar,민속주점 / T.564-1689 / 민속공예
+gangnam,gangnam__70__crop_002,TP,gangnam__70__crop_001,amenity=restaurant,병천순대,amenity=restaurant,"전통융식 병천순대 / 일반음식점 대치호점 / 전통음식 / 병철순대 / 일반음식점 대지마을 T,563-1182"
+gangnam,gangnam__70__crop_003,FP,,,한강,office=company,한강
+gangnam,gangnam__70__crop_004,TP,gangnam__70__crop_002,amenity=restaurant,라라감자탕,amenity=restaurant,요일 / 라라감자탕 / 메뉴 / 대치점 www.rara24.com / 메이 메이 / 아라 강짜랑 / 대표정
+gangnam,gangnam__71__crop_001,TP,gangnam__71__crop_002,amenity=bar,맥투창고,amenity=bar,맥투창고 / 세계맥주 할인점 B1 / 백두창고
+gangnam,gangnam__71__crop_002,TP,gangnam__71__crop_001,amenity=clinic,금초한의원,amenity=clinic,금초한의원 / B
+gangnam,gangnam__71__crop_003,TP,gangnam__71__crop_003,amenity=book_cafe,박지향 Book Cafe,amenity=book_cafe,박지향 Book Cafe / 2F / 02-2135-1411
+gangnam,gangnam__72__crop_001,TP,gangnam__72__crop_001,shop=convenience,CU,shop=convenience,CU / CVS for You
+gangnam,gangnam__73__crop_001,TP,gangnam__73__crop_001,shop=hairdresser,정재용헤어,shop=hairdresser,HAIR SALON / 정재용헤어 / by JUNG JAE YONG
+gangnam,gangnam__73__crop_002,TP,gangnam__73__crop_002,shop=hairdresser,홈 HAIR SALON,shop=hairdresser,홈 HAIR SALON / by JUNG JAE YONG
+gangnam,gangnam__74__crop_001,TP,gangnam__74__crop_001,amenity=restaurant,Korean Bob Time,amenity=restaurant,브리또&주먹밥 / Korean Bob Time / 대치점: 02-501-8009 가맹문의 / 방탄할까? / 매치점 : 02-501-8009 / 가맹문의 : 031-750-0008
+gangnam,gangnam__74__crop_002,TP,gangnam__74__crop_002,shop=bakery,MARIAN,amenity=restaurant,MARIAN
+gangnam,gangnam__75__crop_001,TP,gangnam__75__crop_001,amenity=restaurant,함박웃음,amenity=restaurant,밥 / 함박웃음 / 분식
+gangnam,gangnam__76__crop_001,TP,gangnam__76__crop_001,office=estate_agent,강남공인중개사사무소,office=estate_agent,강남 공인중개 / 강남공인중개사사무소 / 대표조군청 사무 / www.apt2459.co.kr 호 e대표조www at49.c. r / com / 557-2459 유니에셋 557-245 / 유니에셋 / www.apt24
+gangnam,gangnam__77__crop_001,TP,gangnam__77__crop_001,office=estate_agent,대치래미안,office=estate_agent,TEL 558 - 0123 / 대표 박은숙 / 대치래미안 / 공인중개사 사무소
+gangnam,gangnam__77__crop_002,TP,gangnam__77__crop_002,office=estate_agent,공인중개사 사무소,office=estate_agent,영광 / 공인중개사 사무소 / 508-8249
+gangnam,gangnam__77__crop_003,FP,,,홍계사,office=estate_agent,중개사 사무소 / 1515 / 홍계사
+gangnam,gangnam__78__crop_001,TP,gangnam__78__crop_002,shop=furniture,리빙인테리어,shop=furniture,리빙인테리어 / 565-6647
+gangnam,gangnam__79__crop_001,TP,gangnam__79__crop_001,shop=convenience,GS25,shop=convenience,사무실 / Friendly / Fresh Fun / GS25 / 지이エス25 / Fun / Fun 강남한떡점 / 지 에스 25 / 강남역 택배함
+gangnam,gangnam__79__crop_002,FP,,,M,amenity=cafe,M
+gangnam,gangnam__79__crop_003,TP,gangnam__79__crop_002,amenity=restaurant,계몽극장,amenity=restaurant,한터역영화 / 계몽극장 / 후어삼합 / 윤태덕영화계 / 시레기군과 가장 날리씨 / 계몽통신 / 흥애사람들 두루치기 거글거글이 도가닥걸리
+gangnam,gangnam__8__crop_001,TP,gangnam__8__crop_002,shop=convenience,7ELEVEN,shop=convenience,7ELEVEN
+gangnam,gangnam__8__crop_002,TP,gangnam__8__crop_001,,하루,amenity=restaurant,하루 HÀRṳ / 한입 ONE BITE / SANDWICH · SALAD · FRUIT · SOUP / RICECAKE · SNACKS · COFFEE / Mr. 복권이
+gangnam,gangnam__8__crop_003,TP,gangnam__8__crop_003,shop=beauty,중국정통 발관리 전문점,shop=health_food,중국정통 발관리 전문점 / THE FOOT SHOP / www.thefootshep.cn 561-1688 7F / 중국전통방매안의 전문점
+gangnam,gangnam__8__crop_004,FP,,,Saboten,amenity=restaurant,Saboten
+gangnam,gangnam__8__crop_005,FP,,,하루,amenity=restaurant,하루 HARU / 4 / 한입ONEBITE 돈부리 / ELEVEN / CLA M ME / 이CCA KCO / 하루 HÀRÜ / 샌드위치 SALAD 덮밥 BOWL / 쉐이크 SHAKE 음료 DRINK 커피 COFFEE
+gangnam,gangnam__80__crop_001,TP,gangnam__80__crop_001,shop=convenience,GS25,shop=convenience,Friendly Fresh Fun / GS25 / 자이니스2FunFun 강남한타장
+gangnam,gangnam__81__crop_001,TP,gangnam__81__crop_002,amenity=restaurant,계몽돈까스,amenity=restaurant,B1 / 한터역직영점 / 새우깡 / 계몽돈까스 / 홍어삼합 두루치기 짜글짜글이 도가막걸리 / 사로국명완낵장 / 게몽동가스 / 호시삼백 듥치기 푤젒금이 도가따ᄁ
+gangnam,gangnam__81__crop_002,FP,,,MAMM,amenity=school,MAMM
+gangnam,gangnam__81__crop_003,TP,gangnam__81__crop_001,shop=convenience,GS25,shop=convenience,증 / Friendly / Fresh / GS25 / Fun / Friendly / 강남인덱스점
+gangnam,gangnam__82__crop_001,TP,gangnam__82__crop_001,amenity=restaurant,김영희 동태찜,amenity=restaurant,이OL / 영어 / 학원 / T.2052-0582 / 해물요리 1등 브랜드 / 김영희 동태찜 & 대치직영점 / 브랜드 / 김영희 동태찜 / 김영혁 농대협 & 군산리내역 / 국제학교 t.541-5939
+gangnam,gangnam__83__crop_001,TP,gangnam__83__crop_001,amenity=restaurant,동태찜 & 코다리냉면,amenity=restaurant,"t / 성민영 / 홍성 / 이고 / 대치직영점 - T. 561,5007 / 동태찜 & 코다리냉면 / 김영희 / 해물요리 1등 브랜드 / 청민역 어기 / 김영호 동태협 & 군다리냉면"
+gangnam,gangnam__84__crop_001,TP,gangnam__84__crop_001,office=company,상품권닷컴,shop=convenience,LOTTO / 상품권닷컴 / toto / 티켓코리아 T.3452-8118 상품권닷컴 / 상품권단겹 / 1010 / 타겟코리아 / 상품권단겹
+gangnam,gangnam__84__crop_002,FP,,,한터,amenity=restaurant,수제돈까스 모밀 전문점 / 한터 / 하락스
+gangnam,gangnam__84__crop_003,TP,gangnam__84__crop_002,amenity=restaurant,Pasta Dough,amenity=restaurant,Pasta Dough / Italian Cuisine / 2019 Good
+gangnam,gangnam__85__crop_001,TP,gangnam__85__crop_001,office=company,상품권닷컴,shop=convenience,LOTO / 상품권닷컴 / toto / 티켓코리아 T.3452-8118 상품권닷컴 / 상품권판매점 / 타겟코리아 / 상품권판매점
+gangnam,gangnam__85__crop_002,TP,gangnam__85__crop_002,amenity=restaurant,Pasta Dough,amenity=restaurant,Pasta Dough / Italian Cuisine
+gangnam,gangnam__87__crop_001,TP,gangnam__87__crop_002,amenity=bar,BROZ PUB,amenity=bar,세계맥주할인점 / BROZ PUB / 비어락
+gangnam,gangnam__87__crop_002,TP,gangnam__87__crop_001,shop=beauty,엠엑스,amenity=pharmacy,피부과 / MX / 엠엑스 / T.564-8222 / 3F / 에메스 목욕
+gangnam,gangnam__89__crop_001,TP,gangnam__89__crop_001,shop=convenience,씨유,shop=convenience,Nice to CU / 씨유대체사인경
+gangnam,gangnam__89__crop_002,FP,,,광명시립박물관,tourism=museum,광명시립박물관
+gangnam,gangnam__9__crop_001,FP,,,NATIONAL SHINJUKU DON,amenity=restaurant,boten / ATIONAL SHINJUKU DON / ISU
+gangnam,gangnam__90__crop_001,TP,gangnam__90__crop_001,shop=convenience,CU,shop=convenience,JUV / Nice to / CU
+gangnam,gangnam__90__crop_002,TP,gangnam__90__crop_002,amenity=pharmacy,필리아,amenity=pharmacy,필리아 / 약국 / 연중무휴 / 6116
+gangnam,gangnam__91__crop_001,TP,gangnam__91__crop_001,shop=convenience,보당건집,shop=jewelry,강 / 보당건집 / 공단 / 약 / CU / Nice to
+gangnam,gangnam__92__crop_001,TP,gangnam__92__crop_001,shop=beauty,paole,shop=hairdresser,paole / Nai
+gangnam,gangnam__96__crop_001,TP,gangnam__96__crop_001,amenity=study_cafe,비에이블,amenity=study_cafe,비에이블 / 스터디카페 24시 / 대치2센터 010-4186-3008 / B1 / 비에이블 / 스타다카폐 24시 / 대치2센터
+gangnam,gangnam__97__crop_001,FP,,,,unknown,
+gangnam,gangnam__97__crop_002,FP,,,Gexis,office=company,©2019 Gexis
+gangnam,gangnam__97__crop_003,FP,,,THE,amenity=bar,THE
+gangnam,gangnam__98__crop_001,TP,gangnam__98__crop_001,amenity=post_office,KOREA POST,amenity=post_office,서울특별시4동 / KOREA POST / 우편취급국 / 우체국보험 / 서울대학교 4동
+gangnam,gangnam__99__crop_001,TP,gangnam__99__crop_001,amenity=school,워너비,amenity=school,WB / 워너비 / EDUCATION / 02.557.7957 / ENGLISH
+brooklyn,brooklyn__1__crop_001,TP,brooklyn__1__crop_001,amenity=restaurant,MEDITERRANEAN CUISINE,amenity=restaurant,MEDITERRANEAN CUISINE / CUISINE / FRESH / 602 OFF THE GRILL / 347-240-6628
+brooklyn,brooklyn__10__crop_001,TP,brooklyn__10__crop_002,amenity=restaurant,ISLAND & RIBHOUSE,amenity=restaurant,ISLAND & RIBHOUSE / 611 Nostrand Ave. / BBQ
+brooklyn,brooklyn__10__crop_002,TP,brooklyn__10__crop_001,,MOD,amenity=restaurant,SPACE / AVAILABLE / MOD / 718-249-3613 / MEYER / M@MODCRE.COM
+brooklyn,brooklyn__100__crop_001,TP,brooklyn__100__crop_001,shop=supermarket,BARGAINLAND,shop=clothes,BARGAINLAND / DEPARTMENT STORES / 2024 Google / 1500 Fulton St BARGAINLAND 718-221-2240
+brooklyn,brooklyn__11__crop_001,FP,,,PAY-O matic,amenity=bank,Financial S / PAY-O matic Checks Cashed / Debit Card Bills Paid Money Orders ATM / abit Card
+brooklyn,brooklyn__11__crop_002,TP,brooklyn__11__crop_001,,ELITE SOLUTIONS,office=company,TAX / ELITE SOLUTIONS / INC. / elitetaxsolutionsinc.com / 646 Tel: 718.484.4131 Fax: 718.484.4132
+brooklyn,brooklyn__12__crop_001,TP,brooklyn__12__crop_001,amenity=restaurant,ISLAND RIBHOUSE,amenity=restaurant,ISLAND RIBHOUSE / 611 Nostrand Ave BBQ
+brooklyn,brooklyn__12__crop_002,FP,,,613 FRESH DI,shop=convenience,613 FRESH DI
+brooklyn,brooklyn__13__crop_001,TP,brooklyn__13__crop_001,shop=supermarket,FOOD WINE GROCER,shop=supermarket,We Love You 656 / FOOD WINE GROCER
+brooklyn,brooklyn__13__crop_002,TP,brooklyn__13__crop_002,leisure=fitness_centre,9ROUND,leisure=fitness_centre,9ROUND / 30 MIN KICKBOX FITNESS / LinkNYC
+brooklyn,brooklyn__14__crop_001,TP,brooklyn__14__crop_001,,Rosalia's Cafe,amenity=cafe,Rosalia's Cafe
+brooklyn,brooklyn__14__crop_002,TP,brooklyn__14__crop_002,shop=beauty,Hello One Nail Spa,shop=beauty,Hello One Nail Spa / Inc
+brooklyn,brooklyn__15__crop_001,TP,brooklyn__15__crop_002,shop=supermarket,FOOD WINE GROCER,shop=supermarket,FOOD WINE GROCER
+brooklyn,brooklyn__15__crop_002,TP,brooklyn__15__crop_001,leisure=fitness_centre,9ROUND,leisure=fitness_centre,© 2024 Google / 9ROUND / 30 MIN KICKBOX FITNESS
+brooklyn,brooklyn__16__crop_001,TP,brooklyn__16__crop_001,shop=car_repair,FLY WING E-BIKE,shop=motorcycle,SALES / FLY WING E-BIKE / www.flywingny.com / VENTAS / H / REPARACIONES / 662 / REPAIR
+brooklyn,brooklyn__16__crop_002,TP,brooklyn__16__crop_002,office=company,CAMBRIDGE & LEACH INC.,office=company,660 / Personal & Commercial / CAMBRIDGE & LEACH INC. / INSURANCE 756-4200 / 718
+brooklyn,brooklyn__16__crop_003,FP,,,FLY WING E-BIKE,shop=motorcycle,R / FLY WING E-BIKE - SALES / REPARACIONES / Tel: 917-608-5570 / www.flywingny.com
+brooklyn,brooklyn__17__crop_001,TP,brooklyn__17__crop_001,shop=beauty,Hello One Nail,shop=beauty,Hello One Nail / Hello One Nail Spa / Inc
+brooklyn,brooklyn__17__crop_002,TP,brooklyn__17__crop_002,,MARQUIS REAL ESTATE,office=estate_agent,STORE / FOR RENT / EXT 102 / (MARQUIS) / MARQUIS REAL ESTATE / GABRIEL BETESH / 819 NOSTRAND AVE. TEL: 718-5070
+brooklyn,brooklyn__18__crop_001,TP,brooklyn__18__crop_001,shop=laundry,Champion Laundry,shop=laundry,Champion Laundry / Dry Cleaning Service / PROFESSIONAL SERVICE FREE PICKUP & DELIVERY 929-374-2587
+brooklyn,brooklyn__18__crop_002,TP,brooklyn__18__crop_003,shop=car_repair,FLY WING E-BIKE,shop=motorcycle,SALES / FLY WING E-BIKE / www.flywingny.com / VENTAS / REPARACIONES / 662 / Tel: 917-605-5570
+brooklyn,brooklyn__18__crop_003,TP,brooklyn__18__crop_002,shop=hairdresser,ABC II,shop=hairdresser,ABC II / BARBER SHOP / Unisex / 666 Nostrand Ave. 11216 / Phone: 347.792.6773 · abc2barbershopunisex.com
+brooklyn,brooklyn__19__crop_001,TP,brooklyn__19__crop_001,shop=mobile_phone,total,shop=mobile_phone,total / wireless
+brooklyn,brooklyn__2__crop_001,TP,brooklyn__2__crop_001,shop=laundry,DUTCH,shop=laundry,DUTCH / CLEANERS / (718)493-3695 / 571
+brooklyn,brooklyn__2__crop_002,TP,brooklyn__2__crop_003,office=estate_agent,SPRINT REALTY INC.,office=estate_agent,569 / SPRINT REALTY INC. / D / 718-735-3000 / SALES / RENTALS - RESIDENTIAL & COMMERCIAL - MANAGEMENT - WE BUY HOUSES AL
+brooklyn,brooklyn__20__crop_001,TP,brooklyn__20__crop_001,amenity=cafe,island pops,amenity=ice_cream,island pops
+brooklyn,brooklyn__20__crop_002,FP,,,island pops,amenity=ice_cream,island pops
+brooklyn,brooklyn__20__crop_003,TP,brooklyn__20__crop_002,office=company,EMS ACCOUNTING SERVICE Inc,office=company,ESTS 1995 / EMS ACCOUNTING SERVICE Inc / 672
+brooklyn,brooklyn__21__crop_001,TP,brooklyn__21__crop_001,shop=supermarket,Nostrand's Nugs,amenity=restaurant,Nostrand's / Nugs
+brooklyn,brooklyn__21__crop_002,TP,brooklyn__21__crop_002,amenity=restaurant,BROTHERS FOOD CORP,shop=convenience,4 / BROTHERS FOOD CORP / 631 NOSTRAND AVE BREAKFAST LUNCH GROCERY DELI
+brooklyn,brooklyn__22__crop_001,TP,brooklyn__22__crop_001,,,unknown,
+brooklyn,brooklyn__22__crop_002,FP,,,SPRAY FOAM,shop=hardware,(M M 218) / SPRAY FOAM / INSULATION / 855-552-3626
+brooklyn,brooklyn__22__crop_003,FP,,,SASCO CONSTRUCTION SERVICE LLC.,shop=hardware,643 NOSTRAND AVE BROOKLYN / SASCO CONSTRUCTION SERVICE LLC. / 432 CONEY ISLAND AVE / BROOKLYN NY 11218 / 917-709-4067 / 
+brooklyn,brooklyn__22__crop_004,TP,brooklyn__22__crop_002,,SASCO CONSTRUCTIN SERVICE,shop=hardware,643 NOSTRANDA / AVE BROKLYN / SASCO CONSTRUCTIN SERVICEL. / 432 CONEY ISLAND AVE / BROOKLYN NY 11218 / 917-709-4067 / Fo
+brooklyn,brooklyn__22__crop_005,FP,,,,unknown,
+brooklyn,brooklyn__23__crop_001,FP,,,Key Food,shop=supermarket,2025 Good / URBAN / MARKET / Key Food / FRESH
+brooklyn,brooklyn__24__crop_001,TP,brooklyn__24__crop_001,amenity=restaurant,RYERSON,amenity=cafe,Google / RYERSON / 698 Nostrand Ave
+brooklyn,brooklyn__26__crop_001,TP,brooklyn__26__crop_001,amenity=restaurant,the RYERSON,amenity=cafe,the RYERSON / 698 Nostrand Ave
+brooklyn,brooklyn__27__crop_001,TP,brooklyn__27__crop_002,shop=supermarket,Shorty Candy,shop=convenience,Grocery / 810 / SHORTY CANDY
+brooklyn,brooklyn__27__crop_002,FP,,,CTS BEAUTY AIDS,shop=beauty,AXY 816 / SHOP / INC. / CTS BEAUTY AIDS 100% HUMAN HAIR ETC. / 3-8867
+brooklyn,brooklyn__28__crop_001,TP,brooklyn__28__crop_001,shop=beauty,GALAXY BEAUTY SHOP,shop=hairdresser,816 / GALAXY / 816 / BEAUTY SHOP / INC. / SPECIALIZE IN ALL YOUR HAIR / 347-413-8867
+brooklyn,brooklyn__28__crop_002,FP,,,Google,office=company,Google
+brooklyn,brooklyn__29__crop_001,TP,brooklyn__29__crop_001,shop=supermarket,CROWN DISCOUNT STORE,shop=convenience,CROWN DISCOUNT STORE / 99¢ / 827 / SCHOOL SUPPLIES • HOUSEWARE / KITCHEN NEEDS • LAUNDRY SUPPLIES / CANDY • SODA & MORE
+brooklyn,brooklyn__3__crop_001,TP,brooklyn__3__crop_001,shop=laundry,Duo,shop=laundry,Duo / LAUNDROMAT / 718-604-3165 / DROP OFF & SELF SERVICE / 610 NOSTRAND AVE
+brooklyn,brooklyn__30__crop_001,TP,brooklyn__30__crop_002,shop=supermarket,Shorty Candy,shop=convenience,Grocery / 810 / SHORTY CANDY
+brooklyn,brooklyn__30__crop_002,TP,brooklyn__30__crop_001,,OCCUPATIONAL DISCOUNTS,shop=car_repair,OCCUPATIONAL DISCOUNTS / SAVE BIG ON AUTO
+brooklyn,brooklyn__31__crop_001,TP,brooklyn__31__crop_002,,GOLDEN KRUST CARIBBEAN BAKERY & GRILL,amenity=restaurant,Golden Krust / CARIBBEAN BAKERY & GRILL / 718-493-3865
+brooklyn,brooklyn__31__crop_002,FP,,,Wise,shop=convenience,ALA / DELI&GRILL / WISE / Cold Beverages Coffee & Pastries Gourmet Sandwiches / Organic Products
+brooklyn,brooklyn__31__crop_003,FP,,,Gold,amenity=cafe,Gold / Krug
+brooklyn,brooklyn__32__crop_001,TP,brooklyn__32__crop_003,shop=bakery,Dunkin',amenity=fast_food,DUNKIN' / DD / DONUTS
+brooklyn,brooklyn__32__crop_002,FP,,,Google,office=company,2024 Google / Google Earth
+brooklyn,brooklyn__32__crop_003,TP,brooklyn__32__crop_001,amenity=restaurant,SAL'S,amenity=restaurant,We Serve Halal Food / SAL'S / RESTAURANT / Breakfast Served All Day / (718) 773-8160 / FREE DELIVERY
+brooklyn,brooklyn__32__crop_004,TP,brooklyn__32__crop_002,amenity=bar,Eastern & Franklin Wines & Liquors,shop=wines,EASTERN & FRANKLIN / WINES & LIQUORS / 718-773-7570
+brooklyn,brooklyn__33__crop_001,TP,brooklyn__33__crop_001,amenity=bank,Capital One Bank,amenity=bank,Capital One Bank
+brooklyn,brooklyn__34__crop_001,TP,brooklyn__34__crop_002,amenity=bar,800 Candy & Juice Bar,amenity=fast_food,800 Candy & Juice Bar
+brooklyn,brooklyn__34__crop_002,TP,brooklyn__34__crop_001,amenity=restaurant,Royal Yard Food,amenity=restaurant,Royal Yard Food / 347-350-6494
+brooklyn,brooklyn__35__crop_001,TP,brooklyn__35__crop_001,amenity=cafe,STARBUCKS COFFEE,amenity=cafe,STARBUCKS COFFEE
+brooklyn,brooklyn__35__crop_002,FP,,,ROP & SALON,shop=hairdresser,NY'S / ROP & SALON / 718-637-1200
+brooklyn,brooklyn__35__crop_003,FP,,,STARBUCKS COFFEE,amenity=cafe,STARBUCKS COFFEE
+brooklyn,brooklyn__36__crop_001,TP,brooklyn__36__crop_002,shop=hairdresser,Jun Nail Salon,shop=beauty,Jun / Nail Salon / NAIL CARE & WAXING / 718-735-0787 / 1958
+brooklyn,brooklyn__36__crop_002,TP,brooklyn__36__crop_001,amenity=restaurant,El Barrio Burritos,amenity=fast_food,EL BARRIO / BURRITOS / MEXI · CALI · GRILL / © 2024 Google / 796A EL BARRIO BURRITOS 718.576.6611
+brooklyn,brooklyn__37__crop_001,TP,brooklyn__37__crop_001,office=estate_agent,E. Martin Sales & Rentals,office=estate_agent,COMMERCIAL E. MARTIN / RESIDENTIAL / SALES & RENTALS / Serving All Boroughs / APARTMENTS · STORES · HOMES & LAND / 773-3
+brooklyn,brooklyn__37__crop_002,TP,brooklyn__37__crop_002,shop=convenience,Grill & Deli,shop=convenience,GRILL / & DELI / Franklin
+brooklyn,brooklyn__39__crop_001,FP,,,PURE HEALTH PHARMACY LLC,amenity=pharmacy,776 / 2024 Google / PURE HEALTH / PHARMACY LLC / 718-484-9189 / Dept Within
+brooklyn,brooklyn__39__crop_002,FP,,,,amenity=parking,8
+brooklyn,brooklyn__4__crop_001,TP,brooklyn__4__crop_001,shop=supermarket,SuperMarket,shop=supermarket,Corp. / SuperMarket
+brooklyn,brooklyn__4__crop_002,FP,,,SuperMarket,shop=supermarket,Corp. / SuperMarket
+brooklyn,brooklyn__4__crop_003,FP,,,,unknown,
+brooklyn,brooklyn__40__crop_001,FP,,,VISTES,amenity=bar,VISTES / 785 Bar 347-627-3247 / 8:30am - 9am / Except Sunday
+brooklyn,brooklyn__41__crop_001,TP,brooklyn__41__crop_001,shop=laundry,FRANKLIN EXPRESS / LAUNDRY CENTER,shop=laundry,FRANKLIN EXPRESS / LAUNDRY CENTER
+brooklyn,brooklyn__42__crop_001,TP,brooklyn__42__crop_001,amenity=bar,Bagel Pub,amenity=fast_food,Bagel Pub
+brooklyn,brooklyn__43__crop_001,TP,brooklyn__43__crop_001,,Coffee House,amenity=cafe,Breukelen / Coffee House
+brooklyn,brooklyn__43__crop_002,FP,,,PRES,unknown,PRES
+brooklyn,brooklyn__44__crop_001,TP,brooklyn__44__crop_001,shop=supermarket,SJ MARKET,shop=convenience,SJ MARKET / 769
+brooklyn,brooklyn__45__crop_001,TP,brooklyn__45__crop_002,,Douglas Elliman,office=estate_agent,PROPERTY FOR SALE / Douglas Elliman / Jerry Minsky Jason Abrishami / m: 917.301.1604 m: 516.238.3520 / o: 718.942.6789 o
+brooklyn,brooklyn__45__crop_002,TP,brooklyn__45__crop_001,amenity=restaurant,HAPPY WOK,amenity=fast_food,HAPPY WOK / CHINESE FOOD EAT IN & TAKE OUT / TEL:718-622-3396 / 762 FRANKLIN AVE.
+brooklyn,brooklyn__46__crop_001,FP,,,고려대학교,amenity=school,고려대학교 / 법학부
+brooklyn,brooklyn__46__crop_002,TP,brooklyn__46__crop_001,office=estate_agent,NOOKLYN,office=estate_agent,NOOKLYN
+brooklyn,brooklyn__47__crop_001,TP,brooklyn__47__crop_001,,Douglas Elliman,office=estate_agent,PROPERTY / FOR / SALE / Douglas Elliman / Jerry Minsky / Jason Abrishami / m: 917.301.1604 / 516.238.3520 / M / Licensed
+brooklyn,brooklyn__47__crop_002,FP,,,M,amenity=cafe,M
+brooklyn,brooklyn__48__crop_001,TP,brooklyn__48__crop_002,shop=convenience,Amigos,shop=convenience,Amigos 458 3rd Ave / DELI & GROCERY / SODA BEER COFFEE BAGELS SANDWICHES CIGARETTES / LOTTO FREE DELIVERY 718 369-0397 L
+brooklyn,brooklyn__48__crop_002,TP,brooklyn__48__crop_001,amenity=restaurant,Maria & Tony RESTAURANT,amenity=restaurant,2021 Google / Maria & Tony RESTAURANT / 718-965-4800-0770 FREE DELIVERY SPANISH FOOD OPEN 7 DAYS
+brooklyn,brooklyn__49__crop_001,TP,brooklyn__49__crop_001,amenity=car_rental,enterprise,amenity=car_rental,enterprise / rent-a-car
+brooklyn,brooklyn__49__crop_002,TP,brooklyn__49__crop_002,amenity=car_rental,enterprise,amenity=car_rental,enterprise / rent-a-car
+brooklyn,brooklyn__5__crop_001,TP,brooklyn__5__crop_001,shop=bakery,ROYAL BAKERY & ROTI,shop=bakery,the Biggest Roti in Brooklyn / ROYAL BAKERY & ROTI DOUBLES T&T CHINESE FOOD / 575 Nostrand Ave. OXTAIL ALL T&T DISHES / 
+brooklyn,brooklyn__5__crop_002,TP,brooklyn__5__crop_002,shop=jewelry,Nostrand Gold Dealers,shop=jewelry,"WE PAY TOP DOLLAR / 577 / JUST MOVED / We Buy & Sell Gold, Diamond, Silv / ches / Nostrand Gold Dealers / ACROSS THE STR"
+brooklyn,brooklyn__50__crop_001,FP,,,GROCERY,shop=convenience,954 / GROCERY / HEROS
+brooklyn,brooklyn__50__crop_002,TP,brooklyn__50__crop_001,amenity=restaurant,THE NEW ATLANTIC Restaurant,amenity=restaurant,THE NEW ATLANTIC Restaurant / SPANISH & AMERICAN CUISINE / 452 788-9217
+brooklyn,brooklyn__50__crop_003,FP,,,THE NEW ATLANTIC Restaurant,amenity=restaurant,THE NEW ATLANTIC Restaurant / SPANISH & AMERICAN CUISINE / 452 788-9217
+brooklyn,brooklyn__51__crop_001,TP,brooklyn__51__crop_001,amenity=car_rental,enterprise,amenity=car_rental,enterprise / rent-a-car
+brooklyn,brooklyn__52__crop_001,TP,brooklyn__52__crop_001,office=company,StateFarm,amenity=bank,StateFarm / Dean Zupo deanZupo.com 929-397-2050 / © 2023 Copyright
+brooklyn,brooklyn__52__crop_002,FP,,,COLLIS,amenity=restaurant,R. FERF / COLLIS / 788-6288
+brooklyn,brooklyn__53__crop_001,TP,brooklyn__53__crop_001,,Four & Twenty Blackbirds,amenity=restaurant,Four & Twenty Blackbirds / 439
+brooklyn,brooklyn__54__crop_001,TP,brooklyn__54__crop_001,shop=car_repair,FERRAROC,shop=car_repair,R. / FERRAROC / COMPLETE / 788-6288 COLLISION BODY / COLLISION / WORK / 442
+brooklyn,brooklyn__54__crop_002,TP,brooklyn__54__crop_002,amenity=bar,CAROUSEL,amenity=bar,BEER / CAROUSEL / SODA / 435 / OPEN TO / THE PEOPLE / 436 3rd Ave / 715-683-7982
+brooklyn,brooklyn__54__crop_003,FP,,,teFarm,shop=convenience,teFarm / po.com929-397-2050 / oo.com
+brooklyn,brooklyn__55__crop_001,TP,brooklyn__55__crop_001,amenity=restaurant,QUINN'S,amenity=restaurant,MIGHTY / QUINN'S / Slow Smoked / Barbeque
+brooklyn,brooklyn__55__crop_002,FP,,,,unknown,
+brooklyn,brooklyn__56__crop_001,TP,brooklyn__56__crop_001,,CAROUSEL BEVERAGES,amenity=bar,718 499-7462 ICE / OPEN TO / THE PUBLIC / CAROUSEL BEVERAGES / FREE DELIVERY / Miller / Guinness / Amstel Light Bass Hei
+brooklyn,brooklyn__57__crop_001,TP,brooklyn__57__crop_001,amenity=bar,CAROUSEL,amenity=bar,BEER / OPEN TO THE PUBLIC / CAROUSEL / SODA CAROUSEL / JOSEPH BEVERAGES / DEF OPEN TO / OPEN TO 718 499-7462 / THE PUBLI
+brooklyn,brooklyn__57__crop_002,TP,brooklyn__57__crop_002,,CAROUSEL BEVERAGES,shop=convenience,718 499-7462 / OPEN TO THE PUBLIC / None / CAROUSEL BEVERAGES / Miller ROUSEL / BEER SODA WATER & KEG BEER / None / Amst
+brooklyn,brooklyn__57__crop_003,TP,brooklyn__57__crop_003,leisure=fitness_centre,Powerplay,leisure=fitness_centre,CP / PROGRES / Powerplay / 432 / powerplaykids.com / DELIVERY / 713-386-9582 / GYMNASTICS / ROCK CLIMBING / CAMP PROGRAM
+brooklyn,brooklyn__58__crop_001,TP,brooklyn__58__crop_001,leisure=fitness_centre,Powerplay,leisure=fitness_centre,GYMNASTICS / ROCK CLIMBING / CAMP PROGRAMS / Powerplay / INDOOR PLAYSPACE / powerplaykids.com / ACTIVITY CENTER BIRTHDAY
+brooklyn,brooklyn__58__crop_002,FP,,,GUINNESS,amenity=bar,FREE DELIVERY / GUINNESS • EXTRA STOUT / Presidente / EXTRA STOUT / ISELBEVERAGES.COM
+brooklyn,brooklyn__59__crop_001,FP,,,"NEW MILLENNIUM MOTORS, INC",shop=car_repair,"GROUP ACTIVITIES / ACTIVITIES / 80 / NEW MILLENNIUM MOTORS, INC / AUTO SERVICE CENTER / QUALITY AS STANDARD / 718-789-26"
+brooklyn,brooklyn__59__crop_002,TP,brooklyn__59__crop_001,shop=car_repair,"NEW MILLENNIUM MOTORS, INC.",shop=car_repair,"NEW MILLENNIUM / MOTORS, / INC. / AUTO SERVICE CENTER / 718-788-2686AU10 SERVICE CENTER· COMPLETE BODY WORK / QUALITY AS"
+brooklyn,brooklyn__59__crop_003,FP,,,"NEW MILLENNIUM MOTORS, INC.",shop=car_repair,"NEW MILLENNIUM / MOTORS, / INC. / AUTO SERVICE CENTER / 718-788-2686 / QUALITY AS STANDARD / 428-436 3RD AVE."
+brooklyn,brooklyn__6__crop_001,TP,brooklyn__6__crop_001,,E.T.A UNIVERSAL OUTREACH,office=company,E.T.E.TA UNIVERSAL OUTREACH / E / In memory of Ella Theresa Arnold / 577A Nostrand Ave / For Further Inquiries Contact E
+brooklyn,brooklyn__6__crop_002,FP,,,E.T.E.TA UNIVERSAL OUTREACH,office=company,E.T.E.TA UNIVERSAL OUTREACH / In memory of Ella Theresa Arnold / 577A Nostrand Ave / 347-240-5572
+brooklyn,brooklyn__60__crop_001,TP,brooklyn__60__crop_001,leisure=fitness_centre,Powerplay,leisure=fitness_centre,INDOOR PLAYSPACE / BIRTHDAY PARTIES / Powerplay / jump. / GYMNASTICS / ACTIVITY CENTER 718-369-9880 / ACTIVITY / powerpl
+brooklyn,brooklyn__60__crop_002,TP,brooklyn__60__crop_004,office=estate_agent,RISE,amenity=restaurant,R / RISE / DEVELOPMENT / NEW M
+brooklyn,brooklyn__60__crop_003,FP,,,Powerplay,leisure=fitness_centre,INDOOR PLAYSPACE / BIRTHDAY PARTIES / Powerplay / GYMNASTICS / ROCK CLIMBING ACTIVITY CENTER 718-369-9880 / CAMP PROGRAM
+brooklyn,brooklyn__60__crop_004,TP,brooklyn__60__crop_002,,CAPITOL,amenity=bar,WATER / OPEN TO THE PUBLIC / BEVERAGES / ICE / EL / CAPITOL / FREE / BEVERAGES / ICE / BEER SODA / FRANCHISED REVEDAGES
+brooklyn,brooklyn__61__crop_001,TP,brooklyn__61__crop_001,office=company,DONATO,amenity=restaurant,PLUMBING / HEATING / 718 / DONATO / COMMERCIAL / 718 768-4041
+brooklyn,brooklyn__62__crop_001,TP,brooklyn__62__crop_001,amenity=pharmacy,DRUG STORE,amenity=pharmacy,DRUG / STORE / 718-221-1838 Franklin & Carroll / US Pharmacy Dept Within 386
+brooklyn,brooklyn__63__crop_001,TP,brooklyn__63__crop_001,amenity=restaurant,Brothers,shop=convenience,Brothers / FOOD CENTER / Liink NYC
+brooklyn,brooklyn__64__crop_001,TP,brooklyn__64__crop_001,shop=hairdresser,BEAUTY SALON,shop=beauty,347-241-5731 / BEAUTY SALON / 718-783-7590
+brooklyn,brooklyn__65__crop_001,TP,brooklyn__65__crop_001,amenity=fast_food,New HARDEE,amenity=restaurant,CHINESE & / USA / New HARDEE / AMERICAN / USA / FOOD TO TAKE OUT / CHICKEN-SEAFOOD-SALAD-BURGER-CHEESESTEAK-CHINESE FOOD
+brooklyn,brooklyn__66__crop_001,TP,brooklyn__66__crop_002,shop=supermarket,MOZEB,shop=convenience,MOZEB / 871
+brooklyn,brooklyn__66__crop_002,TP,brooklyn__66__crop_001,shop=convenience,DELI,shop=convenience,DELI / INC.
+brooklyn,brooklyn__66__crop_003,FP,,,ONE,unknown,ONE
+brooklyn,brooklyn__67__crop_001,TP,brooklyn__67__crop_001,,Vanity Dreams,shop=hairdresser,Dreams / Vanity Dreams / HAIR DESIGNS / 718-735-4730 / 859 Complete Hair Care
+brooklyn,brooklyn__68__crop_001,TP,brooklyn__68__crop_001,shop=hairdresser,Hair We Are,shop=hairdresser,Hair We Are / JERRY CURLS·RELAXER·WEAVE·BRAID·FINGER WAVE·HAIR CUT·COMING / We Are / 847 Ph. 718-773-5094 / UNISEX SALON
+brooklyn,brooklyn__68__crop_002,TP,brooklyn__68__crop_002,amenity=clinic,Franklin Eyecare,shop=optician,Franklin / Eyecare / tel: (718) 604-1002 / 847 / fax: (718) 604-1027
+brooklyn,brooklyn__68__crop_003,FP,,,DELIVERY,shop=convenience,S / DELIVERY / -2270
+brooklyn,brooklyn__69__crop_001,TP,brooklyn__69__crop_001,shop=beauty,AMY UNIQUE NAILS,shop=beauty,AMY UNIQUE NAILS INC. / PROFESSIONAL NAIL CARE & DESIGNS / 839 Franklin Ave. 718-493-0801
+brooklyn,brooklyn__69__crop_002,TP,brooklyn__69__crop_003,amenity=restaurant,Lemon Grass,amenity=restaurant,Lemon Grass / JAMAICAN CUISINE WE DO CATERING • DELIVERY / THE TRUE JAMAICAN FLAVOR 718-953-2270 / JAMAIAN CUISINE
+brooklyn,brooklyn__69__crop_003,FP,,,008,shop=convenience,008
+brooklyn,brooklyn__7__crop_001,TP,brooklyn__7__crop_001,,REALTY CORP.,office=estate_agent,1500 SQ. FT / 50 FT. FRONTAGE / SPACE AVAILABLE / Call Josh / 917.417.7834 ARC AUGENBAUM 718.484.7895 / REALTY CORP. / F
+brooklyn,brooklyn__70__crop_001,TP,brooklyn__70__crop_001,amenity=fast_food,JUICY KING CRAB,amenity=fast_food,Juicy / King Crab / Express / JUICY KING CRAB / 718-684-6008 / 837 Cajun Seafood Restaurant
+brooklyn,brooklyn__70__crop_002,TP,brooklyn__70__crop_002,amenity=fast_food,Juicy King Crab,amenity=fast_food,Juicy King Crab / Express / JUICY / KING / CRAB / 837 2022 Google / ENJOY SEAFOOD RESTAURANT / 718-684-6008
+brooklyn,brooklyn__71__crop_001,TP,brooklyn__71__crop_001,shop=beauty,Golden Nails,shop=beauty,NAILS / Golden 7 / 718-857-6215 / 1433 FULTON ST PROFESSIONAL NAIL CARE
+brooklyn,brooklyn__71__crop_002,FP,,,Meen,shop=beauty,Meen / Meenu / Waxing lof / 1435 FULTON ST. / 917 239 6701 / 347 553 2842 / THREADING. WAXING. FACIAL. DERMAPLANING. EYE
+brooklyn,brooklyn__72__crop_001,TP,brooklyn__72__crop_001,,The Gospel Den,unknown,"The Gospel Den / Unique Experience"" / 718-398-7205"
+brooklyn,brooklyn__73__crop_001,TP,brooklyn__73__crop_001,amenity=fast_food,POpeYeS,amenity=fast_food,POpeYeS
+brooklyn,brooklyn__73__crop_002,TP,brooklyn__73__crop_002,shop=supermarket,Super Foodtown,shop=supermarket,Super Foodtown / Superi / Brown?
+brooklyn,brooklyn__74__crop_001,TP,brooklyn__74__crop_002,,The Gospel Den,amenity=bar,The Gospel Den / Unique Experience
+brooklyn,brooklyn__74__crop_002,TP,brooklyn__74__crop_001,,Meenu Waxing,shop=beauty,loft / Meenu Waxing / Meenu Waxing loft / Waxing Loft / 435 Fulton St. / 917 239 6701 / 347 553 2842 / THREADING . WAXIN
+brooklyn,brooklyn__75__crop_001,TP,brooklyn__75__crop_002,shop=beauty,Modern Nails,shop=beauty,Modern Nails / Brooklyn / 516-895-4038 / 1441 Fulton St. / Professional Nails Care / Tel 718-625-6338
+brooklyn,brooklyn__75__crop_002,TP,brooklyn__75__crop_001,shop=clothes,NEXT LEVEL,shop=hardware,NEXT LEVEL / 1439 / 718-789-2301
+brooklyn,brooklyn__75__crop_003,FP,,,perience,amenity=restaurant,NEASruem / perience / 지도(제목 없음) / 지도에 대한 설명을 입력하세요. / 718-398-7205
+brooklyn,brooklyn__76__crop_001,TP,brooklyn__76__crop_001,shop=beauty,Modern Nails,shop=beauty,Modern Nails / Google / Fulton St. Professional Nails Care / 1441 Fulton St. / Tel: 917-966-4899
+brooklyn,brooklyn__76__crop_002,FP,,,Blessed Min,amenity=cafe,Blessed Min / · COFFEE · SALAD BAR - JUICE / 1443 SANDWICHES · FAST FOOD ·
+brooklyn,brooklyn__76__crop_003,FP,,,FASHIONS,shop=clothes,XT / FASHIONS / 718-789-2301
+brooklyn,brooklyn__77__crop_001,TP,brooklyn__77__crop_001,shop=beauty,Modern Nails,shop=beauty,Modern Nails / Brooklyn / 1441 Fulton St. Professional Nails Care / Tel: 917-966-4899
+brooklyn,brooklyn__77__crop_002,TP,brooklyn__77__crop_002,shop=supermarket,Blessed Mini Market,shop=convenience,Blessed Mini Market / FAST FOOD
+brooklyn,brooklyn__78__crop_001,TP,brooklyn__78__crop_001,shop=supermarket,"MNS 99 CENTS & UP, INC",shop=convenience,"MNS 99 CENTS & UP, INC"
+brooklyn,brooklyn__79__crop_001,TP,brooklyn__79__crop_001,shop=hairdresser,ASUNA,shop=hairdresser,HAIR STUDIO / 718.255.7367 / ASUNA / 1442 / HAIRSTYLISTS / HAIRBRAIDERS / LOCS / 142
+brooklyn,brooklyn__79__crop_002,FP,,,Rent Inc.,office=company,Rent Inc. / 347-533-6011
+brooklyn,brooklyn__79__crop_003,TP,brooklyn__79__crop_002,,,shop=mobile_phone,1448 FILLMORE ST. / B24 / 555-69-2333
+brooklyn,brooklyn__8__crop_001,TP,brooklyn__8__crop_001,shop=beauty,New Salon NAILS,shop=beauty,New / Salon / NAILS / Tel: (718) 363-1628 / 622 Nostrand Ave
+brooklyn,brooklyn__8__crop_002,FP,,,oilz Natural Hair,shop=hairdresser,oilz Natural Hair / 62 Grand Ave coilznaturalhair TEL: 347- / 62 trand Ave
+brooklyn,brooklyn__80__crop_001,TP,brooklyn__80__crop_001,amenity=bar,Fulton Ale,amenity=bar,WHISKEYS / FULTON ale / ALES / SPIRITS / LAGERS
+brooklyn,brooklyn__80__crop_002,TP,brooklyn__80__crop_003,shop=hairdresser,HAIR STUDIO,shop=hairdresser,HAIR STUDIO / 718.255.7367 BARBERS / HAIRSTYLISTS / HAIR STUDIO / BARBERS / HAIRBRAIDERS / LOCS / 718.255.7367 / 1442
+brooklyn,brooklyn__80__crop_003,TP,brooklyn__80__crop_002,amenity=restaurant,Soldier Restaurant,amenity=restaurant,Soldier Restaurant Inc. / Buffet / 1444 FULTON ST.
+brooklyn,brooklyn__80__crop_004,FP,,,Soldier Restaurant,amenity=restaurant,Soldier Restaurant Inc. / Buffet / 1444 FULTON ST.
+brooklyn,brooklyn__81__crop_001,TP,brooklyn__81__crop_001,shop=beauty,Oumou's BEAUTY SUPPLY,shop=beauty,Oumou's BEAUTY SUPPLY / 1987 Natural & Style
+brooklyn,brooklyn__82__crop_001,TP,brooklyn__82__crop_001,,P.J.'s Hair Perfection,shop=hairdresser,P.J.'s * / Hair / Perfection / 1455 A full Service Salon Call 718 363-7800
+brooklyn,brooklyn__83__crop_001,TP,brooklyn__83__crop_001,amenity=bar,Fulton Ale House,amenity=bar,Cold / WHISKEYS / DRAUGHT / FULTON / ALES / SPIRITS / LAGERS / ALE HOUSE
+brooklyn,brooklyn__83__crop_002,TP,brooklyn__83__crop_002,amenity=restaurant,A GUSTO,amenity=restaurant,A GUSTO
+brooklyn,brooklyn__83__crop_003,FP,,,Soldier,amenity=restaurant,Soldier / 144 FULTON ST.
+brooklyn,brooklyn__84__crop_001,TP,brooklyn__84__crop_001,,BEDFORD-STUYVESANT FAMILY HEALTH CENTER,amenity=clinic,BEDFORD-STUYVESANT FAMILY HEALTH CENTER
+brooklyn,brooklyn__85__crop_001,TP,brooklyn__85__crop_001,,Brooklyn Legal Services,office=company,Brooklyn Legal Services / Corporation A
+brooklyn,brooklyn__86__crop_001,TP,brooklyn__86__crop_001,,Brooklyn Legal Services,office=company,Brooklyn Legal Services / Corporation A
+brooklyn,brooklyn__86__crop_002,TP,brooklyn__86__crop_002,amenity=fast_food,Domino's,amenity=fast_food,Domino's
+brooklyn,brooklyn__87__crop_001,TP,brooklyn__87__crop_001,amenity=veterinary,DOG DAYCARE,shop=pet,DOG DAYCARE
+brooklyn,brooklyn__88__crop_001,TP,brooklyn__88__crop_001,shop=beauty,Blooming Brows,shop=beauty,Blooming Brows / 1476A Eyebrow Threading Waxing Facial Eyelashes Henna Tattoo 347-627-2700
+brooklyn,brooklyn__89__crop_001,TP,brooklyn__89__crop_001,shop=beauty,Dreamer Nails,shop=beauty,Dreamer Nails / Inc. / 1487 Fulton St. SPA UV Gel Color Gel Tel: 718-221-8018
+brooklyn,brooklyn__9__crop_001,TP,brooklyn__9__crop_001,amenity=restaurant,JOHN GARDEN,amenity=restaurant,JOHN GARDEN / 626 Chinese Food to Take out Tel:718-735-399
+brooklyn,brooklyn__90__crop_001,TP,brooklyn__90__crop_001,amenity=post_office,AR POSTAL & MULTISERVICES,amenity=post_office,E-MAIL PHOTO COPY PRINT / SHIPPING BOXES PASSPORT PHOTOS FAX / WE SHIP BARRELS & BOXES WORLDWIDE / WU / 1495 / AR POSTAL
+brooklyn,brooklyn__90__crop_002,TP,brooklyn__90__crop_002,,CUSTOM TAILORING KOYAKOYA,shop=clothes,CUSTOM TAILORING KOYAKOYA / &BYMOUSSA / ALTERATIONDeSigNETSME WoMWEA / CHILDREN / Specalizd Wme lothingEXTPERTIONSE347-2
+brooklyn,brooklyn__91__crop_001,TP,brooklyn__91__crop_001,shop=hairdresser,Sogho Express,shop=hairdresser,AFRICAN 1497 and Beauty / EXPRESS / SOGHOE Professional HAIR BRAIDING / Beauty Salon / BRAIDING / 718-778-6505 Walk-ins 
+brooklyn,brooklyn__91__crop_002,TP,brooklyn__91__crop_002,,CUSTOM TAILORING & KOYA,shop=clothes,CUSTOM TAILORING & KOYA / BY MOUSSA / ALTERATION Designers / EXPERTS / ALTERATIONS 347-200-7524 / 347-200-7524 1497 / CU
+brooklyn,brooklyn__91__crop_003,TP,brooklyn__91__crop_003,,HAIR,shop=hairdresser,S1491 / SOGHO / HAIR / BRAIDING / ALLSTYLES&DESIGN718-778-6505WALKINWELCOME
+brooklyn,brooklyn__92__crop_001,TP,brooklyn__92__crop_001,,149 Convenience,shop=convenience,1490 / 149 Convenience / SNACKS - SODA - HOT & COLD BEER - ATM & MORE
+brooklyn,brooklyn__92__crop_002,TP,brooklyn__92__crop_002,shop=beauty,NAIL,shop=beauty,NAIL / 1488
+brooklyn,brooklyn__92__crop_003,FP,,,1490,shop=convenience,1499 Centimos / 1490
+brooklyn,brooklyn__93__crop_001,TP,brooklyn__93__crop_001,shop=hairdresser,AMINATA BRAIDING STYLING AND UNISEX HAIR SALON,shop=hairdresser,AMINATA / BRAIDING STYLING / AND UNISEX HAIR SALON / OPEN 7 DAYS A WEEK / MON-SAT 9:00 AM / 7:00 PM / SUN 10:00 AM - 7:0
+brooklyn,brooklyn__93__crop_002,FP,,,RICK,amenity=restaurant,Origin / RICK / JAMAICAN AMERICAN REST
+brooklyn,brooklyn__94__crop_001,TP,brooklyn__94__crop_002,amenity=restaurant,NEW PEOPLE'S RESTAURANT,amenity=restaurant,NEW PEOPLE'S RESTAURANT / CHINESE FOOD TO TAKE OUT / 1505 Fulton St / TEL:718-493-0334
+brooklyn,brooklyn__94__crop_002,TP,brooklyn__94__crop_001,amenity=restaurant,RICK,amenity=restaurant,1503 / RICK / Y's / JAMAICAN / Original / 347-240-1900
+brooklyn,brooklyn__94__crop_003,TP,brooklyn__94__crop_003,shop=hardware,WE CUT KEYS,shop=hardware,718.230.5254 / WE CUT KEYS / HARDWARE / DISCOUNT
+brooklyn,brooklyn__95__crop_001,TP,brooklyn__95__crop_002,shop=hardware,WE CUT KEYS,shop=hardware,718.230.5254 WE CUT KEYS FULTON HOME CENTER WE CUT SHADES 1507 / HARDWARE / & DISCOUNT / ELECTRONICS
+brooklyn,brooklyn__95__crop_002,TP,brooklyn__95__crop_001,amenity=restaurant,NEW PEOPLE'S RESTAURANT,amenity=restaurant,NEW PEOPLE'S RESTAURANT / CHINESE FOOD TO TAKE OUT / 1505 Fulton St TEL:718-493-0334
+brooklyn,brooklyn__96__crop_001,TP,brooklyn__96__crop_001,shop=convenience,GOURMET DELI & GRILL,shop=convenience,Rockaway / GOURMET DELI & GRILL
+brooklyn,brooklyn__97__crop_001,TP,brooklyn__97__crop_003,shop=convenience,GOURMET DELI & GRILL,shop=convenience,Rockaway / GOURMET DELI & GRILL
+brooklyn,brooklyn__97__crop_002,TP,brooklyn__97__crop_002,shop=beauty,New Pro,shop=beauty,New Pro / NAILS / Inc. / 1494 Fulton 718-467-5516
+brooklyn,brooklyn__97__crop_003,TP,brooklyn__97__crop_001,shop=beauty,K&M,shop=beauty,K&M / 2024 Google / BEALITY SLIPPLY / INC. / 1496
+brooklyn,brooklyn__98__crop_001,FP,,,HIGH,amenity=cafe,HIGH / UNIVERSE
+brooklyn,brooklyn__98__crop_002,TP,brooklyn__98__crop_001,shop=supermarket,BARGAINLAND,shop=supermarket,STORES / DEPARTMENT'S / BARGAINLAND / 718-221-2240 / BARGAINLAND / 1300 Fulton St
+brooklyn,brooklyn__98__crop_003,TP,brooklyn__98__crop_003,shop=beauty,New Pro,shop=beauty,New Pro / NAILS Inc. / $ / 718-467-5516 / 1494 Fulton
+brooklyn,brooklyn__98__crop_004,TP,brooklyn__98__crop_002,shop=beauty,K&M,shop=beauty,K&M / 2024 Google / BEAUTY SUPPLY INC. / 1496
+brooklyn,brooklyn__98__crop_005,FP,,,ADC,shop=convenience,89 / 9C / ADC / MACKINTOSH
+brooklyn,brooklyn__99__crop_001,FP,,,SUN,amenity=fast_food,SUN / 1513 WHOLESALE
+brooklyn,brooklyn__99__crop_002,TP,brooklyn__99__crop_001,,UNISEX SALON AFRICAN BRAIDING,shop=hairdresser,8 / UNISEX SALON AFRICAN BRAIDING / TEL: 718-221-8001 / 1509 / Mbadugas VIP
+suwon,suwon__1__crop_001,TP,suwon__1__crop_001,amenity=ice_cream,baskin Robbins,amenity=ice_cream,baskin Robbins / TM
+suwon,suwon__1__crop_002,TP,suwon__1__crop_003,,금O,amenity=bar,다 / 246-1711 / 금O / 제연문의 031-234-7740 / FR. AE
+suwon,suwon__10__crop_001,TP,suwon__10__crop_002,,Burzwa,amenity=bar,Burzwa
+suwon,suwon__10__crop_002,TP,suwon__10__crop_003,amenity=cafe,ZOO COFFEE,amenity=cafe,도심속의 동물원 / ZOO COFFEE / 토실스러운 동물원 향기를
+suwon,suwon__10__crop_003,TP,suwon__10__crop_001,shop=convenience,7-Eleven,shop=convenience,ELEVEN / 7-Eleven / 2016 Google
+suwon,suwon__100__crop_001,TP,suwon__100__crop_001,amenity=restaurant,전주콩나물국밥,amenity=restaurant,일반음식점 / 예약문의 898-5509 시원하고 개운한 / 전주콩나물국밥
+suwon,suwon__100__crop_002,FP,,,A흥남문,unknown,A흥남문 / 세종 특별시 전주중앙 - 배방 / 복숭아 / 배방읍
+suwon,suwon__11__crop_001,TP,suwon__11__crop_001,shop=beauty,천사네일,shop=beauty,리 / 년 수원 / www.1004 / 동 / Future in the Nail / 천사네일 / 수원네일센타 천사네일(103호) T. 031-257-4041
+suwon,suwon__12__crop_001,TP,suwon__12__crop_001,shop=hairdresser,JS미용재료,shop=beauty,JS미용재료 / T. 254-7722
+suwon,suwon__13__crop_001,TP,suwon__13__crop_002,amenity=restaurant,백두김자탕,amenity=restaurant,AN / 백두김자탕 / 유습 / 박막례 김밥
+suwon,suwon__13__crop_002,TP,suwon__13__crop_001,shop=bakery,Cake House,shop=bakery,Chou / Cake House / 255-3253
+suwon,suwon__14__crop_001,TP,suwon__14__crop_001,amenity=internet_cafe,에이스 PC,amenity=internet_cafe,에이스 PC / 스포츠토토·바둑이·포커·고스톱 / 네이선 PC
+suwon,suwon__15__crop_001,TP,suwon__15__crop_001,shop=hairdresser,헤어 디자인,shop=hairdresser,HAIR 커리어 헤어 디자인 / CARE / 피부예약상담 / Beauty for you / 010.9166.5725  010.5687.3099 / 헤어 헤어 디자인
+suwon,suwon__15__crop_002,FP,,,23,amenity=bar,23
+suwon,suwon__16__crop_001,TP,suwon__16__crop_001,amenity=parking,골드문주차장,amenity=parking,골드문주차장
+suwon,suwon__17__crop_001,TP,suwon__17__crop_001,amenity=bar,마치,amenity=bar,마치 / 야간 / 포장마차 / 2746
+suwon,suwon__18__crop_001,TP,suwon__18__crop_001,shop=laundry,삼정세탁,shop=laundry,삼정세탁 / 43-0243
+suwon,suwon__19__crop_001,FP,,,권요,amenity=restaurant,권요 / T6-8 / 렌오
+suwon,suwon__19__crop_002,TP,suwon__19__crop_001,shop=clothes,Total fashion,shop=clothes,b / Total fashion / 2022 Google / 이지네이션
+suwon,suwon__2__crop_001,TP,suwon__2__crop_003,shop=mobile_phone,WORLD,office=building,WORLD
+suwon,suwon__2__crop_002,TP,suwon__2__crop_004,amenity=karaoke_box,LaLa*COIN,amenity=cafe,LaLa*COIN
+suwon,suwon__2__crop_003,TP,suwon__2__crop_001,,가마솥,amenity=restaurant,장 / 수 / 가전문 / 즉시개통 / 가마솥 / 가마솥 / 가마솥 / iPhone / iPhone XS Max / 중사게임
+suwon,suwon__2__crop_004,TP,suwon__2__crop_002,shop=mobile_phone,WORLD,office=building,WORLD
+suwon,suwon__2__crop_005,FP,,,SK telecom,shop=mobile_phone,SK telecom / 공식 인증대리점
+suwon,suwon__2__crop_006,FP,,,WORLD,shop=mobile_phone,SK telecom / 공식 인증 대리점 / WORLD / 국식 인통 마력집
+suwon,suwon__20__crop_001,TP,suwon__20__crop_001,amenity=pharmacy,권약국,amenity=pharmacy,권약국 / 국 / 256-8430
+suwon,suwon__20__crop_002,TP,suwon__20__crop_002,amenity=pharmacy,권약국,amenity=pharmacy,권약국 / 권  Yakima 국 / T6-8490
+suwon,suwon__20__crop_003,FP,,,아름다운,amenity=school,경습나 / 아름다운 / 길스타일
+suwon,suwon__21__crop_001,TP,suwon__21__crop_001,amenity=restaurant,태평갈매기,amenity=restaurant,태평갈매기 / 인산유통화 255-4552
+suwon,suwon__22__crop_001,FP,,,하늬,shop=beauty,달려라! 하늬 하늬 / 화장품 향수 / 할거래! 하늬!
+suwon,suwon__23__crop_001,TP,suwon__23__crop_001,amenity=cafe,백학다방,amenity=cafe,백학다방 / T.256-7781 지하 / 배배삐뼈배 / 배학대방
+suwon,suwon__24__crop_001,TP,suwon__24__crop_001,,LG,shop=mobile_phone,SPEED / 이동통신 / 한슬PCS / One Shot 018 / 신세기물산 예일음악사 / LG 10 PCS / T.255-5538 / 신세기 통신 마법 / FC16 FREE TEL / LG 010
+suwon,suwon__25__crop_001,TP,suwon__25__crop_001,amenity=cafe,로맨틱,amenity=cafe,로맨틱 커피숍 / 호 / 매우 뽀
+suwon,suwon__25__crop_002,TP,suwon__25__crop_002,amenity=pharmacy,올림픽약국,amenity=pharmacy,모범약국 / 올림픽약국 / Paragon Pharmacy
+suwon,suwon__26__crop_001,TP,suwon__26__crop_001,tourism=hotel,조이모텔,tourism=hotel,조이모텔 / 리텔
+suwon,suwon__27__crop_001,FP,,,셀인,shop=beauty,e / G / e / 셀인 / 셀림밀
+suwon,suwon__27__crop_002,TP,suwon__27__crop_001,amenity=fast_food,한일통닭,amenity=restaurant,2021 Google / 한일통닭
+suwon,suwon__28__crop_001,TP,suwon__28__crop_001,amenity=restaurant,설미순대국,amenity=restaurant,1 / 설미순대국 / 샐미손대국 / T.254-7478
+suwon,suwon__28__crop_002,FP,,,에어컨,shop=car_repair,가 / 스 / 주입 / 에어컨 에어컨 / 전장형용 에어컨 / 역습용 방납내방기 / 에어컨 이전설치
+suwon,suwon__28__crop_003,FP,,,한일통,shop=clothes,© 2021 Google / 한일통
+suwon,suwon__29__crop_001,TP,suwon__29__crop_001,tourism=hotel,MALU HOTEL,tourism=hotel,MALU HOTEL
+suwon,suwon__3__crop_001,FP,,,상북FC,amenity=restaurant,뽑 / 국내 건강을 끌어올리는 상북FC / 왕해물 / 고객님과 함께 성장하는 상륙FC
+suwon,suwon__3__crop_002,FP,,,돼지,amenity=restaurant,랑 / 돼지 / 오
+suwon,suwon__3__crop_003,TP,suwon__3__crop_001,amenity=restaurant,돼랑,amenity=restaurant,"성봉돼랑 / 생방송 세상의아침"" / 1194 / 돼랑 / 사랑을 세상의 아름다움으로 / 2019.11.18 TV 방영"
+suwon,suwon__31__crop_001,TP,suwon__31__crop_001,amenity=restaurant,두부해물마을,amenity=restaurant,두부해물마을 / 최가네 / (031)211-5063/단체예약원
+suwon,suwon__32__crop_001,TP,suwon__32__crop_001,amenity=restaurant,신바람돼지주물럭,amenity=restaurant,연회석완비 / 단체환영 / 신바람돼지주물럭 / 212-2337 / 일반음식점
+suwon,suwon__33__crop_001,TP,suwon__33__crop_001,shop=car_repair,동수원모터스,shop=car_repair,W 하우주 스즈키 수원대리점 / 동수원모터스 T.211-7120 SUZUKI
+suwon,suwon__33__crop_002,FP,,,가야솥,amenity=restaurant,mLOEOO / 가야솥 / T / T. 217 / 가파술
+suwon,suwon__33__crop_003,FP,,,동수원모터스,shop=car_repair,W 하우주 스즈키 수원대리점 / 동수원모터스 T.211-7120 SUZUKI
+suwon,suwon__34__crop_001,TP,suwon__34__crop_001,amenity=restaurant,예감!,amenity=restaurant,jctgat co.kr / 족갈비전문점 예감! / 쪽갈비전문점 / 매란점 일반음식점 / www.jckgdbi.co.kr / 031-686-9753 / 조갑비전문점 / since 2000 / 에값! / 031-214-
+suwon,suwon__35__crop_001,TP,suwon__35__crop_001,amenity=restaurant,용인 전통 순대국,amenity=restaurant,24시 / 용인 전통 순대국 / 매탄점 031-213-5279
+suwon,suwon__36__crop_001,TP,suwon__36__crop_001,amenity=restaurant,KBS,office,KBS / 대구에서 왔습니다! / 216-2766 / SBS V채널 / MBC / MBC / 대구에 와줘서 감사합니다! / 대구엔 야를 딱촹
+suwon,suwon__36__crop_002,TP,suwon__36__crop_002,amenity=bar,노래하는 포장마차,amenity=bar,"노래하는 / 포장마차 / 지 / 하철 / 호트소주 막갈라 학주 어0 4143 3145 / 저 한철 / 호프, 소주, 막걸리, 맥주 010-4143-3145"
+suwon,suwon__37__crop_001,TP,suwon__37__crop_001,amenity=restaurant,미가택식료점,shop=convenience,미가동 / 213-8025 / 미가택식료점
+suwon,suwon__37__crop_002,TP,suwon__37__crop_002,amenity=restaurant,吳 욱힌한 남자,amenity=restaurant,못 육회한 남자 / 吳 욱힌한 남자 / 味覺 EP家
+suwon,suwon__37__crop_003,FP,,,편떡장,amenity=restaurant,편떡장 / 지도(제목 없음) / 지도에 대한 설명을 입력하세요 / 12-1814 / ©2015 Google
+suwon,suwon__37__crop_004,FP,,,킹어나라,amenity=restaurant,킹어나라 / 951 www.ikanara.com / 일가라
+suwon,suwon__37__crop_005,FP,,,경록식당,amenity=restaurant,정육식당 / T.2 / Meat Restaurant / 경록식당
+suwon,suwon__38__crop_001,TP,suwon__38__crop_001,,덮,amenity=restaurant,©2019 Google / 덮
+suwon,suwon__39__crop_001,TP,suwon__39__crop_001,amenity=restaurant,허제감자탕,amenity=restaurant,허제감자탕 / 모듬두부 / 031-214-3716
+suwon,suwon__4__crop_001,TP,suwon__4__crop_001,,동태탕,amenity=restaurant,복 / 동태탕 / 왕해물찜 / T. 252-0678 / 2 축제 전주한옥 경주FC / 앙해불찜
+suwon,suwon__40__crop_001,TP,suwon__40__crop_001,amenity=bar,Bobos,amenity=bar,BAR / Bobos
+suwon,suwon__41__crop_001,TP,suwon__41__crop_001,amenity=restaurant,한라돈,amenity=restaurant,한라돈 / 단체예약: 215-9662
+suwon,suwon__41__crop_002,FP,,,,unknown,
+suwon,suwon__41__crop_003,FP,,,구전호프,amenity=bar,구전호프 / PALACE HOX
+suwon,suwon__42__crop_001,TP,suwon__42__crop_003,amenity=restaurant,아리랑 빈대떡,amenity=restaurant,아리랑 빈대떡 / 아리랑 빈택 / 211-4163
+suwon,suwon__42__crop_002,TP,suwon__42__crop_001,amenity=bar,BoBoS,amenity=bar,BAR / BoBoS
+suwon,suwon__42__crop_003,TP,suwon__42__crop_002,amenity=restaurant,독리아 족보쌈,amenity=restaurant,독리아 족보쌈 / 창업문의 1544-0711 / 톡리마 풋발쎠 / 매탄칼
+suwon,suwon__43__crop_001,TP,suwon__43__crop_001,amenity=restaurant,통큰해물,amenity=restaurant,통큰해물 / T. 215-1188 / 동근해물
+suwon,suwon__44__crop_001,TP,suwon__44__crop_001,amenity=cafe,세렌디피티,amenity=cafe,O / 세프 / 빨래 / Coffee / Sandwich / Take-out / serendipity / 세렌디피티
+suwon,suwon__44__crop_002,FP,,,블랙탱,amenity=bar,갈래방 / 매탄점 / 블랙탱
+suwon,suwon__45__crop_001,TP,suwon__45__crop_002,amenity=restaurant,복부분식,amenity=restaurant,"복부분식 / (구, 부부분식) 212-5563 일반음식점 / 북부상량"
+suwon,suwon__45__crop_002,TP,suwon__45__crop_001,amenity=restaurant,여왕통골뱅이,amenity=restaurant,여왕통골뱅이 / 여향동콜배이 / T. 212-3382
+suwon,suwon__45__crop_003,FP,,,사무소스,office=company,사무소스
+suwon,suwon__46__crop_001,TP,suwon__46__crop_002,shop=hairdresser,디자인헤어,shop=hairdresser,디자인컷 / 플리닉펌 / Hair / Day Hair / • 클래식 펌
+suwon,suwon__46__crop_002,TP,suwon__46__crop_001,amenity=restaurant,김밥친구,amenity=restaurant,"24 / 김밥친구 / 김밥 친구군 김밥 친구양 / 217-0799, 217-0790"
+suwon,suwon__47__crop_001,TP,suwon__47__crop_002,office=estate_agent,굿모닝,office=estate_agent,공인중개사 / 굿모닝 / 사무소 / 등록번호:가3682-1400 대표:박경은 / T.217-0030 / 굿인종개사 / T.217–OO3O
+suwon,suwon__48__crop_001,TP,suwon__48__crop_001,amenity=restaurant,황소고집,amenity=restaurant,황소고집 / 한우곱창 / T.031-8002-8523 / 창업문의 031)216-8253 Since 1995 / 한우공장 / 찬합 / 청업문의 / 매탄점
+suwon,suwon__48__crop_002,TP,suwon__48__crop_002,amenity=restaurant,불날개닭,amenity=fast_food,또 / 불날개닭 / 치킨 / 호 / 포장 배달 / 슬로우 구이 맛 / 불낙 게장 백 / 213-8792
+suwon,suwon__49__crop_001,TP,suwon__49__crop_001,shop=hardware,세진상사,shop=hardware,기 / 세진상사 전 기 / 건축자재 / 010-5098-7449 016-357-8849
+suwon,suwon__50__crop_001,TP,suwon__50__crop_002,shop=beauty,G. G. Be,amenity=cafe,G. G. Be / T.216-2585 / cafe.naver.ggbenail / 지(지)네일##
+suwon,suwon__50__crop_002,TP,suwon__50__crop_001,shop=hairdresser,조순헤어샵,shop=hairdresser,조순헤어샵 / 214 / 소순헤어살
+suwon,suwon__51__crop_001,TP,suwon__51__crop_001,office=estate_agent,비젼 공인중개사,office=estate_agent,비젼 공인중개사 / 사무소 / 212-4488
+suwon,suwon__52__crop_001,TP,suwon__52__crop_001,shop=hairdresser,모나리자,shop=hairdresser,모나리자 / 미용실 / 2F
+suwon,suwon__53__crop_001,TP,suwon__53__crop_001,amenity=restaurant,수촌치킨,amenity=fast_food,FRIED & HOF / 수촌치킨 / Socin Chicken / CHICREN 매산점 / 수제치킨전문점 CHICKEN 매산점 / SoOchon / 수제 튀김 전문점 / 매산점 T. 248-3618 / 본점 T. 0
+suwon,suwon__54__crop_001,TP,suwon__54__crop_001,amenity=restaurant,북촌손님,amenity=fast_food,피생면 / 북촌손님 / 가맹점문의    포장 배달 / T.302-7157 / 부천본점 찌개뎐 / 가맹점문의 1588-0397
+suwon,suwon__55__crop_001,TP,suwon__55__crop_001,amenity=fast_food,불닭발,amenity=restaurant,불닭발 / 동대문 / 수원약령 / 떡볶이 포장 가능 / 244-8592 / 복불복밥 / THE HOT FOOD / 닭갈비부이 / 수원역점
+suwon,suwon__56__crop_001,TP,suwon__56__crop_001,,삼아,shop=furniture,삼아 / 주단. / 이불 / 버티칼 / 커텐 / 혼수용품 / TEL.252-6686
+suwon,suwon__57__crop_001,TP,suwon__57__crop_001,amenity=pharmacy,약,amenity=pharmacy,약
+suwon,suwon__58__crop_001,TP,suwon__58__crop_002,amenity=restaurant,한솥,amenity=restaurant,한솥 / 파끈한 도시락 / T. 258-0061
+suwon,suwon__58__crop_002,TP,suwon__58__crop_001,shop=clothes,BYC바이이씨,shop=clothes,역전BYC / BYC바이이씨 / 243-5453 / 바이오에이씨
+suwon,suwon__58__crop_003,FP,,,수제치킨전문점,amenity=fast_food,수제치킨전문점
+suwon,suwon__59__crop_001,FP,,,웰치과,amenity=clinic,TATTOO헤나 / 수구 황금의 집 남성컷 / 동나물국밥248-6348 웰치과241-2828 / 면사원 / 저수원탕복국밥 / 확그의 집 / 244-8348 / 4F (주)아이엔 / 3F 수원행복지업소개소 / 2F 웰
+suwon,suwon__59__crop_002,FP,,,영광II,amenity=restaurant,"영광피 / TEL, 235-29 / 영광II"
+suwon,suwon__6__crop_001,FP,,,Food Depot,amenity=restaurant,19 / FD / Food Depot / TEL. / ㈜프랑스고객 / 세한침 모집 226-8111
+suwon,suwon__6__crop_002,FP,,,날려보자!!,amenity=karaoke_box,스토레스 / 날려보자!! / 노래는 빵빵 달려보자!! / 빵빵
+suwon,suwon__6__crop_003,FP,,,사용하라,office=company,사용하라 / 안전제한속도
+suwon,suwon__6__crop_004,TP,suwon__6__crop_001,,노리존,amenity=internet_cafe,CCEE ! / 디스코팡팡 / ZONE / 노리존 / www.norizone.net / NORT
+suwon,suwon__60__crop_001,TP,suwon__60__crop_001,amenity=pharmacy,한빛약국,amenity=pharmacy,한빛약국
+suwon,suwon__60__crop_002,TP,suwon__60__crop_002,amenity=pharmacy,야키,amenity=restaurant,약 / 야키
+suwon,suwon__61__crop_001,TP,suwon__61__crop_002,amenity=restaurant,아른 콩나물국밥,amenity=restaurant,아른 콩나물국밥 / 농업마트 / 레알마토 / 청수통닭 / 코니마구 / 골목국밥 / 용산로타리 / 02-798-4653
+suwon,suwon__61__crop_002,TP,suwon__61__crop_001,amenity=restaurant,전주콩나름황금의지,amenity=restaurant,전주콩나름황금의지 / 황금의 집 / TATTOO헤나 / 3F / 콩나물국밥경 / 귀금속전문점 244-8348 / 수원역점 244-9996 2F웰치과 / 저수골농원 / 공나물국밥 / 수현역점 244-9996 / 귀금숙
+suwon,suwon__62__crop_001,TP,suwon__62__crop_002,amenity=pharmacy,권약국,amenity=pharmacy,권약국 / 국 / 6-8490
+suwon,suwon__62__crop_002,TP,suwon__62__crop_001,amenity=pharmacy,퀸약,amenity=pharmacy,국 / 퀸약 / 056-8430
+suwon,suwon__63__crop_001,TP,suwon__63__crop_001,amenity=restaurant,곤트레 밥집,amenity=restaurant,곤트레 밥집 / 산이대린.밥상 / 선.이.네.밥.상 / 몬데니쌀집
+suwon,suwon__64__crop_001,TP,suwon__64__crop_001,amenity=restaurant,곤드레밥집,amenity=restaurant,곤드러니 밥집물 / 곤데레뱅질
+suwon,suwon__65__crop_001,TP,suwon__65__crop_001,office=estate_agent,대우 마이몸,office=estate_agent,대우 마이몸 / 공인중개사 / 오영창 사무소 / 222-8923
+suwon,suwon__65__crop_002,FP,,,VALE,unknown,VALE
+suwon,suwon__66__crop_001,TP,suwon__66__crop_001,office=estate_agent,대우 마이몸,office=estate_agent,대우 마이몸 / 공인중개사 / 오영창 사무소 / 222-8923
+suwon,suwon__66__crop_002,TP,suwon__66__crop_002,shop=clothes,VALENTI,amenity=school,김 / VALENTI / 어대어 용직수업 / 판전설 / 여의나루역 5층
+suwon,suwon__67__crop_001,FP,,,어부돈가,amenity=restaurant,어부돈가 / Korean Restaurant / 예부론가
+suwon,suwon__68__crop_001,TP,suwon__68__crop_001,shop=clothes,VALENTI,amenity=bar,VALENTI 편집산 / 이태리 명품 직수입 / 편자살 / 본대利名牌
+suwon,suwon__68__crop_002,FP,,,마이홈,office=estate_agent,마이홈 / 통인중개사 / 오청동사무소 / 8923 / 종언흥기사 / 오행복사우
+suwon,suwon__69__crop_001,FP,,,사랑,amenity=restaurant,업체 / 사랑 / 정비
+suwon,suwon__69__crop_002,TP,suwon__69__crop_001,shop=car_repair,신성 자동차,shop=car_repair,2019 Goog / 사 / TEL238-311 / 신성 자동차
+suwon,suwon__7__crop_001,TP,suwon__7__crop_001,shop=clothes,샤랄라 사람사,shop=hairdresser,"sharalla Brush / 샤랄라 사람사 T.2588117 / 1,258,8117"
+suwon,suwon__70__crop_001,TP,suwon__70__crop_001,shop=car_repair,신성공업사,shop=car_repair,N / U / 특수열검사행/검사대행/경정비 / T:238-1311 / 자동차 손해보험사 지정업체 / 신성공업사
+suwon,suwon__72__crop_001,TP,suwon__72__crop_001,amenity=restaurant,골목집,amenity=restaurant,골 / 목집 / 236-5538
+suwon,suwon__73__crop_001,FP,,,복집,amenity=restaurant,복집
+suwon,suwon__73__crop_002,TP,suwon__73__crop_002,amenity=restaurant,유치회관,amenity=restaurant,유치회관 / 출원:0002054호 / 234-6275 / 일반음식점
+suwon,suwon__73__crop_003,TP,suwon__73__crop_001,amenity=restaurant,원조,amenity=restaurant,40년 전통의 맛 / 원조 / 해장국·수육
+suwon,suwon__74__crop_001,TP,suwon__74__crop_001,amenity=restaurant,순밥국,amenity=restaurant,세 / 타 / 24 / 순밥국 / 4900방 / 송래국
+suwon,suwon__75__crop_001,TP,suwon__75__crop_001,amenity=school,통청천학습상당센터,amenity=school,"교육상담 / 통청천학습상당센터 / 235,3000 / 교육그룹 정진 / FirstClass 교육그룹 정신 / www.gojnj.net / 1 FirstClass Education"
+suwon,suwon__76__crop_001,TP,suwon__76__crop_002,amenity=karaoke_box,럭서리 노래방,amenity=karaoke_box,라노래장 / 럭서리 노래방 / 세시아
+suwon,suwon__76__crop_002,TP,suwon__76__crop_001,shop=beauty,24시 정통마사지,shop=beauty,24시 정통마사지 / Massage shop / 회원제 쿠폰사용시 특별할인 / 예약: 231-2144
+suwon,suwon__78__crop_001,TP,suwon__78__crop_001,tourism=hotel,모텔,tourism=hotel,모텔 스타일주차장
+suwon,suwon__8__crop_001,TP,suwon__8__crop_001,amenity=pharmacy,경훈약국,amenity=pharmacy,경훈약국 / 각
+suwon,suwon__80__crop_001,FP,,,기사식,amenity=restaurant,e / 기사식
+suwon,suwon__80__crop_002,TP,suwon__80__crop_001,,카스토스,amenity=bar,Cass / OKs' / 생맥주전문점 / 카스토스 체인본부 / 인계본점 267-0331 / 색매즈전마점 / 카스톡스 체인본부 (02-571-3222)
+suwon,suwon__81__crop_001,FP,,,쥬씨골집,amenity=restaurant,사 / 쥬씨골집 / T233-2453 / 서산골방
+suwon,suwon__81__crop_002,FP,,,LION PC,amenity=internet_cafe,LION PC / PC
+suwon,suwon__82__crop_001,FP,,,시골집,amenity=restaurant,시골집 / B시골집 / T 233-2453
+suwon,suwon__83__crop_001,TP,suwon__83__crop_001,amenity=restaurant,시온성,amenity=restaurant,Chinese restaurant / 시온성 / 휴국요리전문점 시온성 223-7747
+suwon,suwon__84__crop_001,TP,suwon__84__crop_001,shop=furniture,엔틱 가구,shop=furniture,수입 엔틱 가구 / 엔틱 가구
+suwon,suwon__85__crop_001,TP,suwon__85__crop_001,amenity=restaurant,대게나라,amenity=restaurant,대게/킹크랩/랍스터 / 데이터/킹크랩/랍스터 / 대게 나라 수원점 239-711
+suwon,suwon__86__crop_001,TP,suwon__86__crop_001,shop=furniture,엔틱가구,shop=furniture,수입엔틱가구 / 엔틱가구 / 서울엔텍기구
+suwon,suwon__86__crop_002,TP,suwon__86__crop_002,shop=furniture,VERONA,shop=furniture,ae / 엔탁 / 223-9449 / verona korea.co.kr / VERONA / 엔틱 전체관
+suwon,suwon__87__crop_001,TP,suwon__87__crop_001,tourism=hotel,ILMARE,tourism=hotel,HOTEL / ILMARE
+suwon,suwon__88__crop_001,FP,,,영수미사,amenity=restaurant,영수미사
+suwon,suwon__89__crop_001,TP,suwon__89__crop_001,amenity=parking,러리,amenity=pharmacy,러리 / P유료주차장 / T:233-7790
+suwon,suwon__9__crop_001,TP,suwon__9__crop_001,amenity=fast_food,이삭 토스트&커피,amenity=restaurant,TOAST / COFFEE / Isaac / 242-7733 / 이삭 토스트&커피
+suwon,suwon__9__crop_002,TP,suwon__9__crop_002,,라벤더,amenity=restaurant,Lavender / 라벤더 / 2호점 반음식점 / 하트 누생영장 / 2019 Good Life & 수분 영양 22점 / 시골방직 / T.243-9117 / 월산물사업팀
+suwon,suwon__90__crop_001,TP,suwon__90__crop_001,shop=hairdresser,가리마,shop=hairdresser,가리마 Garma 두피탈모센터 / Garma Hair / 031 267 0895 / 가르마
+suwon,suwon__91__crop_001,TP,suwon__91__crop_001,amenity=restaurant,부안 바지라촌,amenity=restaurant,BUAN BAJIRAK CHON / 부안 바지라촌 / 바지락요리마을235-0000 / 북안바지락촌
+suwon,suwon__92__crop_001,TP,suwon__92__crop_001,amenity=restaurant,신촌옥설렁탕해장국,amenity=restaurant,본점 / 신촌옥설렁탕해장국 / 232 / 1811 / 24시영업 / 본전집 / 신촌역 월령탕 해장국
+suwon,suwon__93__crop_001,TP,suwon__93__crop_001,,THE GRILL,amenity=restaurant,The 한우 Grill / Tle / 참숯한우전문점 / KOREA RESTAURANT / THE GRILL T.239-1010 2F / aura THE GRILL / PREMIUM MULTI
+suwon,suwon__93__crop_002,TP,suwon__93__crop_002,shop=clothes,프리미엄멀티샵,shop=supermarket,PREMIUM MULTI SHOP / 프리미엄멀티샵
+suwon,suwon__94__crop_001,FP,,,Grill,amenity=restaurant,우 / Grill / RESTAURANT / 참숯한우전문점 / 9-1010 / 2F
+suwon,suwon__94__crop_002,TP,suwon__94__crop_001,shop=beauty,워당쥬얼리,shop=jewelry,워당쥬얼리 / SHOD / 라떼 / 웨딩플래너
+suwon,suwon__94__crop_003,FP,,,JM MULTI SHOP,shop=clothes,JM MULTI SHOP / 프리미엄멀티샵
+suwon,suwon__96__crop_001,FP,,,금. 도장,office=company,금. 도장 보험처리전문 / 검사대행 / F
+suwon,suwon__96__crop_002,FP,,,,unknown,O
+suwon,suwon__96__crop_003,TP,suwon__96__crop_001,shop=car_repair,르노삼성자동차,shop=car_repair,TT / T / SAMSUNG / 르노삼성자동차 인계점 225-8101 / 자영경비모너 / 자동차용품판매
+suwon,suwon__97__crop_001,TP,suwon__97__crop_001,amenity=restaurant,가영점,shop=mobile_phone,본점 / 순원번호 41-2011-0004940 가영점문의 031 238 8565 / 선/번호 41-2011-0004940 / 가영원로역 031 238 8565 / 여니
+suwon,suwon__98__crop_001,TP,suwon__98__crop_001,amenity=restaurant,에어로,shop=hardware,보 / 본점 / 가맹점문의 031 238 8565 / 사업번호 41-2011-0004940 / 고민 끝! / 에어로
+suwon,suwon__99__crop_001,TP,suwon__99__crop_001,amenity=restaurant,RESTAURANT,amenity=restaurant,Google / RESTAURANT

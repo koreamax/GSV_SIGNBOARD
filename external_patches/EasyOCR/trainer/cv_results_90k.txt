@@ -1,0 +1,11 @@
+=== FOLD 0 RESUME 60k->90k START 14:29 ===
+FINAL_iter90000 fold0:   EasyOCR  CER=0.1435  WER=0.2626  exact_acc=0.7377  (n=15702)
+=== FOLD 1 RESUME 60k->90k START 15:59 ===
+FINAL_iter90000 fold1:   EasyOCR  CER=0.1484  WER=0.2680  exact_acc=0.7323  (n=15423)
+=== FOLD 2 RESUME 60k->90k START 17:06 ===
+FINAL_iter90000 fold2:   EasyOCR  CER=0.1453  WER=0.2651  exact_acc=0.7351  (n=15740)
+=== FOLD 3 RESUME 60k->90k START 18:13 ===
+FINAL_iter90000 fold3:   EasyOCR  CER=0.1496  WER=0.2635  exact_acc=0.7369  (n=15559)
+=== FOLD 4 RESUME 60k->90k START 19:20 ===
+FINAL_iter90000 fold4:   EasyOCR  CER=0.1483  WER=0.2660  exact_acc=0.7344  (n=15680)
+=== ALL FOLDS 90k DONE 20:27 ===

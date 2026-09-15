@@ -1,0 +1,5 @@
+model,test_AP50,n_pred_boxes,n_test_images,n_gt_boxes
+yolo26x,0.8224,74871,2706,7756
+yolov5x,0.8090,75560,2706,7756
+frcnn,0.7149,45947,2706,7756
+effdet,0.6716,270600,2706,7756

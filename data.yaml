@@ -1,0 +1,9 @@
+train: archive/train
+val: archive/valid
+test: archive/test
+
+nc: 1
+
+# class names
+names:
+  0: 'SignBoard'

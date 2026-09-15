@@ -1,0 +1,12 @@
+train ∩ val (source image) = 0
+train ∩ test_word (source image) = 0
+train ∩ test_line (source image) = 0
+val ∩ test_word (source image) = 0
+val ∩ test_line (source image) = 0
+test_word ∩ test_line = 1386 (같은 test 원천 — 정상)
+train 길이>25 제외: 0
+train: 75612 samples
+val: 9609 samples
+test_word: 7756 samples
+test_line: 1631 samples
+AUDIT PASS

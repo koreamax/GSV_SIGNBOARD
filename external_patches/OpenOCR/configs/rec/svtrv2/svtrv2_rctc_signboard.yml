@@ -1,0 +1,122 @@
+Global:
+  device: gpu
+  epoch_num: 20
+  log_smooth_window: 20
+  print_batch_step: 50
+  output_dir: C:/Users/DANHA/anaconda3/envs/GSV_YOLO_OCR/main/artifacts/str_baselines/svtrv2/
+  save_epoch_step: [25, 1]
+  eval_epoch_step: [0, 1]
+  eval_batch_step: [0, 100000]   # 에폭 단위로만 평가 (iteration 평가 비활성)
+  cal_metric_during_train: True
+  # Union14M-L SVTRv2-B (svtrv2_smtr_gtc_rctc) 인코더 + RCTC 디코더를 한국어 사전용으로 걸러낸 초기값
+  pretrained_model: C:/Users/DANHA/anaconda3/envs/GSV_YOLO_OCR/main/artifacts/str_baselines/svtrv2_b_union14m_init.pth
+  checkpoints: C:/Users/DANHA/anaconda3/envs/GSV_YOLO_OCR/main/artifacts/str_baselines/svtrv2/latest.pth
+  use_tensorboard: false
+  infer_img:
+  character_dict_path: &character_dict_path C:/Users/DANHA/anaconda3/envs/GSV_YOLO_OCR/main/artifacts/str_baselines/dict/korean_v5_plus.txt
+  max_text_length: &max_text_length 25
+  use_space_char: &use_space_char True
+  save_res_path: C:/Users/DANHA/anaconda3/envs/GSV_YOLO_OCR/main/artifacts/str_baselines/svtrv2/predicts.txt
+  use_amp: True
+
+Optimizer:
+  name: AdamW
+  lr: 0.0002 # fine-tune, bs128 1gpu (원 레시피 0.00065 @ 4gpu x 256)
+  weight_decay: 0.05
+  filter_bias_and_bn: True
+
+LRScheduler:
+  name: OneCycleLR
+  warmup_epoch: 1.5
+  cycle_momentum: False
+
+Architecture:
+  model_type: rec
+  algorithm: SVTRv2
+  Transform:
+  Encoder:
+    name: SVTRv2LNConvTwo33
+    use_pos_embed: False
+    dims: [128, 256, 384]
+    depths: [6, 6, 6]
+    num_heads: [4, 8, 12]
+    mixer: [['Conv','Conv','Conv','Conv','Conv','Conv'],['Conv','Conv','FGlobal','Global','Global','Global'],['Global','Global','Global','Global','Global','Global']]
+    local_k: [[5, 5], [5, 5], [-1, -1]]
+    sub_k: [[1, 1], [2, 1], [-1, -1]]
+    last_stage: false
+    feat2d: True
+  Decoder:
+    name: RCTCDecoder
+
+Loss:
+  name: CTCLoss
+  zero_infinity: True
+
+PostProcess:
+  name: CTCLabelDecode
+  character_dict_path: *character_dict_path
+  use_space_char: *use_space_char
+
+Metric:
+  name: RecMetric
+  main_indicator: acc
+  is_filter: False
+
+Train:
+  dataset:
+    name: RatioDataSetTVResize
+    ds_width: True
+    padding: False
+    data_dir_list: ['C:/Users/DANHA/anaconda3/envs/GSV_YOLO_OCR/main/artifacts/str_baselines/parseq_data/train/real']
+    transforms:
+      - DecodeImagePIL:
+          img_mode: RGB
+      - PARSeqAugPIL:
+      - CTCLabelEncode:
+          character_dict_path: *character_dict_path
+          use_space_char: *use_space_char
+          max_text_length: *max_text_length
+      - KeepKeys:
+          keep_keys: ['image', 'label', 'length']
+  sampler:
+    name: RatioSampler
+    scales: [[128, 32]] # w, h
+    first_bs: &bs 128
+    fix_bs: false
+    divided_factor: [4, 16] # w, h
+    is_training: True
+  loader:
+    shuffle: True
+    batch_size_per_card: *bs
+    drop_last: True
+    max_ratio: 12   # 실라인 W/H p95 ≈ 9
+    num_workers: 0
+
+Eval:
+  dataset:
+    name: RatioDataSetTVResize
+    ds_width: True
+    padding: False
+    data_dir_list: ['C:/Users/DANHA/anaconda3/envs/GSV_YOLO_OCR/main/artifacts/str_baselines/parseq_data/val']
+    transforms:
+      - DecodeImagePIL:
+          img_mode: RGB
+      - CTCLabelEncode:
+          character_dict_path: *character_dict_path
+          use_space_char: *use_space_char
+          max_text_length: *max_text_length
+      - KeepKeys:
+          keep_keys: ['image', 'label', 'length']
+  sampler:
+    name: RatioSampler
+    scales: [[128, 32]] # w, h
+    first_bs: 128
+    fix_bs: false
+    divided_factor: [4, 16] # w, h
+    is_training: False
+  loader:
+    shuffle: False
+    drop_last: False
+    batch_size_per_card: 128
+    max_ratio: 12
+    num_workers: 0

@@ -1,0 +1,401 @@
+model,mode,image_name,region,gt_name,gt_tag,pred_name,pred_tag,rag_hits,in_db
+gemma3:12b,rag,brooklyn__100__crop_001,brooklyn,BARGAINLAND,shop=supermarket,BARGAINLAND,shop,5,1
+gemma3:12b,rag,brooklyn__100__crop_002,brooklyn,HIGH UNIVERSE,,HIGH,amenity=cafe,5,0
+gemma3:12b,rag,brooklyn__10__crop_002,brooklyn,ISLAND RIBHOUSE,amenity=restaurant,ISLAND &RIBHOUSE,amenity=restaurant,5,1
+gemma3:12b,rag,brooklyn__11__crop_001,brooklyn,LIT TAX SOLUTIONS,,TAX ELITE SOLUTIONS INC.,office=company,5,0
+gemma3:12b,rag,brooklyn__12__crop_001,brooklyn,ISLAND RIBHOUSE,amenity=restaurant,ISLAND RIBHOUSE,amenity=restaurant,5,1
+gemma3:12b,rag,brooklyn__13__crop_001,brooklyn,FOOD WINE GROCER,shop=supermarket,FOOD WINE GROCER,shop=supermarket,5,0
+gemma3:12b,rag,brooklyn__13__crop_002,brooklyn,9ROUND,leisure=fitness_centre,OROUND,leisure=fitness_centre,5,0
+gemma3:12b,rag,brooklyn__14__crop_002,brooklyn,Hello One Nail Spa,shop=beauty,LI,office=company,5,0
+gemma3:12b,rag,brooklyn__15__crop_001,brooklyn,30 MIN KICKBOX FITNESS,leisure=fitness_centre,9ROUND,leisure=fitness_centre,5,0
+gemma3:12b,rag,brooklyn__15__crop_002,brooklyn,FOOD WINE GROCER,shop=supermarket,WeLoue,amenity=bar,5,0
+gemma3:12b,rag,brooklyn__16__crop_001,brooklyn,FLY WING E BIKE,shop=car_repair,Fly Wing E-Bike,shop=car_repair,5,1
+gemma3:12b,rag,brooklyn__16__crop_002,brooklyn,CAMBRIDGE LEACH INC,office=company,Pe CAMBRIDGE & LEACH INC.,amenity=clinic,5,0
+gemma3:12b,rag,brooklyn__17__crop_001,brooklyn,Hello One Nail Spa,shop=beauty,One Nail Spa,shop=beauty,5,0
+gemma3:12b,rag,brooklyn__17__crop_003,brooklyn,total wireless,shop=mobile_phone,total,shop=mobile_phone,5,0
+gemma3:12b,rag,brooklyn__18__crop_001,brooklyn,Dry Cleaning Service,shop=laundry,Champion Landay,shop=laundry,5,0
+gemma3:12b,rag,brooklyn__18__crop_002,brooklyn,ABC BARBER SHOP,shop=hairdresser,ABC II,shop=hairdresser,5,0
+gemma3:12b,rag,brooklyn__18__crop_003,brooklyn,FLY WING E BIKE,shop=car_repair,FLY WING E-Bike,shop=motorcycle,5,1
+gemma3:12b,rag,brooklyn__19__crop_001,brooklyn,total wireless,shop=mobile_phone,total,shop=mobile_phone,5,0
+gemma3:12b,rag,brooklyn__1__crop_001,brooklyn,OFF THE GRILL,amenity=restaurant,MEDITERRANEAN CUISINE,amenity=restaurant,5,1
+gemma3:12b,rag,brooklyn__20__crop_001,brooklyn,island pops,amenity=cafe,istand pops,amenity=ice_cream,5,1
+gemma3:12b,rag,brooklyn__20__crop_002,brooklyn,EMS ACCOUNTING SERVICE,office=company,EMS ACCOUNTING SErVICe,office=company,5,0
+gemma3:12b,rag,brooklyn__21__crop_001,brooklyn,Nostrands Nugs,shop=supermarket,Nostrands,shop=bakery,5,0
+gemma3:12b,rag,brooklyn__21__crop_002,brooklyn,4 BROTHERS FOOD CORP,amenity=restaurant,4 BROTHERS FOOD CORP,shop=convenience,5,0
+gemma3:12b,rag,brooklyn__23__crop_001,brooklyn,URBAN MARKET BY,shop=supermarket,FRESH,shop=supermarket,5,0
+gemma3:12b,rag,brooklyn__24__crop_001,brooklyn,RYERSON,amenity=restaurant,RYERSON,amenity=cafe,5,0
+gemma3:12b,rag,brooklyn__25__crop_001,brooklyn,URBAN MARKET BY,shop=supermarket,URBAN MARKET,shop=supermarket,5,0
+gemma3:12b,rag,brooklyn__26__crop_001,brooklyn,RYERSON,amenity=restaurant,RYERSON,shop=convenience,5,0
+gemma3:12b,rag,brooklyn__27__crop_002,brooklyn,SHORTY CANDY,shop=supermarket,SHORTYGANDY,shop=convenience,5,0
+gemma3:12b,rag,brooklyn__28__crop_001,brooklyn,GALAXY BEAUTY SHOP,shop=beauty,GALAXY,shop=beauty,5,1
+gemma3:12b,rag,brooklyn__29__crop_001,brooklyn,CROWN DISCOUNT STORE 99,shop=supermarket,CROWN DISCOUNT STORE,shop=supermarket,5,0
+gemma3:12b,rag,brooklyn__2__crop_001,brooklyn,DUTCH CLEANERS,shop=laundry,DUTCH,shop=laundry,5,1
+gemma3:12b,rag,brooklyn__2__crop_002,brooklyn,VAPE N CLOUD,shop=smoke_shop,VAPE N CLOUD,shop=smoke_shop,5,1
+gemma3:12b,rag,brooklyn__2__crop_003,brooklyn,SPRINT REALTY INC,office=estate_agent,SPRINT REALTY INC.,office=estate_agent,5,0
+gemma3:12b,rag,brooklyn__30__crop_002,brooklyn,SHORT CANDY,shop=supermarket,ocer,shop=convenience,5,0
+gemma3:12b,rag,brooklyn__30__crop_003,brooklyn,812 CORP,shop=supermarket,812 CORP.,office=company,5,1
+gemma3:12b,rag,brooklyn__31__crop_001,brooklyn,DELI GRILL,shop=convenience,DELI&GRILL,amenity=restaurant,5,1
+gemma3:12b,rag,brooklyn__32__crop_001,brooklyn,SALS RESTAURANT,amenity=restaurant,SAL'S,amenity=restaurant,5,1
+gemma3:12b,rag,brooklyn__32__crop_002,brooklyn,EASTERN FRANKLIN WINES LIQUORS,amenity=bar,WINES & LIQUORS,shop=convenience,5,1
+gemma3:12b,rag,brooklyn__32__crop_003,brooklyn,DUNKIN,shop=bakery,DUNKIN,amenity=fast_food,5,1
+gemma3:12b,rag,brooklyn__33__crop_001,brooklyn,Capital One Bank,amenity=bank,CapitalOme Bank,amenity=bank,5,0
+gemma3:12b,rag,brooklyn__34__crop_001,brooklyn,Royal Yard Food,amenity=restaurant,Royal Yard Food,amenity=restaurant,5,0
+gemma3:12b,rag,brooklyn__34__crop_002,brooklyn,800 Candy Juice Bar,amenity=bar,800 Candy & duice Bar,amenity=restaurant,5,0
+gemma3:12b,rag,brooklyn__35__crop_001,brooklyn,STARBUCKS COFFEE,amenity=cafe,STARBUCKS COFFEE,amenity=cafe,5,0
+gemma3:12b,rag,brooklyn__36__crop_001,brooklyn,EL BARRIO BURRITOS,amenity=restaurant,El Barrio Burritos,amenity=fast_food,5,1
+gemma3:12b,rag,brooklyn__36__crop_002,brooklyn,Nail Salon,shop=hairdresser,Nail salon,shop=beauty,5,0
+gemma3:12b,rag,brooklyn__37__crop_001,brooklyn,E MARTIN SALES RENTALS,office=estate_agent,E. Martin Sales & Rentals,office=estate_agent,5,1
+gemma3:12b,rag,brooklyn__37__crop_002,brooklyn,GRILL DELI,shop=convenience,Grill & Deli,amenity=restaurant,5,1
+gemma3:12b,rag,brooklyn__38__crop_001,brooklyn,95 South,amenity=restaurant,SOUL FOOD,amenity=restaurant,5,1
+gemma3:12b,rag,brooklyn__38__crop_002,brooklyn,PHARMACY,amenity=pharmacy,FARE HEATH PHARMACYLE,amenity=pharmacy,5,0
+gemma3:12b,rag,brooklyn__38__crop_003,brooklyn,95 South,amenity=restaurant,SOUL FOOD,amenity=restaurant,5,1
+gemma3:12b,rag,brooklyn__38__crop_004,brooklyn,PHARMACY,amenity=pharmacy,PHARMACYL,amenity=pharmacy,5,0
+gemma3:12b,rag,brooklyn__3__crop_001,brooklyn,LAUNDROMAT,shop=laundry,LAUNDROMAT,shop=laundry,5,1
+gemma3:12b,rag,brooklyn__40__crop_001,brooklyn,SHEER MADNESS,shop=hairdresser,SHEER MADNESS,shop=hairdresser,5,1
+gemma3:12b,rag,brooklyn__41__crop_001,brooklyn,FRANKLIN EXPRESS,shop=laundry,FRANKLIN EXPRESS / LAUNDRY CENTER,shop=laundry,5,0
+gemma3:12b,rag,brooklyn__42__crop_001,brooklyn,Bagel Pub,amenity=bar,Bagel Pub,amenity=fast_food,5,1
+gemma3:12b,rag,brooklyn__44__crop_001,brooklyn,SJ MARKET,shop=supermarket,SJ MARKET,shop=convenience,5,0
+gemma3:12b,rag,brooklyn__45__crop_001,brooklyn,HAPPY WOK,amenity=restaurant,HAPPY WOK,amenity=restaurant,5,1
+gemma3:12b,rag,brooklyn__46__crop_001,brooklyn,NOOKLYN,office=estate_agent,NOOKLYN,office=estate_agent,5,1
+gemma3:12b,rag,brooklyn__47__crop_002,brooklyn,MISC,amenity=restaurant,MISC,amenity=restaurant,5,1
+gemma3:12b,rag,brooklyn__48__crop_001,brooklyn,RESTAURANT,amenity=restaurant,RESTAURANT,amenity=restaurant,5,0
+gemma3:12b,rag,brooklyn__48__crop_002,brooklyn,DELI GROCERY,shop=convenience,DELI & GROCERY,shop=convenience,5,1
+gemma3:12b,rag,brooklyn__49__crop_001,brooklyn,enterprise,amenity=car_rental,enterprise,amenity=car_rental,5,1
+gemma3:12b,rag,brooklyn__49__crop_002,brooklyn,enterprise,amenity=car_rental,enterprise,amenity=car_rental,5,1
+gemma3:12b,rag,brooklyn__4__crop_001,brooklyn,SuperMarket,shop=supermarket,Supermarket,shop=supermarket,5,0
+gemma3:12b,rag,brooklyn__50__crop_001,brooklyn,THE NEW ATLANTIC Restaurant,amenity=restaurant,THE NEW ATLANTIC Restaurant,amenity=restaurant,5,0
+gemma3:12b,rag,brooklyn__51__crop_001,brooklyn,enterprise,amenity=car_rental,enterprise,amenity=car_rental,5,1
+gemma3:12b,rag,brooklyn__52__crop_001,brooklyn,StateFarm,office=company,StateFarm,amenity=bank,5,1
+gemma3:12b,rag,brooklyn__54__crop_001,brooklyn,R FERRARO COLLISION,shop=car_repair,R. FERRARO,shop=car_repair,5,0
+gemma3:12b,rag,brooklyn__54__crop_002,brooklyn,CAROUSEL BEVERAGES,amenity=bar,CAROUSEL,amenity=bar,5,0
+gemma3:12b,rag,brooklyn__55__crop_001,brooklyn,MIGHTY QUINNS,amenity=restaurant,MIGHTY QUINN'S,amenity=restaurant,5,0
+gemma3:12b,rag,brooklyn__57__crop_001,brooklyn,CAROUSEL BEVERAGES,amenity=bar,Carousel,amenity=bar,5,0
+gemma3:12b,rag,brooklyn__57__crop_003,brooklyn,Powerplay,leisure=fitness_centre,Powerplay,leisure=fitness_centre,5,0
+gemma3:12b,rag,brooklyn__58__crop_001,brooklyn,Powerplay,leisure=fitness_centre,Powerplay,leisure=fitness_centre,5,0
+gemma3:12b,rag,brooklyn__59__crop_001,brooklyn,NEW MILLENNIUM MOTORS INC,shop=car_repair,"NEW MILLENNIUM MOTORS, INC.",shop=car_repair,5,0
+gemma3:12b,rag,brooklyn__5__crop_001,brooklyn,ROYAL BAKERY ROTI,shop=bakery,Royal,shop=bakery,5,1
+gemma3:12b,rag,brooklyn__5__crop_002,brooklyn,Nostrand Gold Dealers,shop=jewelry,Nostrand Gold Dealer,shop=jewelry,5,0
+gemma3:12b,rag,brooklyn__60__crop_001,brooklyn,Powerplay,leisure=fitness_centre,Powerplay,leisure=fitness_centre,5,0
+gemma3:12b,rag,brooklyn__60__crop_004,brooklyn,RISE DEVELOPMENT,office=estate_agent,RISE,office=company,5,0
+gemma3:12b,rag,brooklyn__61__crop_001,brooklyn,DONATO,office=company,PLUMDINGCSOMMERCIAL,shop=convenience,5,0
+gemma3:12b,rag,brooklyn__61__crop_002,brooklyn,DONATO INC,office=company,DONATO INC.,shop=hardware,5,0
+gemma3:12b,rag,brooklyn__62__crop_001,brooklyn,DRUG STORE,amenity=pharmacy,Franklin & Carroll,amenity=pharmacy,5,0
+gemma3:12b,rag,brooklyn__63__crop_001,brooklyn,FOOD CENTER,amenity=restaurant,BrothersFOOD CENTER,shop=convenience,5,0
+gemma3:12b,rag,brooklyn__63__crop_002,brooklyn,GRANDMA LAUNDRY CORNER INC,shop=laundry,GRANDMA / LAUNDRY CORNER INC.,shop=laundry,5,0
+gemma3:12b,rag,brooklyn__64__crop_001,brooklyn,BEAUTY SALON,shop=hairdresser,BEAUTY SALON,shop=beauty,5,1
+gemma3:12b,rag,brooklyn__65__crop_001,brooklyn,HARDEE,amenity=fast_food,New Hardee,amenity=fast_food,5,0
+gemma3:12b,rag,brooklyn__66__crop_001,brooklyn,DELI,shop=convenience,DELI,shop=convenience,5,0
+gemma3:12b,rag,brooklyn__66__crop_002,brooklyn,MOZEB,shop=supermarket,MOZEB,shop=convenience,5,0
+gemma3:12b,rag,brooklyn__68__crop_001,brooklyn,UNISEX SALON,shop=hairdresser,HaiUNISEX SALON,shop=hairdresser,5,0
+gemma3:12b,rag,brooklyn__68__crop_002,brooklyn,Franklin Eyecare,amenity=clinic,Franklin Eyecare,shop=optician,5,0
+gemma3:12b,rag,brooklyn__69__crop_001,brooklyn,AMY UNIQUE NAILS INC,shop=beauty,AMY UNIQUE NAILS,shop=beauty,5,0
+gemma3:12b,rag,brooklyn__69__crop_002,brooklyn,SMOK SHOP,shop=smoke_shop,SHOP,shop=convenience,5,0
+gemma3:12b,rag,brooklyn__69__crop_003,brooklyn,Lemon Grass,amenity=restaurant,LemonGrass,amenity=restaurant,5,1
+gemma3:12b,rag,brooklyn__70__crop_001,brooklyn,JUICY KING CRAB,amenity=fast_food,JUICY KING CRAB,amenity=restaurant,5,0
+gemma3:12b,rag,brooklyn__70__crop_002,brooklyn,JUICY KING CRAB,amenity=fast_food,YKING,amenity=fast_food,5,0
+gemma3:12b,rag,brooklyn__71__crop_001,brooklyn,NAILS,shop=beauty,Golden7,shop=beauty,5,0
+gemma3:12b,rag,brooklyn__73__crop_001,brooklyn,POPEYES,amenity=fast_food,POPeYeS,amenity=fast_food,5,1
+gemma3:12b,rag,brooklyn__73__crop_002,brooklyn,SuperFoodtown,shop=supermarket,SuperFoodtown,shop=supermarket,5,0
+gemma3:12b,rag,brooklyn__75__crop_001,brooklyn,NEXT LEVEL Fashions,shop=clothes,NEXT LEVEL,shop=hardware,5,1
+gemma3:12b,rag,brooklyn__75__crop_002,brooklyn,Modern Nails,shop=beauty,Hodan Jaills,shop=bakery,5,1
+gemma3:12b,rag,brooklyn__76__crop_001,brooklyn,Modern Nails,shop=beauty,Modern Nails,shop=beauty,5,1
+gemma3:12b,rag,brooklyn__77__crop_001,brooklyn,Modern Nails,shop=beauty,Modern Nails,shop=beauty,5,1
+gemma3:12b,rag,brooklyn__77__crop_002,brooklyn,Mini Market,shop=supermarket,Blessed Mini Market,shop=convenience,5,1
+gemma3:12b,rag,brooklyn__78__crop_001,brooklyn,MNS 99 CENTS UP INC,shop=supermarket,"MNS 99 CENTS & UP, INC",shop=convenience,5,0
+gemma3:12b,rag,brooklyn__79__crop_001,brooklyn,HAIR STUDIO,shop=hairdresser,HAIR STUDIO,shop=hairdresser,5,0
+gemma3:12b,rag,brooklyn__80__crop_001,brooklyn,FULTON,amenity=bar,FULTON,amenity=bar,5,0
+gemma3:12b,rag,brooklyn__80__crop_002,brooklyn,Soldier Restaurant Inc,amenity=restaurant,Soldier Restaurant,amenity=restaurant,5,0
+gemma3:12b,rag,brooklyn__80__crop_003,brooklyn,HAIR STUDIO,shop=hairdresser,HAIR STUDIO,shop=hairdresser,5,0
+gemma3:12b,rag,brooklyn__81__crop_001,brooklyn,BEAUTY SUPPLY,shop=beauty,Oumou's,shop=beauty,5,0
+gemma3:12b,rag,brooklyn__83__crop_001,brooklyn,FULTON,amenity=bar,WHISKEYS,amenity=bar,5,0
+gemma3:12b,rag,brooklyn__83__crop_002,brooklyn,A GUSTO,amenity=restaurant,HAT BISTRO,amenity=restaurant,5,1
+gemma3:12b,rag,brooklyn__85__crop_002,brooklyn,LAUNDROMAT,shop=laundry,BE / LAUNDROMAT,shop=laundry,5,1
+gemma3:12b,rag,brooklyn__86__crop_002,brooklyn,Dominos,amenity=fast_food,Domino's,amenity=fast_food,5,1
+gemma3:12b,rag,brooklyn__87__crop_001,brooklyn,DOG DAYCARE,amenity=veterinary,DOG DAYCARE,shop=pet,5,0
+gemma3:12b,rag,brooklyn__88__crop_001,brooklyn,Blooming Brows,shop=beauty,Blooming Brows,shop=beauty,5,0
+gemma3:12b,rag,brooklyn__89__crop_001,brooklyn,Dreamer Nails,shop=beauty,Dreamer Nails,shop=beauty,5,0
+gemma3:12b,rag,brooklyn__8__crop_001,brooklyn,NAILS,shop=beauty,Oachid Salon,shop=hairdresser,5,0
+gemma3:12b,rag,brooklyn__90__crop_001,brooklyn,AR POSTAL MULTISERVICES,amenity=post_office,AR POSTAL & MULTISERVICES,amenity=post_office,5,0
+gemma3:12b,rag,brooklyn__91__crop_001,brooklyn,SOGHO HAIR Salon BRAIDING,shop=hairdresser,Sogho Express African,shop=hairdresser,5,0
+gemma3:12b,rag,brooklyn__92__crop_002,brooklyn,NAIL,shop=beauty,NA,amenity=restaurant,5,0
+gemma3:12b,rag,brooklyn__93__crop_001,brooklyn,BRAIDING STYLING,shop=hairdresser,AMINATA,shop=hairdresser,5,0
+gemma3:12b,rag,brooklyn__94__crop_001,brooklyn,RICKY S,amenity=restaurant,RICKY'S,amenity=restaurant,5,0
+gemma3:12b,rag,brooklyn__94__crop_002,brooklyn,NEW PEOPLES RESTAURANT,amenity=restaurant,NEW PEOPLE'S RESTAURANT,amenity=restaurant,5,0
+gemma3:12b,rag,brooklyn__94__crop_003,brooklyn,HARDWARE,shop=hardware,FULTON HOME CENTER,shop=hardware,5,0
+gemma3:12b,rag,brooklyn__95__crop_001,brooklyn,NEW PEOPLES RESTAURANT,amenity=restaurant,NEW PEOPLE'S RESTAURANT,amenity=restaurant,5,0
+gemma3:12b,rag,brooklyn__95__crop_002,brooklyn,HARDWARE,shop=hardware,WE CUT KEYS,shop=hardware,5,0
+gemma3:12b,rag,brooklyn__96__crop_001,brooklyn,Rockaway GOURMET DELI GRILL,shop=convenience,Rockaway GOURMET DEL & GRILL,amenity=restaurant,5,0
+gemma3:12b,rag,brooklyn__97__crop_001,brooklyn,BEAUTY SUPPLY INC,shop=beauty,K&M,shop=beauty,5,0
+gemma3:12b,rag,brooklyn__97__crop_002,brooklyn,NAILS Inc,shop=beauty,New Pro,shop=beauty,5,0
+gemma3:12b,rag,brooklyn__97__crop_003,brooklyn,Rockaway GOURMET DELI GRILL,shop=convenience,GOURMET DELI & GRILL,shop=convenience,5,0
+gemma3:12b,rag,brooklyn__98__crop_001,brooklyn,BARGAINLAND,shop=supermarket,BARGAINLAND,shop=supermarket,5,1
+gemma3:12b,rag,brooklyn__98__crop_002,brooklyn,BEAUTY SUPPLY INC,shop=beauty,K&M,shop=beauty,5,0
+gemma3:12b,rag,brooklyn__98__crop_003,brooklyn,NAILS Inc,shop=beauty,New Pro,shop=beauty,5,0
+gemma3:12b,rag,brooklyn__99__crop_002,brooklyn,eyes nyc,shop=optician,eyes.nyc,shop=optician,5,1
+gemma3:12b,rag,brooklyn__9__crop_001,brooklyn,JOHN GARDEN,amenity=restaurant,JUHN GARDEN,amenity=restaurant,5,1
+gemma3:12b,rag,gangnam__100__crop_001,gangnam,Chicken,amenity=fast_food,비비큐치킨,amenity=fast_food,5,0
+gemma3:12b,rag,gangnam__10__crop_001,gangnam,HOTEL,tourism=hotel,HOTEL,tourism=hotel,5,0
+gemma3:12b,rag,gangnam__10__crop_002,gangnam,Saboten,amenity=restaurant,THE ORIGINAL SHINJUKU DON IOU,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__11__crop_001,gangnam,LOTTERIA,amenity=fast_food,롯데리아,amenity=fast_food,5,1
+gemma3:12b,rag,gangnam__11__crop_002,gangnam,짚동가리쌩주,amenity=bar,Korean Pub,amenity=bar,5,0
+gemma3:12b,rag,gangnam__12__crop_001,gangnam,럭셔리브라더스,office=company,럭셔리브라더스,office=company,5,0
+gemma3:12b,rag,gangnam__12__crop_002,gangnam,신오약국,amenity=pharmacy,신오,office=company,5,0
+gemma3:12b,rag,gangnam__13__crop_001,gangnam,The Coffee Bean,amenity=cafe,The Coffee Bean,amenity=cafe,5,0
+gemma3:12b,rag,gangnam__17__crop_001,gangnam,MLB,shop=clothes,MLB,unknown,5,0
+gemma3:12b,rag,gangnam__17__crop_002,gangnam,espoir,shop=beauty,espoir,shop=beauty,5,0
+gemma3:12b,rag,gangnam__18__crop_001,gangnam,MLB,shop=clothes,B,amenity=bar,0,0
+gemma3:12b,rag,gangnam__18__crop_002,gangnam,우리은행 강남역지점,amenity=bank,우리은행,amenity=bank,5,0
+gemma3:12b,rag,gangnam__19__crop_001,gangnam,파파스레시피 2F,amenity=restaurant,쭈꾸미불고기전문,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__1__crop_001,gangnam,milk,amenity=karaoke_box,MILK MUSIC TOWN,amenity=cafe,5,0
+gemma3:12b,rag,gangnam__20__crop_001,gangnam,THE PLACE ITALIAN URBAN BISTRO,amenity=restaurant,THE PLACE ITALIAN URBAN BISTRO,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__21__crop_001,gangnam,baskin BR robbins,amenity=ice_cream,baskiN BR robbiNs,amenity=ice_cream,5,0
+gemma3:12b,rag,gangnam__22__crop_001,gangnam,혜화 돌쇠 아저씨,amenity=restaurant,혜화 돌쇠,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__23__crop_001,gangnam,문교동낙지,amenity=restaurant,문교동낙지,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__24__crop_001,gangnam,SUBWAY,amenity=fast_food,SUBWAY,amenity=fast_food,5,1
+gemma3:12b,rag,gangnam__25__crop_001,gangnam,GOLD,,GOLD,shop=clothes,5,0
+gemma3:12b,rag,gangnam__27__crop_001,gangnam,CU,shop=convenience,CU,shop=convenience,5,1
+gemma3:12b,rag,gangnam__28__crop_001,gangnam,THE CAFE 8 6 8,amenity=cafe,THE CAFE,amenity=cafe,5,0
+gemma3:12b,rag,gangnam__29__crop_001,gangnam,라이브 유흥주점,amenity=bar,오페라,amenity=bar,5,0
+gemma3:12b,rag,gangnam__2__crop_001,gangnam,HERRY S COFFEE,amenity=cafe,HERRY'S COFFEE,amenity=cafe,5,0
+gemma3:12b,rag,gangnam__30__crop_001,gangnam,Emoi,amenity=restaurant,Emoi,amenity=restaurant,5,1
+gemma3:12b,rag,gangnam__31__crop_001,gangnam,정통중국요리,amenity=restaurant,최정통주국요리,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__32__crop_001,gangnam,IZAKAYA TAN,amenity=bar,IZAKAYA TAN,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__33__crop_001,gangnam,DUNKIN,shop=bakery,DUNKIN DONUTS,amenity=fast_food,5,1
+gemma3:12b,rag,gangnam__34__crop_001,gangnam,MINI STOP,shop=convenience,미니스톱,shop=convenience,5,0
+gemma3:12b,rag,gangnam__35__crop_001,gangnam,olleh O,shop=mobile_phone,Glleh,shop=mobile_phone,5,0
+gemma3:12b,rag,gangnam__35__crop_002,gangnam,효성해링턴타워,office=building,더 퍼스트,amenity=bar,5,0
+gemma3:12b,rag,gangnam__35__crop_004,gangnam,olleh O,shop=mobile_phone,스학포예스 강남역점,shop=mobile_phone,5,0
+gemma3:12b,rag,gangnam__35__crop_006,gangnam,효성해링턴타워,office=building,더 퍼스트,amenity=bar,5,0
+gemma3:12b,rag,gangnam__37__crop_001,gangnam,eye scream,shop=optician,아이스크림,amenity=ice_cream,5,0
+gemma3:12b,rag,gangnam__38__crop_001,gangnam,CANDLE SOAP,amenity=cafe,CANDLEASOAP,shop=beauty,5,0
+gemma3:12b,rag,gangnam__39__crop_001,gangnam,쭈꾸미불낙,amenity=restaurant,쭈꾸미불낙,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__3__crop_001,gangnam,Yomenya Goemon Japanese Spaghetti,amenity=restaurant,Yomenya Goemon,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__40__crop_001,gangnam,로빈힐,amenity=bar,로빈,office=company,5,0
+gemma3:12b,rag,gangnam__41__crop_001,gangnam,모닝글로리,shop=stationery,모닝클로리,shop=stationery,5,1
+gemma3:12b,rag,gangnam__42__crop_001,gangnam,흑마늘족발 보쌈 순대국,amenity=restaurant,다당흑마늘족발 보쌈 순대국,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__43__crop_001,gangnam,7 ELEVEN,shop=convenience,ELEVEN,shop=convenience,5,1
+gemma3:12b,rag,gangnam__44__crop_001,gangnam,7 ELEVEN,shop=convenience,ELETE,shop=clothes,5,1
+gemma3:12b,rag,gangnam__44__crop_002,gangnam,영 동 껍데기,amenity=restaurant,동보,amenity=restaurant,5,1
+gemma3:12b,rag,gangnam__45__crop_001,gangnam,영동 껍데기 소금구이,amenity=restaurant,영동,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__46__crop_001,gangnam,통돼지찌개집,amenity=restaurant,통돼지김치찌개,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__47__crop_001,gangnam,나주,amenity=restaurant,숙성한우와 나주곰탕,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__48__crop_001,gangnam,FOOD,amenity=restaurant,김밥천국,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__49__crop_001,gangnam,PARIS BAGUETTE,shop=bakery,파리바게뜨,shop=bakery,5,1
+gemma3:12b,rag,gangnam__4__crop_001,gangnam,CASA JOVEN,amenity=bar,CASA JOVEN,amenity=bar,5,0
+gemma3:12b,rag,gangnam__50__crop_001,gangnam,coffeesmith,amenity=cafe,커피스미스,amenity=cafe,5,0
+gemma3:12b,rag,gangnam__51__crop_001,gangnam,GS25,shop=convenience,FriendyFrend,amenity=restaurant,5,1
+gemma3:12b,rag,gangnam__52__crop_001,gangnam,MizMedi Hospital,amenity=clinic,미즈메디 병원,amenity=clinic,5,0
+gemma3:12b,rag,gangnam__54__crop_001,gangnam,EM 학원,amenity=school,ZEM,amenity=school,5,0
+gemma3:12b,rag,gangnam__54__crop_002,gangnam,ZUM 줌,leisure=fitness_centre,필라테스,leisure=fitness_centre,5,0
+gemma3:12b,rag,gangnam__55__crop_001,gangnam,대성,office=estate_agent,대성,office=company,5,1
+gemma3:12b,rag,gangnam__55__crop_002,gangnam,ROYAL KITCHEN,amenity=restaurant,로얄키친,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__55__crop_003,gangnam,로얄키친,amenity=restaurant,로얄키친,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__56__crop_002,gangnam,믿음부동산,office=estate_agent,믿음부동산,office=estate_agent,5,0
+gemma3:12b,rag,gangnam__57__crop_001,gangnam,삼성서점,shop=books,삼성서점,shop=books,5,0
+gemma3:12b,rag,gangnam__57__crop_002,gangnam,솔로몬 공인중개사사무소,office=estate_agent,솔로론 공인중개 사무소,office=estate_agent,5,1
+gemma3:12b,rag,gangnam__58__crop_001,gangnam,VIP 노래방,amenity=karaoke_box,VIP노래방,amenity=karaoke_box,5,0
+gemma3:12b,rag,gangnam__58__crop_002,gangnam,정관장,shop=health_food,정관장흥삼,shop=health_food,5,1
+gemma3:12b,rag,gangnam__59__crop_001,gangnam,메디팜 나리약국,amenity=pharmacy,메디팜나리약국,amenity=pharmacy,5,1
+gemma3:12b,rag,gangnam__59__crop_002,gangnam,VIP 노래방,amenity=karaoke_box,VIP 노래방,amenity=karaoke_box,5,0
+gemma3:12b,rag,gangnam__59__crop_003,gangnam,정관장,shop=health_food,정관장,shop=health_food,5,1
+gemma3:12b,rag,gangnam__5__crop_001,gangnam,MOS BURGER,amenity=fast_food,MOS BURGER,amenity=fast_food,5,0
+gemma3:12b,rag,gangnam__5__crop_003,gangnam,부대찌개,amenity=restaurant,놀부,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__60__crop_001,gangnam,이수정국어 논술,amenity=school,이수정 국어논술,amenity=school,5,0
+gemma3:12b,rag,gangnam__61__crop_001,gangnam,PAIK S COFFEE,amenity=cafe,PAIK'S COFFEE,amenity=cafe,5,1
+gemma3:12b,rag,gangnam__61__crop_002,gangnam,MINI STOP,shop=convenience,MINI STOP,shop=convenience,5,0
+gemma3:12b,rag,gangnam__62__crop_001,gangnam,MINISTOP,shop=convenience,미니스톱,shop=convenience,5,0
+gemma3:12b,rag,gangnam__62__crop_002,gangnam,MINISTOP,shop=convenience,HINI SO,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__63__crop_001,gangnam,MINISTOP,shop=convenience,미니스톱,shop=convenience,5,0
+gemma3:12b,rag,gangnam__64__crop_001,gangnam,SUSHI BROS,amenity=restaurant,SUSHI BROS,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__64__crop_002,gangnam,MINI STOP,shop=convenience,미니스톱,shop=convenience,5,0
+gemma3:12b,rag,gangnam__64__crop_003,gangnam,SIZAK STUDY CAFE,amenity=study_cafe,시작 스터디카페,amenity=study_cafe,5,0
+gemma3:12b,rag,gangnam__65__crop_001,gangnam,빽다방,amenity=cafe,빽다방,amenity=cafe,5,1
+gemma3:12b,rag,gangnam__66__crop_002,gangnam,으뜸 공인중개사,office=estate_agent,으뜸 공인중개사,office=estate_agent,5,0
+gemma3:12b,rag,gangnam__67__crop_001,gangnam,한강 오토바이,shop=motorcycle,한강오토바이,shop=motorcycle,5,1
+gemma3:12b,rag,gangnam__67__crop_002,gangnam,천재 공인중개사,office=estate_agent,천재 공인중개사무소,office=estate_agent,5,0
+gemma3:12b,rag,gangnam__68__crop_001,gangnam,by LYNN,shop=clothes,by LYNN,office=estate_agent,5,0
+gemma3:12b,rag,gangnam__69__crop_001,gangnam,미래향,amenity=restaurant,미래향,amenity=restaurant,5,1
+gemma3:12b,rag,gangnam__6__crop_001,gangnam,HERRY S COFFEE,amenity=cafe,해리스커피,amenity=cafe,5,0
+gemma3:12b,rag,gangnam__70__crop_001,gangnam,병천순대,amenity=restaurant,병천순대,amenity=restaurant,5,1
+gemma3:12b,rag,gangnam__70__crop_002,gangnam,라라감자탕,amenity=restaurant,라라감자탕,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__70__crop_003,gangnam,민속주점,amenity=bar,민속주점,amenity=bar,5,0
+gemma3:12b,rag,gangnam__71__crop_001,gangnam,금초한의원,amenity=clinic,금초한의원,amenity=clinic,5,0
+gemma3:12b,rag,gangnam__71__crop_002,gangnam,맥주창고,amenity=bar,맥주창고,amenity=bar,5,1
+gemma3:12b,rag,gangnam__71__crop_003,gangnam,박지향 Book Cafe,amenity=book_cafe,박지향 BooK Cafe,amenity=book_cafe,5,0
+gemma3:12b,rag,gangnam__71__crop_004,gangnam,강남김밥,amenity=restaurant,강남김밥,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__72__crop_001,gangnam,CU,shop=convenience,CU,shop=convenience,5,1
+gemma3:12b,rag,gangnam__73__crop_001,gangnam,정재용헤어,shop=hairdresser,정재용헤어,shop=hairdresser,5,0
+gemma3:12b,rag,gangnam__73__crop_002,gangnam,by JUNG JAE YONG,shop=hairdresser,HAIR SALON,shop=hairdresser,5,0
+gemma3:12b,rag,gangnam__74__crop_001,gangnam,밥타임,amenity=restaurant,Korean Bob Time,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__74__crop_002,gangnam,MARIAN,shop=bakery,MARIAN,amenity=cafe,5,0
+gemma3:12b,rag,gangnam__75__crop_001,gangnam,함 박 웃 음,amenity=restaurant,함 박 웃음,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__76__crop_001,gangnam,유니에셋,office=estate_agent,강남공인중개사사무소,office=estate_agent,5,0
+gemma3:12b,rag,gangnam__76__crop_002,gangnam,유니에셋,office=estate_agent,유니에셋,office=estate_agent,5,0
+gemma3:12b,rag,gangnam__77__crop_001,gangnam,대치래미안,office=estate_agent,대치래미안,office=estate_agent,5,0
+gemma3:12b,rag,gangnam__77__crop_002,gangnam,영광,office=estate_agent,공인중개사 사무소,office=estate_agent,5,0
+gemma3:12b,rag,gangnam__78__crop_001,gangnam,영광,office=estate_agent,공인중개사 사무소,office=estate_agent,5,0
+gemma3:12b,rag,gangnam__78__crop_002,gangnam,리빙인테리어,shop=furniture,리빙인테리어,shop=furniture,5,0
+gemma3:12b,rag,gangnam__79__crop_001,gangnam,GS25,shop=convenience,GS25,shop=convenience,5,1
+gemma3:12b,rag,gangnam__79__crop_002,gangnam,시래기국 깡장보리밥,amenity=restaurant,윤미역직영점,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__7__crop_001,gangnam,Pomato,amenity=restaurant,Pomato,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__7__crop_002,gangnam,딸부자네 불백,amenity=restaurant,암자네불백,amenity=restaurant,5,1
+gemma3:12b,rag,gangnam__7__crop_003,gangnam,7 ELEVEN,shop=convenience,ELEVEN,shop=convenience,5,1
+gemma3:12b,rag,gangnam__80__crop_001,gangnam,GS25,shop=convenience,GS25,shop=convenience,5,1
+gemma3:12b,rag,gangnam__81__crop_001,gangnam,GS25,shop=convenience,GS25,shop=convenience,5,1
+gemma3:12b,rag,gangnam__81__crop_002,gangnam,시래기국 깡장보리밥,amenity=restaurant,계몽돈까스,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__82__crop_001,gangnam,김영희 동태찜 코다리냉면,amenity=restaurant,김영희,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__83__crop_001,gangnam,김영희 동태찜 코다리냉면,amenity=restaurant,김영희,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__84__crop_001,gangnam,상품권닷컴,office=company,로또,shop=lottery,5,0
+gemma3:12b,rag,gangnam__84__crop_002,gangnam,Pasta Dough,amenity=restaurant,BstaoDough,shop=bakery,5,0
+gemma3:12b,rag,gangnam__85__crop_001,gangnam,상품권닷컴,office=company,로또,shop=lottery,5,0
+gemma3:12b,rag,gangnam__85__crop_002,gangnam,Pasta Dough,amenity=restaurant,ZUT,shop=hairdresser,5,0
+gemma3:12b,rag,gangnam__85__crop_003,gangnam,카츠젠,amenity=restaurant,카추젠,amenity=restaurant,5,1
+gemma3:12b,rag,gangnam__86__crop_001,gangnam,부대찌개,amenity=restaurant,대왕,amenity=restaurant,5,0
+gemma3:12b,rag,gangnam__86__crop_002,gangnam,카츠젠,amenity=restaurant,수제돈카초,amenity=restaurant,5,1
+gemma3:12b,rag,gangnam__86__crop_003,gangnam,상품권닷컴,office=company,LOFO,shop=clothes,5,0
+gemma3:12b,rag,gangnam__87__crop_001,gangnam,엠엑스,shop=beauty,에스 M피부과,amenity=clinic,5,0
+gemma3:12b,rag,gangnam__87__crop_002,gangnam,BROZ PUB,amenity=bar,BROZ PUB,amenity=bar,5,0
+gemma3:12b,rag,gangnam__88__crop_001,gangnam,창포,amenity=restaurant,창포,amenity=restaurant,5,1
+gemma3:12b,rag,gangnam__89__crop_001,gangnam,Nice to CU,shop=convenience,Nice to CUD,amenity=cafe,5,0
+gemma3:12b,rag,gangnam__8__crop_002,gangnam,7 ELEVEN,shop=convenience,ELEVEn,shop=convenience,5,1
+gemma3:12b,rag,gangnam__8__crop_003,gangnam,THE FOOT SHOP,shop=beauty,THE FOOT,amenity=bar,5,0
+gemma3:12b,rag,gangnam__90__crop_001,gangnam,Nice to CU,shop=convenience,CU,shop=convenience,5,0
+gemma3:12b,rag,gangnam__90__crop_002,gangnam,필리아 약국,amenity=pharmacy,필리아 약국,amenity=pharmacy,5,0
+gemma3:12b,rag,gangnam__91__crop_001,gangnam,Nice to CU,shop=convenience,CU,shop=convenience,5,0
+gemma3:12b,rag,gangnam__92__crop_001,gangnam,I Nail,shop=beauty,Nal,office=company,5,0
+gemma3:12b,rag,gangnam__94__crop_001,gangnam,CAFFE PIE,amenity=cafe,CAFFE,amenity=cafe,5,0
+gemma3:12b,rag,gangnam__95__crop_001,gangnam,헤어명가,shop=hairdresser,헤어명가,shop=hairdresser,5,1
+gemma3:12b,rag,gangnam__96__crop_001,gangnam,스터디카페 24시,amenity=study_cafe,비에이블,amenity=study_cafe,5,0
+gemma3:12b,rag,gangnam__97__crop_001,gangnam,7,shop=convenience,,unknown,0,0
+gemma3:12b,rag,gangnam__98__crop_001,gangnam,KOREA POST,amenity=post_office,우편취급국,amenity=post_office,5,1
+gemma3:12b,rag,gangnam__99__crop_001,gangnam,워너비,amenity=school,워너비,shop=beauty,5,0
+gemma3:12b,rag,gangnam__9__crop_001,gangnam,초 만 원,amenity=restaurant,Chinese Restaurant,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__100__crop_001,suwon,전주 콩나물국밥,amenity=restaurant,전주콩나물국밥,amenity=restaurant,5,1
+gemma3:12b,rag,suwon__10__crop_001,suwon,7 ELEVEN,shop=convenience,ELEVEn,shop=convenience,5,1
+gemma3:12b,rag,suwon__10__crop_002,suwon,Bur3wa,,BuRgwa.,shop=bakery,5,0
+gemma3:12b,rag,suwon__10__crop_003,suwon,ZOO COFFEE,amenity=cafe,ZOO COFFEE,amenity=cafe,5,0
+gemma3:12b,rag,suwon__11__crop_001,suwon,천사네일,shop=beauty,천사네일,shop=beauty,5,0
+gemma3:12b,rag,suwon__12__crop_001,suwon,JS 미용재료,shop=hairdresser,JS미용재료,shop=beauty,5,0
+gemma3:12b,rag,suwon__13__crop_001,suwon,Chou,shop=bakery,Cake House,shop=bakery,5,0
+gemma3:12b,rag,suwon__13__crop_002,suwon,뼈나라 감자탕,amenity=restaurant,감자탕,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__14__crop_001,suwon,에이스 PC,amenity=internet_cafe,에이스,amenity=bar,5,0
+gemma3:12b,rag,suwon__15__crop_001,suwon,커리어 헤어 디자인,shop=hairdresser,커리어 헤어 디자인,shop=hairdresser,5,0
+gemma3:12b,rag,suwon__16__crop_001,suwon,골드문주차장,amenity=parking,골드문주차장,amenity=parking,5,0
+gemma3:12b,rag,suwon__17__crop_001,suwon,포장마차,amenity=bar,장마치,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__18__crop_001,suwon,삼정세탁,shop=laundry,삼정세탁,shop=laundry,5,0
+gemma3:12b,rag,suwon__19__crop_001,suwon,이지비아,shop=clothes,Total fashion,shop=clothes,5,0
+gemma3:12b,rag,suwon__1__crop_001,suwon,baskin robbins,amenity=ice_cream,baskiN BR robbins,amenity=ice_cream,5,1
+gemma3:12b,rag,suwon__1__crop_002,suwon,SUNS BURGER,shop=florist,SUNS BURGER23,amenity=fast_food,5,0
+gemma3:12b,rag,suwon__20__crop_001,suwon,권약국,amenity=pharmacy,권약,amenity=pharmacy,5,0
+gemma3:12b,rag,suwon__20__crop_002,suwon,권약국,amenity=pharmacy,권약국,amenity=pharmacy,5,0
+gemma3:12b,rag,suwon__21__crop_001,suwon,태평갈매기,amenity=restaurant,태평갈매기,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__22__crop_001,suwon,천사강아지,shop=pet,전사강아지,shop=pet,5,0
+gemma3:12b,rag,suwon__23__crop_001,suwon,백학다방,amenity=cafe,백학다방,amenity=cafe,5,0
+gemma3:12b,rag,suwon__25__crop_001,suwon,로맨틱 커피숍,amenity=cafe,로맨틱 커피숍,amenity=cafe,5,0
+gemma3:12b,rag,suwon__25__crop_002,suwon,모범약국,amenity=pharmacy,모범약국,amenity=pharmacy,5,0
+gemma3:12b,rag,suwon__26__crop_001,suwon,조이모텔,tourism=hotel,조이,office=company,5,0
+gemma3:12b,rag,suwon__27__crop_001,suwon,한일통닭,amenity=fast_food,한일통닭,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__28__crop_001,suwon,설미순대국,amenity=restaurant,설미순대국,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__29__crop_001,suwon,MALU HOTEL,tourism=hotel,MALU HOTEL,tourism=hotel,5,0
+gemma3:12b,rag,suwon__2__crop_002,suwon,T WORLD,shop=mobile_phone,공식인중대리점,office=estate_agent,5,0
+gemma3:12b,rag,suwon__2__crop_003,suwon,T WORLD,shop=mobile_phone,WORLD,office=building,5,0
+gemma3:12b,rag,suwon__2__crop_004,suwon,LaLa COIN,amenity=karaoke_box,Lal a COIN,amenity=cafe,5,0
+gemma3:12b,rag,suwon__30__crop_001,suwon,MALU HOTEL,tourism=hotel,GMALU HOTEL,tourism=hotel,5,0
+gemma3:12b,rag,suwon__31__crop_001,suwon,두부해물마을,amenity=restaurant,최가네,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__32__crop_001,suwon,신바람돼지주물럭,amenity=restaurant,신바람돼지주물력,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__33__crop_001,suwon,하우주 스즈키 수원대리점,shop=car_repair,W 하우주 스즈키,shop=motorcycle,5,0
+gemma3:12b,rag,suwon__34__crop_001,suwon,쪽갈비전문점 예감,amenity=restaurant,코런,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__35__crop_001,suwon,용인 전통 순대국,amenity=restaurant,용인 전통 순대국,amenity=restaurant,5,1
+gemma3:12b,rag,suwon__36__crop_001,suwon,대구반야월막창,amenity=restaurant,대구반야월막창,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__36__crop_002,suwon,지하철,amenity=bar,노래하는 포장마차,amenity=bar,5,1
+gemma3:12b,rag,suwon__36__crop_003,suwon,색다른HAIR,shop=hairdresser,색다른 HAIR,shop=hairdresser,5,0
+gemma3:12b,rag,suwon__37__crop_001,suwon,미가락,amenity=restaurant,213,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__37__crop_002,suwon,육회한 남자,amenity=restaurant,육회한 남자,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__39__crop_001,suwon,7형제 감자탕,amenity=restaurant,허데감자랑,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__3__crop_001,suwon,돼랑,amenity=restaurant,돼랑,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__40__crop_001,suwon,BOBOS,amenity=bar,BoBos,amenity=bar,5,0
+gemma3:12b,rag,suwon__40__crop_002,suwon,참한고기,amenity=restaurant,참한고기,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__41__crop_001,suwon,한라돈,amenity=restaurant,한라돈,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__42__crop_001,suwon,BAR \BOBOS,amenity=bar,BoBOS,amenity=bar,5,0
+gemma3:12b,rag,suwon__42__crop_002,suwon,두리아족보쌈,amenity=restaurant,독리아 족보쌈,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__42__crop_003,suwon,아리랑,amenity=restaurant,아리랑 빈태떡,amenity=restaurant,5,1
+gemma3:12b,rag,suwon__43__crop_001,suwon,통큰해물,amenity=restaurant,통큰해물,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__43__crop_002,suwon,미소갈비,amenity=restaurant,미소갈비,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__44__crop_001,suwon,세렌디피티,amenity=cafe,세렌디피티,amenity=cafe,5,1
+gemma3:12b,rag,suwon__45__crop_001,suwon,여왕통골뱅이,amenity=restaurant,여왕통골뱅이,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__45__crop_002,suwon,부부식당,amenity=restaurant,부부식당,amenity=restaurant,5,1
+gemma3:12b,rag,suwon__46__crop_001,suwon,김밥친구,amenity=restaurant,김밥친구,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__46__crop_002,suwon,Day Hair,shop=hairdresser,디자인헤어,shop=hairdresser,5,0
+gemma3:12b,rag,suwon__47__crop_001,suwon,불날개닭발,amenity=restaurant,또두마리,amenity=fast_food,5,0
+gemma3:12b,rag,suwon__47__crop_002,suwon,굿모닝,office=estate_agent,굿모닝 공인중개사소,office=estate_agent,5,0
+gemma3:12b,rag,suwon__48__crop_001,suwon,황소고집,amenity=restaurant,황소고집,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__48__crop_002,suwon,불날개닭발,amenity=restaurant,숯불구이 맛,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__49__crop_001,suwon,세진상사,shop=hardware,세진상사,shop=hardware,5,0
+gemma3:12b,rag,suwon__4__crop_002,suwon,밥 해주는 남자,amenity=restaurant,밥 해주는 남자,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__50__crop_001,suwon,조순헤어샵,shop=hairdresser,조순 헤어샵,shop=hairdresser,5,0
+gemma3:12b,rag,suwon__50__crop_002,suwon,지지베네일,shop=beauty,지지베네일,shop=beauty,5,0
+gemma3:12b,rag,suwon__51__crop_001,suwon,비젼,office=estate_agent,비젼 공인중개사,office=estate_agent,5,0
+gemma3:12b,rag,suwon__52__crop_001,suwon,모나리자,shop=hairdresser,모나리자,shop=hairdresser,5,0
+gemma3:12b,rag,suwon__53__crop_001,suwon,SooChon,amenity=restaurant,수촌치킨,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__54__crop_001,suwon,북촌손만두,amenity=restaurant,부천손반락 수원역1호점,amenity=restaurant,5,1
+gemma3:12b,rag,suwon__55__crop_001,suwon,엽기떡볶이,amenity=fast_food,수원역점,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__57__crop_001,suwon,약,amenity=pharmacy,약,amenity=pharmacy,0,0
+gemma3:12b,rag,suwon__58__crop_001,suwon,BYC,shop=clothes,역전라 BYC 비이어,shop=clothes,5,1
+gemma3:12b,rag,suwon__58__crop_002,suwon,한솥,amenity=restaurant,한솥,amenity=restaurant,5,1
+gemma3:12b,rag,suwon__59__crop_001,suwon,전주콩나루,amenity=restaurant,전주 콩내름,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__59__crop_002,suwon,황금의 집,shop=jewelry,황금,amenity=bar,5,0
+gemma3:12b,rag,suwon__59__crop_003,suwon,남성컷,shop=hairdresser,TATTOO헤나,office=company,5,0
+gemma3:12b,rag,suwon__5__crop_001,suwon,진미치킨,amenity=fast_food,진미치킨,amenity=fast_food,5,0
+gemma3:12b,rag,suwon__5__crop_002,suwon,역전 진미 치킨,amenity=fast_food,역전 진미 치킨,amenity=fast_food,5,0
+gemma3:12b,rag,suwon__60__crop_001,suwon,한빛약국,amenity=pharmacy,한빛약국,amenity=pharmacy,5,0
+gemma3:12b,rag,suwon__60__crop_002,suwon,약,amenity=pharmacy,약,amenity=pharmacy,0,0
+gemma3:12b,rag,suwon__61__crop_001,suwon,전주콩나루,amenity=restaurant,전주콩나물국밥,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__61__crop_002,suwon,전주콩나루 콩나물국밥,amenity=restaurant,황업도우,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__62__crop_001,suwon,권약국,amenity=pharmacy,권약국,amenity=pharmacy,5,0
+gemma3:12b,rag,suwon__62__crop_002,suwon,권약국,amenity=pharmacy,권약,amenity=pharmacy,5,0
+gemma3:12b,rag,suwon__63__crop_001,suwon,산 이 내 린 밥 상 곤드레밥집,amenity=restaurant,곤트레밥집점,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__64__crop_001,suwon,곤드레밥집,amenity=restaurant,곤드러밥집,amenity=restaurant,5,1
+gemma3:12b,rag,suwon__65__crop_001,suwon,대우 마이홈,office=estate_agent,대우 맞이홈,office=estate_agent,5,0
+gemma3:12b,rag,suwon__65__crop_002,suwon,콩미가 손두부,amenity=restaurant,콩이가,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__65__crop_003,suwon,VALE,,VALE,unknown,5,0
+gemma3:12b,rag,suwon__66__crop_001,suwon,대우 마이홈,office=estate_agent,대우 많이홈,office=estate_agent,5,0
+gemma3:12b,rag,suwon__66__crop_002,suwon,VALENTI,shop=clothes,VALENT,amenity=school,5,0
+gemma3:12b,rag,suwon__67__crop_001,suwon,어부돈가,amenity=restaurant,어부돈가,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__68__crop_001,suwon,VALENTI,shop=clothes,VALENT편집산,unknown,5,0
+gemma3:12b,rag,suwon__69__crop_001,suwon,신성 자동차 정비,shop=car_repair,신정지동지정비,shop=car_repair,5,0
+gemma3:12b,rag,suwon__70__crop_001,suwon,신성공업사,shop=car_repair,신성공업사,shop=car_repair,5,0
+gemma3:12b,rag,suwon__70__crop_002,suwon,신성,shop=car_repair,,unknown,0,0
+gemma3:12b,rag,suwon__71__crop_001,suwon,참숯구이,amenity=restaurant,참숯구이,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__72__crop_001,suwon,골목집,amenity=restaurant,골목집,amenity=restaurant,5,1
+gemma3:12b,rag,suwon__73__crop_001,suwon,해장국 수육,amenity=restaurant,원조,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__73__crop_002,suwon,유치회관,amenity=restaurant,유치회관,amenity=restaurant,5,1
+gemma3:12b,rag,suwon__74__crop_001,suwon,4900냥 순대국,amenity=restaurant,24차,shop=laundry,5,1
+gemma3:12b,rag,suwon__75__crop_001,suwon,교육그룹 정진,amenity=school,정진,amenity=school,5,0
+gemma3:12b,rag,suwon__76__crop_001,suwon,24시 정통마사지,shop=beauty,24시 정통마사지,shop=beauty,5,0
+gemma3:12b,rag,suwon__76__crop_002,suwon,럭셔리 노래팡팡,amenity=karaoke_box,력셔라장,amenity=karaoke_box,5,0
+gemma3:12b,rag,suwon__77__crop_001,suwon,스타일 MOTEL,tourism=hotel,스타,amenity=bar,5,0
+gemma3:12b,rag,suwon__77__crop_002,suwon,스타일,tourism=hotel,,unknown,0,1
+gemma3:12b,rag,suwon__78__crop_001,suwon,모텔 스타일주차장,tourism=hotel,모텔,tourism=hotel,5,0
+gemma3:12b,rag,suwon__79__crop_001,suwon,소원식당,amenity=restaurant,소원식당,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__7__crop_001,suwon,sharalla Brush,shop=clothes,샤랄라,amenity=bar,5,0
+gemma3:12b,rag,suwon__81__crop_001,suwon,시골집,amenity=restaurant,RA,amenity=cafe,5,1
+gemma3:12b,rag,suwon__82__crop_001,suwon,시골집,amenity=restaurant,D시골집,amenity=restaurant,5,1
+gemma3:12b,rag,suwon__83__crop_001,suwon,시온성,amenity=restaurant,시온성,amenity=restaurant,5,1
+gemma3:12b,rag,suwon__83__crop_002,suwon,짱 PC방,amenity=internet_cafe,자PC방,amenity=internet_cafe,5,0
+gemma3:12b,rag,suwon__84__crop_001,suwon,수입 엔틱 가구,shop=furniture,수입 엔틱 가구,shop=furniture,5,0
+gemma3:12b,rag,suwon__85__crop_001,suwon,대게 킹크랩 랍스터,amenity=restaurant,대게나라,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__86__crop_001,suwon,수입 엔틱 가구,shop=furniture,수입 엔틱 가구,shop=furniture,5,0
+gemma3:12b,rag,suwon__86__crop_002,suwon,VERONA,shop=furniture,인탁,office=company,5,0
+gemma3:12b,rag,suwon__87__crop_001,suwon,HOTEL ILMARE,tourism=hotel,HOTEL ILMARE,tourism=hotel,5,0
+gemma3:12b,rag,suwon__89__crop_001,suwon,유료주차장,amenity=parking,P유료주차장,amenity=parking,5,0
+gemma3:12b,rag,suwon__8__crop_001,suwon,경훈약국,amenity=pharmacy,경훈약국,amenity=pharmacy,5,0
+gemma3:12b,rag,suwon__90__crop_001,suwon,Garma Hair,shop=hairdresser,Sarma Hair,shop=hairdresser,5,0
+gemma3:12b,rag,suwon__91__crop_001,suwon,부안 바지락촌,amenity=restaurant,부안바지라촌,amenity=restaurant,5,1
+gemma3:12b,rag,suwon__92__crop_001,suwon,신촌옥 설렁탕 해장국,amenity=restaurant,본신촌옥설링탕 해장국,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__93__crop_002,suwon,PREMIUM MULTI SHOP,shop=clothes,프리미엄멀티샵,shop=supermarket,5,0
+gemma3:12b,rag,suwon__94__crop_001,suwon,라미 웨딩쥬얼리,shop=beauty,라미 웨당쥬얼리,shop=jewelry,5,0
+gemma3:12b,rag,suwon__96__crop_001,suwon,르노삼성자동차 인계점,shop=car_repair,르노삼성자릉차 인계점,shop=car_repair,5,0
+gemma3:12b,rag,suwon__97__crop_001,suwon,어구미,amenity=restaurant,본점,amenity=pharmacy,5,1
+gemma3:12b,rag,suwon__98__crop_001,suwon,어구미,amenity=restaurant,술합번20,amenity=bar,5,1
+gemma3:12b,rag,suwon__99__crop_001,suwon,RESTAURANT,amenity=restaurant,Googo,amenity=restaurant,5,0
+gemma3:12b,rag,suwon__9__crop_001,suwon,ISaac,amenity=fast_food,이삭 토스트,amenity=restaurant,5,0

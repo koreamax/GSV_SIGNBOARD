@@ -1,0 +1,174 @@
+Architecture:
+  Decoder:
+    name: RCTCDecoder
+  Encoder:
+    depths:
+    - 6
+    - 6
+    - 6
+    dims:
+    - 128
+    - 256
+    - 384
+    feat2d: true
+    last_stage: false
+    local_k:
+    - - 5
+      - 5
+    - - 5
+      - 5
+    - - -1
+      - -1
+    mixer:
+    - - Conv
+      - Conv
+      - Conv
+      - Conv
+      - Conv
+      - Conv
+    - - Conv
+      - Conv
+      - FGlobal
+      - Global
+      - Global
+      - Global
+    - - Global
+      - Global
+      - Global
+      - Global
+      - Global
+      - Global
+    name: SVTRv2LNConvTwo33
+    num_heads:
+    - 4
+    - 8
+    - 12
+    sub_k:
+    - - 1
+      - 1
+    - - 2
+      - 1
+    - - -1
+      - -1
+    use_pos_embed: false
+  Transform: null
+  algorithm: SVTRv2
+  model_type: rec
+Eval:
+  dataset:
+    data_dir_list:
+    - C:/Users/DANHA/anaconda3/envs/GSV_YOLO_OCR/main/artifacts/str_baselines/parseq_data/test/line
+    ds_width: true
+    name: RatioDataSetTVResize
+    padding: false
+    transforms:
+    - DecodeImagePIL:
+        img_mode: RGB
+    - CTCLabelEncode:
+        character_dict_path: C:/Users/DANHA/anaconda3/envs/GSV_YOLO_OCR/main/artifacts/str_baselines/dict/korean_v5_plus.txt
+        max_text_length: 25
+        use_space_char: true
+    - KeepKeys:
+        keep_keys:
+        - image
+        - label
+        - length
+  loader:
+    batch_size_per_card: 128
+    drop_last: false
+    max_ratio: 12
+    num_workers: 0
+    shuffle: false
+  sampler:
+    divided_factor:
+    - 4
+    - 16
+    first_bs: 128
+    fix_bs: false
+    is_training: false
+    name: RatioSampler
+    scales:
+    - - 128
+      - 32
+Global:
+  cal_metric_during_train: true
+  character_dict_path: C:/Users/DANHA/anaconda3/envs/GSV_YOLO_OCR/main/artifacts/str_baselines/dict/korean_v5_plus.txt
+  checkpoints: null
+  device: gpu
+  epoch_num: 20
+  eval_batch_step:
+  - 0
+  - 100000
+  eval_epoch_step:
+  - 0
+  - 1
+  infer_img: null
+  log_smooth_window: 20
+  max_text_length: 25
+  output_dir: C:/Users/DANHA/anaconda3/envs/GSV_YOLO_OCR/main/artifacts/str_baselines/svtrv2/
+  pretrained_model: C:/Users/DANHA/anaconda3/envs/GSV_YOLO_OCR/main/artifacts/str_baselines/svtrv2/best.pth
+  print_batch_step: 50
+  save_epoch_step:
+  - 25
+  - 1
+  save_res_path: C:/Users/DANHA/anaconda3/envs/GSV_YOLO_OCR/main/artifacts/str_baselines/svtrv2/predicts.txt
+  use_amp: true
+  use_space_char: true
+  use_tensorboard: false
+LRScheduler:
+  cycle_momentum: false
+  name: OneCycleLR
+  warmup_epoch: 1.5
+Loss:
+  name: CTCLoss
+  zero_infinity: true
+Metric:
+  is_filter: false
+  main_indicator: acc
+  name: RecMetric
+Optimizer:
+  filter_bias_and_bn: true
+  lr: 0.0002
+  name: AdamW
+  weight_decay: 0.05
+PostProcess:
+  character_dict_path: C:/Users/DANHA/anaconda3/envs/GSV_YOLO_OCR/main/artifacts/str_baselines/dict/korean_v5_plus.txt
+  name: CTCLabelDecode
+  use_space_char: true
+Train:
+  dataset:
+    data_dir_list:
+    - C:/Users/DANHA/anaconda3/envs/GSV_YOLO_OCR/main/artifacts/str_baselines/parseq_data/train/real
+    ds_width: true
+    name: RatioDataSetTVResize
+    padding: false
+    transforms:
+    - DecodeImagePIL:
+        img_mode: RGB
+    - PARSeqAugPIL: null
+    - CTCLabelEncode:
+        character_dict_path: C:/Users/DANHA/anaconda3/envs/GSV_YOLO_OCR/main/artifacts/str_baselines/dict/korean_v5_plus.txt
+        max_text_length: 25
+        use_space_char: true
+    - KeepKeys:
+        keep_keys:
+        - image
+        - label
+        - length
+  loader:
+    batch_size_per_card: 128
+    drop_last: true
+    max_ratio: 12
+    num_workers: 0
+    shuffle: true
+  sampler:
+    divided_factor:
+    - 4
+    - 16
+    first_bs: 128
+    fix_bs: false
+    is_training: true
+    name: RatioSampler
+    scales:
+    - - 128
+      - 32

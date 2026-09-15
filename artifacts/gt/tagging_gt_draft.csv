@@ -1,0 +1,412 @@
+image_name,region,gt_text,draft_name,draft_tag,matched_kw,confidence
+gangnam__100__crop_001,gangnam,BBQ \nChicken\n비비큐치킨\n###,Chicken,amenity=fast_food,치킨,4
+gangnam__10__crop_001,gangnam,HOTEL\n###,HOTEL,tourism=hotel,hotel,3
+gangnam__10__crop_002,gangnam,Saboten\n###,Saboten,,,1
+gangnam__11__crop_001,gangnam,LOTTERIA\n롯데리아\n###,LOTTERIA,amenity=fast_food,롯데리아,4
+gangnam__11__crop_002,gangnam,짚동가리쌩주\n###,짚동가리쌩주,,,1
+gangnam__12__crop_001,gangnam,럭셔리브라더스\n###,럭셔리브라더스,,,1
+gangnam__12__crop_002,gangnam,신오약국\n###,신오약국,amenity=pharmacy,약국,3
+gangnam__13__crop_001,gangnam,The Coffee Bean\n###,The Coffee Bean,amenity=cafe,coffee,3
+gangnam__17__crop_001,gangnam,MLB,MLB,,,1
+gangnam__17__crop_002,gangnam,espoir,espoir,,,1
+gangnam__18__crop_001,gangnam,MLB,MLB,,,1
+gangnam__18__crop_002,gangnam,우리은행\n강남역지점\n###,강남역지점,amenity=bank,은행,4
+gangnam__19__crop_001,gangnam,파파스레시피 2F\n###,파파스레시피 2F,,,1
+gangnam__1__crop_001,gangnam,milk\n###,milk,,,1
+gangnam__20__crop_001,gangnam,THE \nPLACE\nITALIAN URBAN BISTRO,ITALIAN URBAN BISTRO,,,2
+gangnam__21__crop_001,gangnam,baskin BR robbins,baskin BR robbins,amenity=ice_cream,baskin,3
+gangnam__22__crop_001,gangnam,혜화 돌쇠\n아저씨\n고르곤 졸라 피자,고르곤 졸라 피자,,,2
+gangnam__23__crop_001,gangnam,문교동낙지\n###,문교동낙지,,,1
+gangnam__24__crop_001,gangnam,SUBWAY,SUBWAY,amenity=fast_food,subway,3
+gangnam__25__crop_001,gangnam,GOLD,GOLD,,,1
+gangnam__27__crop_001,gangnam,CU\n###,CU,shop=convenience,cu,3
+gangnam__28__crop_001,gangnam,THE CAFE 8 6 8\n###,THE CAFE 8 6 8,amenity=cafe,cafe,3
+gangnam__29__crop_001,gangnam,opera\n오페라\n라이브 유흥주점,라이브 유흥주점,,,2
+gangnam__2__crop_001,gangnam,HERRY S COFFEE\n###,HERRY S COFFEE,amenity=cafe,coffee,3
+gangnam__30__crop_001,gangnam,Emoi\n###,Emoi,,,1
+gangnam__31__crop_001,gangnam,정통중국요리\n###,정통중국요리,,,1
+gangnam__32__crop_001,gangnam,IZAKAYA TAN\n###,IZAKAYA TAN,,,1
+gangnam__33__crop_001,gangnam,DUNKIN\nDONUTS\n###,DUNKIN,amenity=cafe,dunkin,4
+gangnam__34__crop_001,gangnam,MINI STOP\n###,MINI STOP,,,1
+gangnam__35__crop_001,gangnam,olleh O,olleh O,,,1
+gangnam__35__crop_002,gangnam,강남역 \n효성해링턴타워\n###,효성해링턴타워,,,2
+gangnam__35__crop_004,gangnam,olleh O\n###,olleh O,,,1
+gangnam__35__crop_006,gangnam,강남역 \n효성해링턴타워\n###,효성해링턴타워,,,2
+gangnam__37__crop_001,gangnam,eye scream\n아이스크림안경\n###,eye scream,shop=optician,안경,4
+gangnam__38__crop_001,gangnam,CANDLE SOAP\n###,CANDLE SOAP,,,1
+gangnam__39__crop_001,gangnam,쭈꾸미불낙,쭈꾸미불낙,,,1
+gangnam__3__crop_001,gangnam,Yomenya Goemon\nJapanese Spaghetti\n###,Japanese Spaghetti,,,2
+gangnam__40__crop_001,gangnam,로빈힐\nBEER 생맥주\n###,BEER 생맥주,amenity=bar,beer,4
+gangnam__41__crop_001,gangnam,모닝글로리\n###,모닝글로리,,,1
+gangnam__42__crop_001,gangnam,이\n흑마늘족발 보쌈 순대국\n당\n###,흑마늘족발 보쌈 순대국,amenity=restaurant,보쌈,4
+gangnam__43__crop_001,gangnam,7\nELEVEN,ELEVEN,shop=convenience,eleven,4
+gangnam__44__crop_001,gangnam,7\nELEVEN,ELEVEN,shop=convenience,eleven,4
+gangnam__44__crop_002,gangnam,100 국내산 1등급 생고기 \n영\n껍데기\n동\n###,100 국내산 1등급 생고기,,,2
+gangnam__45__crop_001,gangnam,영동\n100 국내산 1등급 생고기\n껍데기 소금구이,100 국내산 1등급 생고기,,,2
+gangnam__46__crop_001,gangnam,통돼지찌개집\n###,통돼지찌개집,amenity=restaurant,찌개,3
+gangnam__47__crop_001,gangnam,나주\n###,나주,,,1
+gangnam__48__crop_001,gangnam,FOOD\nCAFE\n###,FOOD,amenity=cafe,cafe,4
+gangnam__49__crop_001,gangnam,PARIS BAGUETTE\n###,PARIS BAGUETTE,,,1
+gangnam__4__crop_001,gangnam,CASA \nJOVEN\n###,JOVEN,,,2
+gangnam__50__crop_001,gangnam,coffeesmith\n커피스미스,coffeesmith,amenity=cafe,커피,4
+gangnam__51__crop_001,gangnam,GS25,GS25,shop=convenience,gs25,3
+gangnam__52__crop_001,gangnam,미즈메디 병원\nMizMedi Hospital,MizMedi Hospital,amenity=clinic,병원,4
+gangnam__54__crop_001,gangnam,EM 학원\n###,EM 학원,amenity=school,학원,3
+gangnam__54__crop_002,gangnam,ZUM 줌\n필라테스 \n플라잉 요가\n###,플라잉 요가,leisure=fitness_centre,요가,4
+gangnam__55__crop_001,gangnam,대성\nSince 1985\n대치본점\n###,Since 1985,,,2
+gangnam__55__crop_002,gangnam,ROYAL KITCHEN\n###,ROYAL KITCHEN,amenity=restaurant,kitchen,3
+gangnam__55__crop_003,gangnam,로얄키친\n###,로얄키친,,,1
+gangnam__56__crop_001,gangnam,홍어삼합 생선구이\n생선조림 갈치조림\n해남세발낙지\n###,홍어삼합 생선구이,,,2
+gangnam__56__crop_002,gangnam,부동산 법률중개사\n믿음부동산 \n공인중개사 \n사무소\n###,부동산 법률중개사,office=estate_agent,부동산,4
+gangnam__57__crop_001,gangnam,대\n삼성서점\n치\n###,삼성서점,shop=books,서점,4
+gangnam__57__crop_002,gangnam,솔로몬\n공인중개사사무소\n###,공인중개사사무소,office=estate_agent,공인중개,4
+gangnam__58__crop_001,gangnam,VIP\n노래방,VIP,amenity=karaoke_box,노래방,4
+gangnam__58__crop_002,gangnam,정관장\n홍삼\n###,정관장,,,2
+gangnam__59__crop_001,gangnam,메디팜 나리약국\n###,메디팜 나리약국,amenity=pharmacy,약국,3
+gangnam__59__crop_002,gangnam,VIP\n노래방,VIP,amenity=karaoke_box,노래방,4
+gangnam__59__crop_003,gangnam,정관장\n###,정관장,,,1
+gangnam__5__crop_001,gangnam,MOS BURGER\n###,MOS BURGER,,,1
+gangnam__5__crop_003,gangnam,놀부 \n부대찌개\n###,부대찌개,amenity=restaurant,찌개,4
+gangnam__60__crop_001,gangnam,이수정국어 논술\n###,이수정국어 논술,,,1
+gangnam__61__crop_001,gangnam,PAIK S COFFEE\n###,PAIK S COFFEE,amenity=cafe,coffee,3
+gangnam__61__crop_002,gangnam,MINI STOP\n###,MINI STOP,,,1
+gangnam__62__crop_001,gangnam,MINISTOP\n###,MINISTOP,,,1
+gangnam__62__crop_002,gangnam,MINISTOP\n###,MINISTOP,,,1
+gangnam__63__crop_001,gangnam,MINISTOP\n###,MINISTOP,,,1
+gangnam__64__crop_001,gangnam,SUSHI BROS\n###,SUSHI BROS,amenity=restaurant,sushi,3
+gangnam__64__crop_002,gangnam,MINI STOP\n###,MINI STOP,,,1
+gangnam__64__crop_003,gangnam,SIZAK STUDY CAFE\n###,SIZAK STUDY CAFE,amenity=cafe,cafe,3
+gangnam__65__crop_001,gangnam,빽다방\n###,빽다방,amenity=cafe,빽다방,3
+gangnam__66__crop_002,gangnam,으뜸 \n공인중개사\n###,공인중개사,office=estate_agent,공인중개,4
+gangnam__67__crop_001,gangnam,한강 오토바이\n###,한강 오토바이,,,1
+gangnam__67__crop_002,gangnam,천재 \n공인중개사\n###,공인중개사,office=estate_agent,공인중개,4
+gangnam__68__crop_001,gangnam,by LYNN\n###,by LYNN,,,1
+gangnam__69__crop_001,gangnam,미래향\n정통중화요리,정통중화요리,amenity=restaurant,중화,4
+gangnam__6__crop_001,gangnam,HERRY S COFFEE\n###,HERRY S COFFEE,amenity=cafe,coffee,3
+gangnam__70__crop_001,gangnam,병천순대\n전통음식\n###,병천순대,amenity=restaurant,순대,4
+gangnam__70__crop_002,gangnam,요일\n메뉴\n라라감자탕\n###,라라감자탕,amenity=restaurant,감자탕,4
+gangnam__70__crop_003,gangnam,민속주점\n###,민속주점,,,1
+gangnam__71__crop_001,gangnam,금초한의원\n###,금초한의원,amenity=clinic,의원,3
+gangnam__71__crop_002,gangnam,맥주창고\n###,맥주창고,,,1
+gangnam__71__crop_003,gangnam,박지향 Book Cafe\n###,박지향 Book Cafe,amenity=cafe,cafe,3
+gangnam__71__crop_004,gangnam,강남김밥\n###,강남김밥,,,1
+gangnam__72__crop_001,gangnam,CU\n###,CU,shop=convenience,cu,3
+gangnam__73__crop_001,gangnam,정재용헤어\n###,정재용헤어,shop=hairdresser,헤어,3
+gangnam__73__crop_002,gangnam,HAIR SALON\nby JUNG JAE YONG\n###,by JUNG JAE YONG,shop=hairdresser,hair,4
+gangnam__74__crop_001,gangnam,밥타임\n###,밥타임,,,1
+gangnam__74__crop_002,gangnam,MARIAN,MARIAN,,,1
+gangnam__75__crop_001,gangnam,함 박 웃 음\n밥 \n분식,함 박 웃 음,amenity=restaurant,분식,4
+gangnam__76__crop_001,gangnam,강남공인중개사무소\n유니에셋\n###,강남공인중개사무소,office=estate_agent,공인중개,4
+gangnam__76__crop_002,gangnam,강남\n공인중개사\n사무소\n유니에셋\n###,공인중개사,office=estate_agent,공인중개,4
+gangnam__77__crop_001,gangnam,대치래미안\n공인중개사사무소\n###,공인중개사사무소,office=estate_agent,공인중개,4
+gangnam__77__crop_002,gangnam,영광\n공인중개사 사무소\n508-8249\n###,공인중개사 사무소,office=estate_agent,공인중개,4
+gangnam__78__crop_001,gangnam,영광 \n공인중개사사무소\n###,공인중개사사무소,office=estate_agent,공인중개,4
+gangnam__78__crop_002,gangnam,리빙인테리어\n###,리빙인테리어,shop=furniture,인테리어,3
+gangnam__79__crop_001,gangnam,GS25\n###,GS25,shop=convenience,gs25,3
+gangnam__79__crop_002,gangnam,시래기국 깡장보리밥\n###,시래기국 깡장보리밥,,,1
+gangnam__7__crop_001,gangnam,Pomato\n###,Pomato,,,1
+gangnam__7__crop_002,gangnam,딸부자네\n불백\n###,딸부자네,,,2
+gangnam__7__crop_003,gangnam,7\nELEVEN,ELEVEN,shop=convenience,eleven,4
+gangnam__80__crop_001,gangnam,GS25\n###,GS25,shop=convenience,gs25,3
+gangnam__81__crop_001,gangnam,GS25\n###,GS25,shop=convenience,gs25,3
+gangnam__81__crop_002,gangnam,시래기국 깡장보리밥\n계몽돈까스\n###,시래기국 깡장보리밥,amenity=restaurant,돈까스,4
+gangnam__82__crop_001,gangnam,김영희 동태찜 코다리냉면\n###,김영희 동태찜 코다리냉면,amenity=restaurant,냉면,3
+gangnam__83__crop_001,gangnam,김영희 동태찜 코다리냉면\n###,김영희 동태찜 코다리냉면,amenity=restaurant,냉면,3
+gangnam__84__crop_001,gangnam,상품권닷컴\n###,상품권닷컴,,,1
+gangnam__84__crop_002,gangnam,Pasta Dough\n###,Pasta Dough,amenity=restaurant,pasta,3
+gangnam__85__crop_001,gangnam,상품권닷컴\n###,상품권닷컴,,,1
+gangnam__85__crop_002,gangnam,Pasta Dough\n###,Pasta Dough,amenity=restaurant,pasta,3
+gangnam__85__crop_003,gangnam,카츠젠,카츠젠,,,1
+gangnam__86__crop_001,gangnam,대왕\n부대찌개\n###,부대찌개,amenity=restaurant,찌개,4
+gangnam__86__crop_002,gangnam,카츠젠\n###,카츠젠,,,1
+gangnam__86__crop_003,gangnam,상품권닷컴\n###,상품권닷컴,,,1
+gangnam__87__crop_001,gangnam,엠엑스 \nMX \n피부과\n###,엠엑스,shop=beauty,피부,4
+gangnam__87__crop_002,gangnam,세계맥주할인점\nBROZ PUB\n###,세계맥주할인점,amenity=bar,pub,4
+gangnam__88__crop_001,gangnam,창포\n###,창포,,,1
+gangnam__89__crop_001,gangnam,Nice to CU\n###,Nice to CU,shop=convenience,cu,3
+gangnam__8__crop_002,gangnam,7\nELEVEN,ELEVEN,shop=convenience,eleven,4
+gangnam__8__crop_003,gangnam,THE FOOT SHOP\n###,THE FOOT SHOP,,,1
+gangnam__90__crop_001,gangnam,Nice to CU\n###,Nice to CU,shop=convenience,cu,3
+gangnam__90__crop_002,gangnam,필리아 약국\n###,필리아 약국,amenity=pharmacy,약국,3
+gangnam__91__crop_001,gangnam,Nice to CU,Nice to CU,shop=convenience,cu,3
+gangnam__92__crop_001,gangnam,I Nail,I Nail,shop=beauty,nail,3
+gangnam__94__crop_001,gangnam,CAFFE PIE\n###,CAFFE PIE,,,1
+gangnam__95__crop_001,gangnam,헤어명가\n###,헤어명가,shop=hairdresser,헤어,3
+gangnam__96__crop_001,gangnam,비에이블\n스터디카페 24시\n###,스터디카페 24시,amenity=cafe,카페,4
+gangnam__97__crop_001,gangnam,7,,,,0
+gangnam__98__crop_001,gangnam,KOREA POST\n서울대치4동\n우편취급국,KOREA POST,amenity=post_office,post,4
+gangnam__99__crop_001,gangnam,WB \n워너비\n###,워너비,,,2
+gangnam__9__crop_001,gangnam,초 만 원\n###,초 만 원,,,1
+brooklyn__100__crop_001,brooklyn,BARGAINLAND\nDEPARTMENT STORES\n###,DEPARTMENT STORES,amenity=bar,bar,4
+brooklyn__100__crop_002,brooklyn,HIGH\nUNIVERSE\n###,UNIVERSE,,,2
+brooklyn__10__crop_001,brooklyn,SPACE\nAVAILABLE\nMOD\n###,AVAILABLE,,,2
+brooklyn__10__crop_002,brooklyn,ISLAND\nRIBHOUSE\n###,RIBHOUSE,,,2
+brooklyn__11__crop_001,brooklyn,LIT\nTAX\nSOLUTIONS\n###,SOLUTIONS,office=company,tax,4
+brooklyn__12__crop_001,brooklyn,ISLAND\nRIBHOUSE\n###,RIBHOUSE,,,2
+brooklyn__12__crop_002,brooklyn,SPACE\nAVAILABLE\nMOD\n###,AVAILABLE,,,2
+brooklyn__13__crop_001,brooklyn,FOOD WINE GROCER,FOOD WINE GROCER,amenity=restaurant,food,3
+brooklyn__13__crop_002,brooklyn,9ROUND\n30 MIN KICKBOX\n###,30 MIN KICKBOX,leisure=fitness_centre,kickbox,4
+brooklyn__14__crop_002,brooklyn,Hello One Nail Spa\nInc\n###,Hello One Nail Spa,shop=beauty,nail,4
+brooklyn__15__crop_001,brooklyn,9 ROUND\n30 MIN KICKBOX FITNESS,30 MIN KICKBOX FITNESS,leisure=fitness_centre,fitness,4
+brooklyn__15__crop_002,brooklyn,FOOD WINE GROCER\n###,FOOD WINE GROCER,amenity=restaurant,food,3
+brooklyn__16__crop_001,brooklyn,FLY WING E BIKE\n###,FLY WING E BIKE,shop=car_repair,bike,3
+brooklyn__16__crop_002,brooklyn,CAMBRIDGE LEACH INC\n###,CAMBRIDGE LEACH INC,,,1
+brooklyn__16__crop_003,brooklyn,BAJI,BAJI,,,1
+brooklyn__17__crop_001,brooklyn,Hello One Nail Spa\nInc\n###,Hello One Nail Spa,shop=beauty,nail,4
+brooklyn__17__crop_002,brooklyn,STORE FOR RENT\n###,STORE FOR RENT,,,1
+brooklyn__17__crop_003,brooklyn,total\nwireless,wireless,,,2
+brooklyn__18__crop_001,brooklyn,Champion Laundry\nDry Cleaning Service\n###,Dry Cleaning Service,shop=laundry,laundry,4
+brooklyn__18__crop_002,brooklyn,ABC\nBARBER SHOP\n###,BARBER SHOP,amenity=bar,bar,4
+brooklyn__18__crop_003,brooklyn,FLY WING E BIKE\n###,FLY WING E BIKE,shop=car_repair,bike,3
+brooklyn__19__crop_001,brooklyn,total\n###,total,,,1
+brooklyn__1__crop_001,brooklyn,OFF THE GRILL\n###,OFF THE GRILL,amenity=restaurant,grill,3
+brooklyn__20__crop_001,brooklyn,island pops,island pops,,,1
+brooklyn__20__crop_002,brooklyn,EMS ACCOUNTING SERVICE\n###,EMS ACCOUNTING SERVICE,,,1
+brooklyn__21__crop_001,brooklyn,Nostrands Nugs,Nostrands Nugs,,,1
+brooklyn__21__crop_002,brooklyn,4 BROTHERS FOOD CORP\n###,4 BROTHERS FOOD CORP,amenity=restaurant,food,3
+brooklyn__23__crop_001,brooklyn,URBAN\nMARKET BY\n###,MARKET BY,,,2
+brooklyn__24__crop_001,brooklyn,RYERSON\n###,RYERSON,,,1
+brooklyn__25__crop_001,brooklyn,URBAN\nMARKET BY\n###,MARKET BY,,,2
+brooklyn__26__crop_001,brooklyn,RYERSON\n###,RYERSON,,,1
+brooklyn__27__crop_002,brooklyn,SHORTY CANDY\n###,SHORTY CANDY,,,1
+brooklyn__28__crop_001,brooklyn,GALAXY\nBEAUTY SHOP\n###,BEAUTY SHOP,shop=beauty,beauty,4
+brooklyn__29__crop_001,brooklyn,CROWN DISCOUNT STORE 99\n###,CROWN DISCOUNT STORE 99,,,1
+brooklyn__2__crop_001,brooklyn,DUTCH\nCLEANERS\n###,CLEANERS,shop=laundry,cleaners,4
+brooklyn__2__crop_002,brooklyn,VAPE N CLOUD\n573 NOSTRAND AVE\n###,573 NOSTRAND AVE,,,2
+brooklyn__2__crop_003,brooklyn,SPRINT REALTY INC\n###,SPRINT REALTY INC,office=estate_agent,realty,3
+brooklyn__30__crop_002,brooklyn,SHORT CANDY\n###,SHORT CANDY,,,1
+brooklyn__30__crop_003,brooklyn,812 CORP,812 CORP,,,1
+brooklyn__31__crop_001,brooklyn,DELI GRILL\n###,DELI GRILL,shop=convenience,deli,3
+brooklyn__32__crop_001,brooklyn,SALS RESTAURANT\n###,SALS RESTAURANT,amenity=restaurant,restaurant,3
+brooklyn__32__crop_002,brooklyn,EASTERN FRANKLIN\nWINES LIQUORS\n###,EASTERN FRANKLIN,,,2
+brooklyn__32__crop_003,brooklyn,DUNKIN\nDONUTS,DUNKIN,amenity=cafe,dunkin,4
+brooklyn__33__crop_001,brooklyn,Capital One Bank,Capital One Bank,amenity=bank,bank,3
+brooklyn__34__crop_001,brooklyn,Royal Yard Food\n###,Royal Yard Food,amenity=restaurant,food,3
+brooklyn__34__crop_002,brooklyn,800 Candy Juice Bar,800 Candy Juice Bar,amenity=bar,bar,3
+brooklyn__35__crop_001,brooklyn,STARBUCKS COFFEE,STARBUCKS COFFEE,amenity=cafe,starbucks,3
+brooklyn__36__crop_001,brooklyn,EL BARRIO \nBURRITOS\n###,EL BARRIO,amenity=bar,bar,4
+brooklyn__36__crop_002,brooklyn,Nail Salon\n###,Nail Salon,shop=hairdresser,salon,3
+brooklyn__37__crop_001,brooklyn,E MARTIN\nSALES RENTALS\n###,SALES RENTALS,,,2
+brooklyn__37__crop_002,brooklyn,GRILL DELI,GRILL DELI,shop=convenience,deli,3
+brooklyn__38__crop_001,brooklyn,95\nSouth\n###,South,,,2
+brooklyn__38__crop_002,brooklyn,PHARMACY\n###,PHARMACY,,,1
+brooklyn__38__crop_003,brooklyn,95 South\n###,95 South,,,1
+brooklyn__38__crop_004,brooklyn,PHARMACY\n###,PHARMACY,,,1
+brooklyn__3__crop_001,brooklyn,LAUNDROMAT\n###,LAUNDROMAT,,,1
+brooklyn__40__crop_001,brooklyn,SHEER MADNESS,SHEER MADNESS,,,1
+brooklyn__41__crop_001,brooklyn,FRANKLIN EXPRESS\nLAUNDRY CENTER,FRANKLIN EXPRESS,shop=laundry,laundry,4
+brooklyn__42__crop_001,brooklyn,Bagel Pub,Bagel Pub,amenity=bar,pub,3
+brooklyn__44__crop_001,brooklyn,SJ MARKET\n769,SJ MARKET,,,2
+brooklyn__45__crop_001,brooklyn,HAPPY WOK\nCHINESE FOOD EAT IN TAKE OUT\n###,CHINESE FOOD EAT IN TAKE OUT,amenity=restaurant,food,4
+brooklyn__45__crop_002,brooklyn,PROPERTY FOR SALE\n###,PROPERTY FOR SALE,,,1
+brooklyn__46__crop_001,brooklyn,NOOKLYN,NOOKLYN,,,1
+brooklyn__47__crop_001,brooklyn,PROPERTY FOR SALE\n###,PROPERTY FOR SALE,,,1
+brooklyn__47__crop_002,brooklyn,MISC,MISC,,,1
+brooklyn__48__crop_001,brooklyn,RESTAURANT\n###,RESTAURANT,amenity=restaurant,restaurant,3
+brooklyn__48__crop_002,brooklyn,DELI GROCERY\n###,DELI GROCERY,shop=convenience,deli,3
+brooklyn__49__crop_001,brooklyn,enterprise\nrent a car,enterprise,,,2
+brooklyn__49__crop_002,brooklyn,enterprise\nrent a car,enterprise,,,2
+brooklyn__4__crop_001,brooklyn,SuperMarket\nCorp\n###,SuperMarket,shop=supermarket,supermarket,4
+brooklyn__50__crop_001,brooklyn,THE NEW ATLANTIC\nRestaurant\nSPANISH AMERICAN CUISINE\n###,SPANISH AMERICAN CUISINE,shop=convenience,cu,4
+brooklyn__51__crop_001,brooklyn,enterprise\nrent a car,enterprise,,,2
+brooklyn__52__crop_001,brooklyn,StateFarm\n###,StateFarm,,,1
+brooklyn__54__crop_001,brooklyn,R FERRARO\nCOLLISION\n###,COLLISION,,,2
+brooklyn__54__crop_002,brooklyn,CAROUSEL BEVERAGES\n###,CAROUSEL BEVERAGES,,,1
+brooklyn__55__crop_001,brooklyn,MIGHTY QUINNS\n###,MIGHTY QUINNS,tourism=hotel,inn,3
+brooklyn__57__crop_001,brooklyn,CAROUSEL BEVERAGES\n###,CAROUSEL BEVERAGES,,,1
+brooklyn__57__crop_003,brooklyn,Powerplay\n###,Powerplay,,,1
+brooklyn__58__crop_001,brooklyn,Powerplay\n###,Powerplay,,,1
+brooklyn__59__crop_001,brooklyn,NEW MILLENNIUM MOTORS INC\n###,NEW MILLENNIUM MOTORS INC,shop=car_repair,motors,3
+brooklyn__5__crop_001,brooklyn,ROYAL\nBAKERY ROTI\nINC\n###,BAKERY ROTI,shop=bakery,bakery,4
+brooklyn__5__crop_002,brooklyn,Nostrand Gold Dealers\n577\n###,Nostrand Gold Dealers,,,2
+brooklyn__60__crop_001,brooklyn,Powerplay\n###,Powerplay,,,1
+brooklyn__60__crop_004,brooklyn,RISE \nDEVELOPMENT\n###,DEVELOPMENT,,,2
+brooklyn__61__crop_001,brooklyn,DONATO\n###,DONATO,,,1
+brooklyn__61__crop_002,brooklyn,DONATO INC\nPlumbing Heating\n###,Plumbing Heating,,,2
+brooklyn__62__crop_001,brooklyn,DRUG\nSTORE\n###,STORE,,,2
+brooklyn__63__crop_001,brooklyn,FOOD CENTER\n###,FOOD CENTER,amenity=restaurant,food,3
+brooklyn__63__crop_002,brooklyn,GRANDMA\nLAUNDRY CORNER INC,LAUNDRY CORNER INC,shop=laundry,laundry,4
+brooklyn__64__crop_001,brooklyn,BEAUTY SALON\n###,BEAUTY SALON,shop=hairdresser,salon,3
+brooklyn__65__crop_001,brooklyn,HARDEE\n###,HARDEE,,,1
+brooklyn__66__crop_001,brooklyn,DELI\nINC,DELI,shop=convenience,deli,4
+brooklyn__66__crop_002,brooklyn,871\nMOZEB,MOZEB,,,2
+brooklyn__68__crop_001,brooklyn,UNISEX SALON\n###,UNISEX SALON,shop=hairdresser,salon,3
+brooklyn__68__crop_002,brooklyn,Franklin Eyecare\n###,Franklin Eyecare,,,1
+brooklyn__69__crop_001,brooklyn,AMY UNIQUE NAILS INC\nPROFESSIONAL NAIL CARE DESIGNS\n###,PROFESSIONAL NAIL CARE DESIGNS,shop=beauty,nail,4
+brooklyn__69__crop_002,brooklyn,SMOK \nSHOP\n###,SMOK,,,2
+brooklyn__69__crop_003,brooklyn,Lemon\nGrass\nJAMAICAN CUISINE\n###,JAMAICAN CUISINE,shop=convenience,cu,4
+brooklyn__70__crop_001,brooklyn,JUICY KING CRAB\n###,JUICY KING CRAB,,,1
+brooklyn__70__crop_002,brooklyn,JUICY KING CRAB\n###,JUICY KING CRAB,,,1
+brooklyn__71__crop_001,brooklyn,NAILS\n###,NAILS,shop=beauty,nail,3
+brooklyn__73__crop_001,brooklyn,POPEYES,POPEYES,,,1
+brooklyn__73__crop_002,brooklyn,SuperFoodtown,SuperFoodtown,amenity=restaurant,food,3
+brooklyn__75__crop_001,brooklyn,NEXT LEVEL\nFashions\n###,NEXT LEVEL,shop=clothes,fashion,4
+brooklyn__75__crop_002,brooklyn,Modern Nails\n###,Modern Nails,shop=beauty,nail,3
+brooklyn__76__crop_001,brooklyn,Modern Nails\n###,Modern Nails,shop=beauty,nail,3
+brooklyn__77__crop_001,brooklyn,Modern Nails\n###,Modern Nails,shop=beauty,nail,3
+brooklyn__77__crop_002,brooklyn,Mini Market\n###,Mini Market,,,1
+brooklyn__78__crop_001,brooklyn,MNS 99 CENTS UP INC,MNS 99 CENTS UP INC,,,1
+brooklyn__79__crop_001,brooklyn,HAIR STUDIO\n###,HAIR STUDIO,shop=hairdresser,hair,3
+brooklyn__7__crop_001,brooklyn,SPACE AVAILABLE\n###,SPACE AVAILABLE,,,1
+brooklyn__80__crop_001,brooklyn,FULTON\n###,FULTON,,,1
+brooklyn__80__crop_002,brooklyn,Soldier Restaurant Inc\nBuffet\n###,Soldier Restaurant Inc,amenity=restaurant,restaurant,4
+brooklyn__80__crop_003,brooklyn,HAIR STUDIO\n###,HAIR STUDIO,shop=hairdresser,hair,3
+brooklyn__81__crop_001,brooklyn,BEAUTY SUPPLY\n###,BEAUTY SUPPLY,shop=beauty,beauty,3
+brooklyn__83__crop_001,brooklyn,FULTON\n###,FULTON,,,1
+brooklyn__83__crop_002,brooklyn,A GUSTO\n###,A GUSTO,,,1
+brooklyn__85__crop_002,brooklyn,LAUNDROMAT\n###,LAUNDROMAT,,,1
+brooklyn__86__crop_002,brooklyn,Dominos\n###,Dominos,amenity=fast_food,domino,3
+brooklyn__87__crop_001,brooklyn,DOG DAYCARE,DOG DAYCARE,,,1
+brooklyn__88__crop_001,brooklyn,Blooming Brows\n###,Blooming Brows,,,1
+brooklyn__89__crop_001,brooklyn,Dreamer\nNails\n###,Dreamer,shop=beauty,nail,4
+brooklyn__8__crop_001,brooklyn,NAILS\n###,NAILS,shop=beauty,nail,3
+brooklyn__90__crop_001,brooklyn,AR POSTAL MULTISERVICES\n###,AR POSTAL MULTISERVICES,amenity=post_office,post,3
+brooklyn__91__crop_001,brooklyn,SOGHO HAIR Salon BRAIDING\n###,SOGHO HAIR Salon BRAIDING,shop=hairdresser,hair,3
+brooklyn__92__crop_002,brooklyn,NAIL,NAIL,shop=beauty,nail,3
+brooklyn__93__crop_001,brooklyn,AMINATA\nBRAIDING STYLING\n###,BRAIDING STYLING,,,2
+brooklyn__94__crop_001,brooklyn,RICKY S\n###,RICKY S,,,1
+brooklyn__94__crop_002,brooklyn,NEW PEOPLES RESTAURANT\nCHINESE FOOD TO TAKE OUT\n###,NEW PEOPLES RESTAURANT,amenity=restaurant,restaurant,4
+brooklyn__94__crop_003,brooklyn,HARDWARE\n###,HARDWARE,shop=hardware,hardware,3
+brooklyn__95__crop_001,brooklyn,NEW PEOPLES RESTAURANT\nCHINESE FOOD TO TAKE OUT\n###,NEW PEOPLES RESTAURANT,amenity=restaurant,restaurant,4
+brooklyn__95__crop_002,brooklyn,HARDWARE\n###,HARDWARE,shop=hardware,hardware,3
+brooklyn__96__crop_001,brooklyn,Rockaway GOURMET DELI GRILL\n###,Rockaway GOURMET DELI GRILL,shop=convenience,deli,3
+brooklyn__97__crop_001,brooklyn,BEAUTY SUPPLY INC\n###,BEAUTY SUPPLY INC,shop=beauty,beauty,3
+brooklyn__97__crop_002,brooklyn,NAILS Inc\n###,NAILS Inc,shop=beauty,nail,3
+brooklyn__97__crop_003,brooklyn,Rockaway GOURMET DELI GRILL\n###,Rockaway GOURMET DELI GRILL,shop=convenience,deli,3
+brooklyn__98__crop_001,brooklyn,BARGAINLAND\nDEPARTMENT STORES\n###,DEPARTMENT STORES,amenity=bar,bar,4
+brooklyn__98__crop_002,brooklyn,BEAUTY SUPPLY INC\n###,BEAUTY SUPPLY INC,shop=beauty,beauty,3
+brooklyn__98__crop_003,brooklyn,NAILS Inc\n###,NAILS Inc,shop=beauty,nail,3
+brooklyn__99__crop_002,brooklyn,eyes nyc\n###,eyes nyc,,,1
+brooklyn__9__crop_001,brooklyn,JOHN GARDEN\nChinese Food to Take out\n###,Chinese Food to Take out,amenity=restaurant,food,4
+suwon__100__crop_001,suwon,전주 콩나물국밥\n###,전주 콩나물국밥,amenity=restaurant,국밥,3
+suwon__10__crop_001,suwon,7\nELEVEN,ELEVEN,shop=convenience,eleven,4
+suwon__10__crop_002,suwon,Bur3wa,Bur3wa,,,1
+suwon__10__crop_003,suwon,ZOO COFFEE\n###,ZOO COFFEE,amenity=cafe,coffee,3
+suwon__11__crop_001,suwon,천사네일\n###,천사네일,shop=beauty,네일,3
+suwon__12__crop_001,suwon,JS 미용재료\n###,JS 미용재료,,,1
+suwon__13__crop_001,suwon,Chou\nCake House\n###,Cake House,,,2
+suwon__13__crop_002,suwon,뼈나라 감자탕\n###,뼈나라 감자탕,amenity=restaurant,감자탕,3
+suwon__14__crop_001,suwon,에이스 PC\n###,에이스 PC,,,1
+suwon__15__crop_001,suwon,HAIR\nCARE\n커리어 헤어 디자인\n###,커리어 헤어 디자인,shop=hairdresser,헤어,4
+suwon__16__crop_001,suwon,골드문주차장,골드문주차장,amenity=parking,주차,3
+suwon__17__crop_001,suwon,야\n포장마차\n광\n###,포장마차,,,2
+suwon__18__crop_001,suwon,삼정세탁\n###,삼정세탁,shop=laundry,세탁,3
+suwon__19__crop_001,suwon,이지비아\n###,이지비아,,,1
+suwon__1__crop_001,suwon,baskin\nBR\nrobbins,robbins,amenity=ice_cream,baskin,4
+suwon__1__crop_002,suwon,SUNS\nBURGER\n눈꽃빙수\n###,BURGER,shop=florist,꽃,4
+suwon__20__crop_001,suwon,권약국\n###,권약국,amenity=pharmacy,약국,3
+suwon__20__crop_002,suwon,권약국\n###,권약국,amenity=pharmacy,약국,3
+suwon__21__crop_001,suwon,태평갈매기\n###,태평갈매기,,,1
+suwon__22__crop_001,suwon,천사강아지\n###,천사강아지,,,1
+suwon__23__crop_001,suwon,백학다방\n###,백학다방,,,1
+suwon__24__crop_001,suwon,이동통신\n예일음악사\n###,예일음악사,,,2
+suwon__25__crop_001,suwon,로맨틱 커피숍\n###,로맨틱 커피숍,amenity=cafe,커피,3
+suwon__25__crop_002,suwon,모범약국\n###,모범약국,amenity=pharmacy,약국,3
+suwon__26__crop_001,suwon,조이모텔,조이모텔,tourism=hotel,모텔,3
+suwon__27__crop_001,suwon,한일통닭\n호프\n###,한일통닭,amenity=fast_food,닭,4
+suwon__28__crop_001,suwon,설미순대국\n###,설미순대국,amenity=restaurant,순대,3
+suwon__29__crop_001,suwon,MALU HOTEL,MALU HOTEL,tourism=hotel,hotel,3
+suwon__2__crop_002,suwon,T WORLD,T WORLD,,,1
+suwon__2__crop_003,suwon,T WORLD,T WORLD,,,1
+suwon__2__crop_004,suwon,LaLa COIN,LaLa COIN,,,1
+suwon__30__crop_001,suwon,G\nMALU HOTEL\n###,MALU HOTEL,tourism=hotel,hotel,4
+suwon__31__crop_001,suwon,최가네\n두부해물마을\n###,두부해물마을,,,2
+suwon__32__crop_001,suwon,신바람돼지주물럭\n###,신바람돼지주물럭,,,1
+suwon__33__crop_001,suwon,하우주 스즈키 수원대리점\n###,하우주 스즈키 수원대리점,,,1
+suwon__34__crop_001,suwon,쪽갈비전문점\n예감\n###,쪽갈비전문점,amenity=restaurant,갈비,4
+suwon__35__crop_001,suwon,용인\n전통\n순대국\n###,순대국,amenity=restaurant,순대,4
+suwon__36__crop_001,suwon,대구반야월막창\n###,대구반야월막창,,,1
+suwon__36__crop_002,suwon,지하철\n###,지하철,,,1
+suwon__36__crop_003,suwon,색다른HAIR,색다른HAIR,shop=hairdresser,hair,3
+suwon__37__crop_001,suwon,미가락\n###,미가락,,,1
+suwon__37__crop_002,suwon,육회한 남자\n###,육회한 남자,,,1
+suwon__39__crop_001,suwon,7형제 감자탕\n###,7형제 감자탕,amenity=restaurant,감자탕,3
+suwon__3__crop_001,suwon,돼랑\n###,돼랑,,,1
+suwon__40__crop_001,suwon,BAR\nBOBOS,BOBOS,amenity=bar,bar,4
+suwon__40__crop_002,suwon,참한고기,참한고기,,,1
+suwon__41__crop_001,suwon,한라돈\n###,한라돈,,,1
+suwon__42__crop_001,suwon,BAR \BOBOS,BAR \BOBOS,amenity=bar,bar,3
+suwon__42__crop_002,suwon,두리아족보쌈\n###,두리아족보쌈,amenity=restaurant,보쌈,3
+suwon__42__crop_003,suwon,아리랑\n빈대떡\n###,아리랑,,,2
+suwon__43__crop_001,suwon,통큰해물\n###,통큰해물,,,1
+suwon__43__crop_002,suwon,미소갈비,미소갈비,amenity=restaurant,갈비,3
+suwon__44__crop_001,suwon,세렌디피티\n###,세렌디피티,,,1
+suwon__45__crop_001,suwon,여왕통골뱅이\n###,여왕통골뱅이,,,1
+suwon__45__crop_002,suwon,부부식당\n###,부부식당,amenity=restaurant,식당,3
+suwon__46__crop_001,suwon,김밥친구\n###,김밥친구,,,1
+suwon__46__crop_002,suwon,Day Hair\n###,Day Hair,shop=hairdresser,hair,3
+suwon__47__crop_001,suwon,불날개닭발\n###,불날개닭발,amenity=fast_food,닭,3
+suwon__47__crop_002,suwon,굿모닝\n공인중개사 \n사무소\n###,공인중개사,office=estate_agent,공인중개,4
+suwon__48__crop_001,suwon,황소고집\n한우곱창\n###,황소고집,amenity=restaurant,곱창,4
+suwon__48__crop_002,suwon,불날개닭발\n###,불날개닭발,amenity=fast_food,닭,3
+suwon__49__crop_001,suwon,세진상사\n전기\n철물\n건축자재\n###,세진상사,shop=hardware,철물,4
+suwon__4__crop_001,suwon,동태탕\n왕해물찜\n###,왕해물찜,,,2
+suwon__4__crop_002,suwon,밥\n해주는\n남자,해주는,,,2
+suwon__50__crop_001,suwon,조순헤어샵\n###,조순헤어샵,shop=hairdresser,헤어,3
+suwon__50__crop_002,suwon,G G Be\n지지비네일\n###,지지비네일,shop=beauty,네일,4
+suwon__51__crop_001,suwon,비젼 \n공인중개사\n###,공인중개사,office=estate_agent,공인중개,4
+suwon__52__crop_001,suwon,모나리자 \n미용실\n###,모나리자,shop=hairdresser,미용실,4
+suwon__53__crop_001,suwon,SooChon\n###,SooChon,,,1
+suwon__54__crop_001,suwon,북촌손만두\n###,북촌손만두,amenity=restaurant,만두,3
+suwon__55__crop_001,suwon,불닭발\n엽기떡볶이\n###,엽기떡볶이,amenity=fast_food,닭,4
+suwon__56__crop_001,suwon,삼아 주단 이불\n###,삼아 주단 이불,,,1
+suwon__57__crop_001,suwon,약,,,,0
+suwon__58__crop_001,suwon,BYC\n###,BYC,,,1
+suwon__58__crop_002,suwon,한솥\n###,한솥,,,1
+suwon__59__crop_001,suwon,전주콩나루\n콩나물국밥\n###,전주콩나루,amenity=restaurant,국밥,4
+suwon__59__crop_002,suwon,황금의 집\n###,황금의 집,,,1
+suwon__59__crop_003,suwon,남성컷\n###,남성컷,,,1
+suwon__5__crop_001,suwon,진미치킨\n###,진미치킨,amenity=fast_food,치킨,3
+suwon__5__crop_002,suwon,역전 진미 치킨\n###,역전 진미 치킨,amenity=fast_food,치킨,3
+suwon__60__crop_001,suwon,한빛약국,한빛약국,amenity=pharmacy,약국,3
+suwon__60__crop_002,suwon,약,,,,0
+suwon__61__crop_001,suwon,전주콩나루 \n황금의집 \n콩나물국밥\n###,전주콩나루,amenity=restaurant,국밥,4
+suwon__61__crop_002,suwon,전주콩나루 콩나물국밥\n###,전주콩나루 콩나물국밥,amenity=restaurant,국밥,3
+suwon__62__crop_001,suwon,권약국,권약국,amenity=pharmacy,약국,3
+suwon__62__crop_002,suwon,권약국,권약국,amenity=pharmacy,약국,3
+suwon__63__crop_001,suwon,산 이 내 린 밥 상\n곤드레밥집\n###,산 이 내 린 밥 상,,,2
+suwon__64__crop_001,suwon,곤드레밥집\n###,곤드레밥집,,,1
+suwon__65__crop_001,suwon,대우\n마이홈\n###,마이홈,,,2
+suwon__65__crop_002,suwon,콩미가 손두부\n###,콩미가 손두부,,,1
+suwon__65__crop_003,suwon,VALE,VALE,,,1
+suwon__66__crop_001,suwon,대우 마이홈\n###,대우 마이홈,,,1
+suwon__66__crop_002,suwon,VALENTI\n###,VALENTI,,,1
+suwon__67__crop_001,suwon,어부돈가\n###,어부돈가,,,1
+suwon__68__crop_001,suwon,VALENTI\n###,VALENTI,,,1
+suwon__69__crop_001,suwon,신성 자동차 정비\n###,신성 자동차 정비,shop=car_repair,자동차,3
+suwon__70__crop_001,suwon,신성공업사\n###,신성공업사,,,1
+suwon__70__crop_002,suwon,신성,신성,,,1
+suwon__71__crop_001,suwon,참숯구이\n###,참숯구이,,,1
+suwon__72__crop_001,suwon,골목집\n###,골목집,,,1
+suwon__73__crop_001,suwon,원조\n해장국 수육\n###,해장국 수육,,,2
+suwon__73__crop_002,suwon,유치회관\n###,유치회관,,,1
+suwon__74__crop_001,suwon,4900냥\n순대국\n###,4900냥,amenity=restaurant,순대,4
+suwon__75__crop_001,suwon,교육그룹 정진\n###,교육그룹 정진,,,1
+suwon__76__crop_001,suwon,24시 정통마사지\n###,24시 정통마사지,,,1
+suwon__76__crop_002,suwon,럭셔리\n노래팡팡\n지하,노래팡팡,,,2
+suwon__77__crop_001,suwon,스타일\nMOTEL,MOTEL,tourism=hotel,motel,4
+suwon__77__crop_002,suwon,스타일,스타일,,,1
+suwon__78__crop_001,suwon,모텔 스타일주차장,모텔 스타일주차장,tourism=hotel,모텔,3
+suwon__79__crop_001,suwon,소원식당\n기사식당\n###,소원식당,amenity=restaurant,식당,4
+suwon__7__crop_001,suwon,sharalla\nBrush\n###,sharalla,,,2
+suwon__81__crop_001,suwon,시골집\n###,시골집,,,1
+suwon__82__crop_001,suwon,시골집\n###,시골집,,,1
+suwon__83__crop_001,suwon,시온성\n###,시온성,,,1
+suwon__83__crop_002,suwon,짱\nPC방,PC방,amenity=internet_cafe,pc방,4
+suwon__84__crop_001,suwon,수임 엔틱 가구,수임 엔틱 가구,shop=furniture,가구,3
+suwon__85__crop_001,suwon,대게 킹크랩 랍스터\n대 게 나 라 수원점\n###,대게 킹크랩 랍스터,,,2
+suwon__86__crop_001,suwon,수입 엔틱 가구,수입 엔틱 가구,shop=furniture,가구,3
+suwon__86__crop_002,suwon,VERONA\n###,VERONA,,,1
+suwon__87__crop_001,suwon,HOTEL ILMARE,HOTEL ILMARE,tourism=hotel,hotel,3
+suwon__89__crop_001,suwon,유료주차장\n###,유료주차장,amenity=parking,주차,3
+suwon__8__crop_001,suwon,경훈약국,경훈약국,amenity=pharmacy,약국,3
+suwon__90__crop_001,suwon,가르마\nGarma Hair\n###,Garma Hair,shop=hairdresser,hair,4
+suwon__91__crop_001,suwon,부안 바지락촌\n###,부안 바지락촌,,,1
+suwon__92__crop_001,suwon,본\n신촌옥 설렁탕 해장국\n점\n###,신촌옥 설렁탕 해장국,,,2
+suwon__93__crop_002,suwon,PREMIUM MULTI SHOP\n###,PREMIUM MULTI SHOP,,,1
+suwon__94__crop_001,suwon,라미 웨딩쥬얼리\n###,라미 웨딩쥬얼리,,,1
+suwon__96__crop_001,suwon,르노삼성자동차 인계점\n###,르노삼성자동차 인계점,shop=car_repair,자동차,3
+suwon__97__crop_001,suwon,어구미\n###,어구미,,,1
+suwon__98__crop_001,suwon,어구미\n###,어구미,,,1
+suwon__99__crop_001,suwon,RESTAURANT,RESTAURANT,amenity=restaurant,restaurant,3
+suwon__9__crop_001,suwon,ISaac\n###,ISaac,,,1

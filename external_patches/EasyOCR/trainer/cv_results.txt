@@ -1,0 +1,21 @@
+=== FOLD 0 TRAIN START 02:35 ===
+=== FOLD 0 EVAL 04:31 ===
+[INFO] val rows: 15702  device: cuda
+  EasyOCR  CER=0.1592  WER=0.2983  exact_acc=0.7020  (n=15702)
+=== FOLD 1 TRAIN START 04:36 ===
+=== FOLD 1 EVAL 06:45 ===
+[INFO] val rows: 15423  device: cuda
+  EasyOCR  CER=0.1662  WER=0.3040  exact_acc=0.6964  (n=15423)
+=== FOLD 2 TRAIN START 06:50 ===
+=== FOLD 2 EVAL 08:48 ===
+[INFO] val rows: 15740  device: cuda
+  EasyOCR  CER=0.1562  WER=0.2875  exact_acc=0.7127  (n=15740)
+=== FOLD 3 TRAIN START 08:51 ===
+=== FOLD 3 EVAL 09:54 ===
+[INFO] val rows: 15559  device: cuda
+  EasyOCR  CER=0.1608  WER=0.2906  exact_acc=0.7097  (n=15559)
+=== FOLD 4 TRAIN START 09:57 ===
+=== FOLD 4 EVAL 10:59 ===
+[INFO] val rows: 15680  device: cuda
+  EasyOCR  CER=0.1570  WER=0.2923  exact_acc=0.7080  (n=15680)
+=== ALL FOLDS DONE 11:02 ===

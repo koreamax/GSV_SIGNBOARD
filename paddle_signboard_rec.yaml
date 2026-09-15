@@ -1,0 +1,35 @@
+Global:
+  model: korean_PP-OCRv5_mobile_rec
+  mode: train  # check_dataset/train/evaluate/predict
+  dataset_dir: "C:/Users/DANHA/anaconda3/envs/GSV_YOLO_OCR/main/artifacts/ocr_training/signboard_full"
+  device: gpu:0
+  output: "output/paddle_signboard_rec"
+
+CheckDataset:
+  convert:
+    enable: False
+    src_dataset_type: null
+  split:
+    enable: False
+    train_percent: null
+    val_percent: null
+
+Train:
+  epochs_iters: 10
+  batch_size: 64
+  learning_rate: 0.0005
+  pretrain_weight_path: https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/korean_PP-OCRv5_mobile_rec_pretrained.pdparams
+  resume_path: null
+  log_interval: 50
+  eval_interval: 1
+  save_interval: 1
+
+Evaluate:
+  weight_path: "output/paddle_signboard_rec/best_accuracy/best_accuracy.pdparams"
+  log_interval: 1
+
+Predict:
+  batch_size: 1
+  model_dir: "output/paddle_signboard_rec/best_accuracy/inference"
+  kernel_option:
+    run_mode: paddle

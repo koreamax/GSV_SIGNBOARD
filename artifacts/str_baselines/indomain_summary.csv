@@ -1,0 +1,15 @@
+engine,set,n,exact,CER,WER,WAR
+tesseract,test_line,1631,0.2103,0.6023,0.8149,0.2466
+tesseract,test_word,7756,0.3440,0.5710,0.7894,0.3360
+tesseract,test_line,1631,0.2103,0.6023,0.8149,0.2466
+tesseract,test_word,7756,0.3440,0.5710,0.7894,0.3360
+surya_smoke,test_line,64,0.3750,0.5778,0.6871,0.4218
+parseq,test_line,1631,0.6143,0.1529,0.3441,0.6809
+parseq,test_word,7756,0.8920,0.0474,0.1298,0.8849
+paddle,test_line,1631,0.7180,0.1025,0.3363,0.6815
+paddle,test_word,7756,0.8715,0.0701,0.1463,0.8647
+svtrv2,test_line,1631,0.5518,0.1300,0.3522,0.6629
+svtrv2,test_word,7756,0.6567,0.1077,0.3735,0.6450
+svtrv2,test_line,1631,0.7535,0.0807,0.2560,0.7615
+svtrv2,test_word,7756,0.9416,0.0230,0.0775,0.9336
+surya,test_line,1631,0.3642,0.7928,0.8025,0.3619
