@@ -40,3 +40,8 @@ external/
 *.lock
 Thumbs.db
 desktop.ini
+
+# tesseract fine-tune outputs: keep logs/lists, not model binaries
+*.traineddata
+!artifacts/str_baselines/tesseract_ft/
+artifacts/str_baselines/tesseract_ft/tessdata/

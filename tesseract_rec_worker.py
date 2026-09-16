@@ -26,7 +26,12 @@ TESSDATA = TESS_HOME / "share" / "tessdata"
 MIN_H = 48
 
 
+LANG_ALL = None   # --lang-all 지정 시 모든 지역에 이 언어(모델) 하나만 사용 (미세조정 모델용)
+
+
 def lang_for(key: str, en_regions: set[str]) -> str:
+    if LANG_ALL:
+        return LANG_ALL
     region = key.split("::", 1)[0]
     return "eng" if region in en_regions else "kor+eng"
 
@@ -53,7 +58,13 @@ def main() -> None:
     ap.add_argument("--psm", type=int, default=7)
     ap.add_argument("--en-regions", default="brooklyn")
     ap.add_argument("--workers", type=int, default=8)
+    ap.add_argument("--tessdata", default=None, help="tessdata 디렉터리 override (미세조정 traineddata 위치)")
+    ap.add_argument("--lang-all", default=None, help="모든 지역에 단일 언어/모델 사용 (예: kor_signboard)")
     args = ap.parse_args()
+    global TESSDATA, LANG_ALL
+    if args.tessdata:
+        TESSDATA = Path(args.tessdata)
+    LANG_ALL = args.lang_all
     en = {r for r in args.en_regions.split(",") if r}
     items = [json.loads(l) for l in open(args.manifest, encoding="utf-8") if l.strip()]
     tmpdir = Path(tempfile.mkdtemp(prefix="tess_"))

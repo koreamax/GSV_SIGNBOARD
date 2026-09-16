@@ -7,7 +7,7 @@
   artifacts/str_baselines/indomain_summary.csv
 출력:
   artifacts/str_baselines/ocr_baselines_tables.md   (README 붙여넣기용)
-  Desktop/GSV_results_v6.docx                       (v5 복사 + Table 5/6 추가)
+  Desktop/GSV_results_v7.docx                       (v5 복사 + Table 5/6 추가; v6 = Tesseract 미세조정 전)
 Usage: .venv/Scripts/python.exe make_ocr_baselines_report.py [--engines easyocr,trocr,tesseract,surya,parseq,svtrv2,paddle] [--no-docx]
 """
 import argparse
@@ -23,6 +23,7 @@ OUT_MD = HERE / "artifacts" / "str_baselines" / "ocr_baselines_tables.md"
 DESK = Path.home() / "Desktop"
 LABEL = {
     "tesseract": ("Tesseract 5.5 (kor+eng)", "general engine, off-the-shelf"),
+    "tesseract_ft": ("Tesseract 5.5 (kor fine-tuned + eng)", "general engine, fine-tuned, same data"),
     "easyocr": ("EasyOCR (CRNN, fine-tuned v3)", "general engine, per-box"),
     "surya": ("Surya 0.14 (rec2)", "general engine, off-the-shelf"),
     "trocr": ("TrOCR-small (fine-tuned v3)", "document STR, per-box"),
@@ -61,7 +62,7 @@ def cell(r):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--engines", default="tesseract,easyocr,surya,trocr,parseq,svtrv2,paddle1,paddle")
+    ap.add_argument("--engines", default="tesseract,tesseract_ft,easyocr,surya,trocr,parseq,svtrv2,paddle1,paddle")
     ap.add_argument("--no-docx", action="store_true")
     args = ap.parse_args()
     engines = [e for e in args.engines.split(",") if e]
@@ -92,7 +93,7 @@ def main():
     if args.no_docx:
         return
     from docx import Document
-    src, dst = DESK / "GSV_results_v5.docx", DESK / "GSV_results_v6.docx"
+    src, dst = DESK / "GSV_results_v5.docx", DESK / "GSV_results_v7.docx"
     shutil.copy(src, dst); d = Document(dst)
     d.add_paragraph("")
     d.add_paragraph("Table 5. OCR engines on GSV signboard crops by region (line exact / CER / WER)")

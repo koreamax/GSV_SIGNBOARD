@@ -97,7 +97,7 @@ OCR은 **검출기 union + 라인 병합 Paddle(배포, run22 — D20·D21·D23)
 | D14 | **OCR 사전(DB) 구축 + 스냅 1차 측정 (T5)** | OSM POI(지역별 bbox) + train 어휘, 누수 금지 규칙 명문화(`artifacts/ocr_db/DB_RULES.md`). 스냅 효과: **WAR +2.0%p**(0.230→0.251), CER 중립, exact −0.5%p — 한글 퍼지 금지 규칙 도입. 추가 이득은 선택규칙 보정(T7)에 있음 | 4.6 |
 | D15 | **브루클린 영어 전용 엔진 재측정 (run12)** | 영어권 브루클린은 **인식 모델 자체를 영어 전용으로 교체**(EasyOCR english_g2 · TrOCR base-printed · Paddle en_PP-OCRv5_mobile, `--easyocr-langs en`) → 앙상블 **exact 46.7→51.8% / CER 0.383→0.369**, TrOCR exact 16.6→46.2%(한글 v3 모델의 영어 약점 해소). 사전 스냅은 브루클린서 순손실(exact −3.6%p)이라 미적용. 전역 앙상블 **exact 47.0% / CER 0.408** | 4.4 |
 | D16 | **사전 스냅 손상 규명 + 가드 2차 (T5 보완)** | 손상 2대 원인 차단: ① 퍼지가 예측 **끝 1~2자를 삭제**하는 방향 금지(NAILS→NAIL·SALES→SALE·ollehO→olleh는 전부 손상, 복원 방향 ELEVE→ELEVEn은 허용) ② exact-hit 표기 치환 시 **구두점 추가 금지**(Dominos→Domino's — strict 채점에선 지표 중립, 출력 위생). 강남 exact 44.3→**44.8%**(올레 라인 복원), 수원 ±0, 전역 **47.0→47.1%**. 브루클린은 가드 후에도 −2.0%p(51.8→49.7): 잔여 손상은 **실단어→사전 이웃 치환**(SPRINT→SPRING·WINES→Wine-O·E-BIKE→BIKE·LEACH→Peach)으로 이득 케이스(istand→ISLAND·duice→JUICE)와 같은 d=1 치환이라 편집거리 규칙으로 구분 불가 → **raw 유지**. 잔여 exact 개선은 T7(사전을 후보 선택 가점으로) | 4.6 |
-| D35 | **OCR 비교군 확장 — PaddleOCR 동급 인식기 (PARSeq·SVTRv2 미세조정, Tesseract·Surya 기성)** | 논문 비교군 조사(범용 엔진/학술 STR/VLM 3부류) 후 Paddle v5_lines 와 같은 75,612 크롭·같은 분할로 SVTRv2-B(Union14M 초기값)·PARSeq(공식 초기값) 미세조정, GSV 는 검출·라인 병합 동일 조건에서 인식기만 교체. **GSV line exact: SVTRv2 70.6% ≈ PP-OCRv5 69.9%(3-way vote) > PARSeq 62.0% ≫ Surya 40.2% > EasyOCR 38.5% > TrOCR 33.6% > Tesseract 30.6%**; in-domain 은 SVTRv2 가 명확히 우위(단어 94.2 vs 87.2%). → PaddleOCR 선택 근거를 '동급 최상위 + 배포 편의'로 서술. WER 지표 추가. 함정: OpenOCR 배치 패딩이 CTC 끝글자 중복 유발(1장씩 추론으로 해결) | 4.19 |
+| D35 | **OCR 비교군 확장 — PaddleOCR 동급 인식기 (PARSeq·SVTRv2 미세조정, Tesseract·Surya 기성)** | 논문 비교군 조사(범용 엔진/학술 STR/VLM 3부류) 후 Paddle v5_lines 와 같은 75,612 크롭·같은 분할로 SVTRv2-B(Union14M 초기값)·PARSeq(공식 초기값) 미세조정, GSV 는 검출·라인 병합 동일 조건에서 인식기만 교체. **GSV line exact: SVTRv2 70.6% ≈ PP-OCRv5 69.9%(3-way vote) > PARSeq 62.0% ≫ Surya 40.2% > EasyOCR 38.5% > TrOCR 33.6% > Tesseract 30.6%**; in-domain 은 SVTRv2 가 명확히 우위(단어 94.2 vs 87.2%). Tesseract 는 같은 데이터로 미세조정해도 32.9%(→ 아키텍처 한계 확인). → PaddleOCR 선택 근거를 '동급 최상위 + 배포 편의'로 서술. WER 지표 추가. 함정: OpenOCR 배치 패딩이 CTC 끝글자 중복 유발(1장씩 추론으로 해결) | 4.19 |
 | D34 | **텍스트(word) 박스 탐지 hold-out — 4 파이프라인 동일 계열 비교** | OCR 학습데이터 전체(27,132장/78,110 박스, signboard_v3 소스 분할 상속, 섞임 감사 통과)로 4모델 재학습(58h) 후 test 2,706장 단일 채점기 AP@0.5: **YOLO26x 0.822 > YOLOv5x 0.809 > FRCNN 0.715 > EffDet 0.672** (5k 5-fold 대비 +0.07~0.09, 순위 동일). 간판(FRCNN≈YOLO26x)과 달리 텍스트에서는 YOLO 계열이 0.1 이상 앞서 **두 단계 모두 최상위는 YOLO26x 뿐** — 배포 선택 근거. 배포 OCR 의 라인 검출(CRAFT∪DB)과는 단위가 달라 비교 안 함 | 4.18 |
 | D33 | **탐지 fold 누수 규명 + group-aware 재분할·4모델 재학습** | "OOF 가 제일 높다"는 지적에서 출발. 증강→분할 누수는 없었고(파일 증강 0), **같은 가게 간판이 train/val 에 걸친 누수**(val 20.8%, 강남 31%)를 GT 텍스트 대조로 발견. 가게 연결성분 단위 group-aware 5-fold 로 재분할(fold 간 공유 0) 후 4모델 재학습(37.6h). **누수는 mAP 를 부풀리지 않았음**(전 모델 +0.003~+0.040). 대신 **FRCNN(0.878) ≈ YOLO26x(0.872) 로 순위 격차 소멸** — 0.05 미만 차이는 우열 아님. group-aware 분할을 정본으로 채택 | 4.17 |
 | D31 | **연쇄(end-to-end) 측정 — 파이프라인 실제 성능** | 지금까지 OCR·태깅 평가가 전부 **GT 크롭** 기준이라 탐지 손실이 빠져 있었음. OOF 탐지 박스로 동일 전처리 크롭을 다시 만들어 3모듈 전체 재측정: **OCR 연쇄 53.0%** (GT 크롭 78.6%) · **태깅 연쇄 65.6%** (GT 크롭 75.7%). 곱셈 추정(65.5%)보다 실측이 22%p 낮아 **난이도 상관을 실증**. **VLM 하이브리드가 박스 품질 저하를 흡수**(TP 위 정확도가 GT 크롭 기준을 역전: 52.1→64.0 vs 57.8). **허위 POI: FP 124건 중 112건(90%)에 업종 태그가 붙음** — 지도 구축에서 precision이 결정적인 이유. 다음 투자처는 탐지 recall(25.6%p 손실의 전부) | 4.16 |
@@ -1267,7 +1267,8 @@ PP-OCRv5 한국어 사전 11,945자 + 학습에 등장한 전각 문자 32자(`d
 |---|---|---|---|---|---|
 | **SVTRv2-B** (ICCV 2025) | OpenOCR `svtrv2_rctc_signboard.yml` | Union14M-L SVTRv2-B 인코더(분류층 재초기화, `make_svtrv2_pretrained.py`) | h32 가변폭(max_ratio 12) | 20 ep, bs128, AdamW 2e-4 OneCycle, AMP | acc 90.1% (ep20) |
 | **PARSeq** (ECCV 2022) | 공식 repo `train_parseq_signboard.py`(형상 일치 키만 로드) | 공식 parseq(영어 94자) → text_embed/head 재초기화 | 32×128 고정 | 20 ep, bs128, lr 3e-4(×bs/256), 16-mixed | exact 81.7% (ep20) |
-| Tesseract 5.5.3 | conda-forge, kor+eng, `--psm 7` | 기성(학습 도구 미포함 빌드) | 스트립 h≥48 확대 | — | — |
+| Tesseract 5.5.3 | conda-forge, kor+eng, `--psm 7` | 기성 | 스트립 h≥48 확대 | — | — |
+| **Tesseract 미세조정** (kor_signboard) | WSL Ubuntu tesseract 4.1.1 학습 도구(lstmtraining), 추론은 Windows 5.5.3 | `tessdata_best/kor` + 문자표 병합(1,158→1,480자, 영문·한글 310자 추가, 출력층 확장) | 라인 lstmf(WordStr box), 63,301/75,612장 변환 성공 | 16.6만 반복, lr 2e-4, CPU 4h | val2k 문자오류 28.5% / 단어오류 53.7% |
 | Surya 0.14.6 | 별도 venv(transformers 4.51, CPU), rec2 | 기성(학습 코드 비공개) | 스트립 전체 bbox 1개 | — | — |
 
 **측정 조건.** GSV 는 배포 파이프라인과 **검출·라인 병합이 완전히 동일**(CRAFT ∪ PaddleOCR-DB, `run_ocr_line.py --worker …`,
@@ -1280,6 +1281,7 @@ DB 추가 박스 537 / 스트립 1,342 로 전 엔진 일치)하고 인식기만
 | 엔진 | 부류 | 강남 | 브루클린 | 수원 | **전체** | WAR |
 |---|---|---|---|---|---|---|
 | Tesseract 5.5 | 범용 기성 | 34.0% / 0.551 / 1.033 | 42.7% / 0.376 / 1.274 | 13.3% / 0.769 / 1.403 | 30.6% / 0.509 / 1.228 | 0.333 |
+| Tesseract 5.5 (kor **미세조정**+eng) | 범용, 미세조정 | 35.9% / 0.526 / 0.971 | 42.7% / 0.370 / 1.180 | 18.8% / 0.699 / 1.245 | 32.9% / 0.484 / 1.128 | 0.287 |
 | EasyOCR (v3 미세조정, per-box) | 범용 | 37.3% / 0.538 / 1.459 | 43.2% / 0.406 / 2.110 | 34.8% / 0.428 / 1.510 | 38.5% / 0.449 / 1.741 | 0.290 |
 | Surya 0.14 | 범용 기성 | 41.0% / 0.502 / 1.167 | 60.3% / 0.198 / 0.760 | 17.1% / 0.650 / 1.137 | 40.2% / 0.381 / 0.991 | 0.396 |
 | TrOCR-small (v3 미세조정, per-box) | 문서 STR | 26.9% / 0.635 / 1.469 | 46.2% / 0.384 / 2.154 | 27.6% / 0.516 / 1.510 | 33.6% / 0.485 / 1.762 | 0.343 |
@@ -1293,6 +1295,7 @@ DB 추가 박스 537 / 스트립 1,342 로 전 엔진 일치)하고 인식기만
 | 엔진 | test_line (실라인 1,631) | test_word (단어 7,756) |
 |---|---|---|
 | Tesseract 5.5 | 21.0% / 0.602 / 0.815 | 34.4% / 0.571 / 0.789 |
+| Tesseract 5.5 (kor 미세조정+eng) | 24.9% / 0.567 / 0.940 | 42.4% / 0.486 / 0.643 |
 | Surya 0.14 | 36.4% / 0.793 / 0.802 | — (CPU 4h 소요라 생략) |
 | PARSeq | 61.4% / 0.153 / 0.344 | 89.2% / 0.047 / 0.130 |
 | **SVTRv2-B** | **75.3% / 0.081 / 0.256** | **94.2% / 0.023 / 0.077** |
@@ -1309,17 +1312,24 @@ DB 추가 박스 537 / 스트립 1,342 로 전 엔진 일치)하고 인식기만
 3. **범용 기성 엔진(Tesseract 30.6%, Surya 40.2%)은 EasyOCR 수준**입니다. 한글 간판 도메인 데이터 없이 나오는 성능이 이 정도라는
    기준선이며, EasyOCR·TrOCR 가 낮았던 것도 "구세대·타 도메인" 부류의 문제이지 측정 오류가 아닙니다. Surya 는 브루클린(영어)
    에서 60.3% 로 범용 엔진 중 최고.
-4. WER 는 FP 라인 삽입을 세는 규칙 때문에 1 을 넘을 수 있습니다(CER 과 동일 규칙). 표에서는 CER 와 함께 읽어야 합니다.
+4. **Tesseract 는 같은 데이터로 미세조정해도 30.6 → 32.9%(in-domain 단어 34.4 → 42.4%)에 그칩니다.** 문자 오류는 줄지만(0.509 → 0.484)
+   라인 인식기 이전 단계(텍스트 라인 검출)가 간판 크롭의 상당수에서 텍스트를 못 잡아(empty 36/411 라인 동일) 상한이 낮습니다. 즉 EasyOCR·TrOCR·Tesseract 가
+   낮은 것은 학습 부족이 아니라 아키텍처(문서 OCR 전제)의 문제라는 점이 미세조정으로 확인됩니다.
+5. WER 는 FP 라인 삽입을 세는 규칙 때문에 1 을 넘을 수 있습니다(CER 과 동일 규칙). 표에서는 CER 와 함께 읽어야 합니다.
 
 **함정 기록.** ① OpenOCR 추론기의 배치 패딩(`batch_num>1`)은 학습(RatioSampler: 같은 비율끼리 묶음, 패딩 없음)과 달라 CTC 끝에
 글자가 중복됐고('CAFE'→'CAFEE'; 단어 exact 65.7%) — 1장씩 추론으로 수정(94.2%). OpenOCR 자체 평가기(norm-ED 0.976)로 교차 확인.
 ② Windows 에서 OpenOCR DataLoader 워커는 LMDB/증강 함수 pickle 불가 → `num_workers 0` (학습 속도 절반). ③ 학습 중 같은
 GPU 에 검출 작업을 올리면 SVTRv2 가 segfault — GPU 작업은 `run_ocr_baselines_all.sh` 로 완전 직렬화. ④ C: 드라이브가
 두 번 가득 참(pagefile 64GB 팽창, WSL vhdx 138GB) → 체크포인트 0바이트·학습 중단; SVTRv2 는 7에폭 체크포인트에서 재개, PARSeq 는 재학습.
+⑤ Tesseract 미세조정: (a) UB-Mannheim 서버 불통 → WSL Ubuntu apt tesseract 4.1.1 학습 도구 사용(모델 형식은 5.x 와 호환); (b) 4.1 의 `lstm.train` 은 `.gt.txt` 가 아니라
+tesstrain 식 `WordStr` box 파일을 요구(없으면 lstmf 0개, 오류 없음); (c) `combine_lang_model --pass_through_recoder` 로 문자표를 만들면 원본 kor 의 자모 recoder 와 달라
+출력층이 이어지지 않아 1시간 동안 오류율 78% 정체 → recoder 기본값(자모 분해)으로 재생성하니 정상 학습; (d) 새 traineddata 에 `kor.config`(`preserve_interword_spaces 1`)를
+넣지 않으면 Windows Tesseract 5 가 한글 음절마다 띄어 써 WER 1.77 → config 내장 후 0.88. 산출물 `artifacts/str_baselines/tesseract_ft/`(traineddata, lstmtraining 로그, 병합 문자표).
 
 **산출물:** `artifacts/str_baselines/{svtrv2/best.pth, parseq/checkpoints/*.ckpt, indomain_summary.csv, ocr_baselines_tables.md}`,
 GSV 예측 `artifacts/ocr_gt/ocr_<region>_{40 tesseract,41 surya,42 parseq,43 svtrv2,44 paddle}.csv`, 워커 `{tesseract,surya,openocr,parseq}_rec_worker.py`,
-러너 `run_str_baselines.sh` / `run_ocr_baselines_all.sh`, 워드 `Desktop/GSV_results_v6.docx` (Table 5·6).
+러너 `run_str_baselines.sh` / `run_ocr_baselines_all.sh`, 워드 `Desktop/GSV_results_v7.docx` (Table 5·6; v6 = Tesseract 미세조정 전).
 
 ---
 
