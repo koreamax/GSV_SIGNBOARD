@@ -12,6 +12,30 @@ GSV 영상 → ①간판 탐지(Vision) → ②텍스트 인식(OCR) → ③LLM 
 
 ---
 
+## 0.0 저장소 구조 (2026-09-17 재편)
+
+루트에 흩어져 있던 스크립트 100개를 역할별 폴더로 묶었습니다. 모든 스크립트는 **저장소 루트에서** `.venv/Scripts/python.exe <폴더>/<스크립트>.py` 로 실행하며,
+내부 경로(`artifacts/`, `output/`, `external/`)는 루트 기준으로 해석됩니다(`Path(__file__).resolve().parents[1]`). 아래 본문의 스크립트 이름은 재편 전 이름 그대로이므로
+이 표로 위치를 찾으면 됩니다.
+
+| 폴더 | 내용 | 대표 스크립트 |
+|---|---|---|
+| `data/` | GT 변환·크롭 생성·분할(fold) 구축·누수 감사·검수 UI | `audit_split_leakage.py`, `build_line_crops.py`, `build_grouped_folds.py`, `prep_text_det*.py` |
+| `detection/` | 간판/텍스트 박스 탐지 학습·평가 (YOLO, Faster R-CNN, EfficientDet, k-fold·hold-out) | `train_*_kfold.py`, `eval_det_unified.py`, `eval_text_holdout.py`, `e2e_det_boxes.py` |
+| `ocr/` | PaddleOCR·EasyOCR·TrOCR 인식기 학습·A/B, OCR 사전(snap), 초기 OCR 파이프라인 | `train_textinthewild_ocr.py`, `train_paddle_v4_spacecat.py`, `run_ocr_only.py`, `build_ocr_db.py` |
+| `str_baselines/` | OCR 비교군(§4.19): 데이터 준비, SVTRv2·PARSeq 초기값, 엔진별 인식 워커, in-domain 채점, 결과표 | `prep_str_baselines_data.py`, `*_rec_worker.py`, `eval_str_indomain.py`, `make_ocr_baselines_report.py` |
+| `pipeline/` | 배포 파이프라인(라인 병합 OCR)과 GSV 채점, 연쇄(e2e) 평가, FP 필터·앙상블 실험 | `run_ocr_line.py`, `eval_ocr_v2.py`, `eval_e2e_cascade.py`, `ocr_ensemble_select.py` |
+| `vlm/` | 의미 태깅(VLM/LLM) 평가, RAG 상호 사전·검색 | `eval_vlm_tagging.py`, `rag_retrieve.py`, `build_poi_db.py` |
+| `configs/` | PaddleOCR 인식기 학습 설정(yml) | `paddle_signboard_rec_v5_lines.yml` |
+| `scripts/` | 배치 러너(sh) — 루트에서 `bash scripts/xxx.sh` | `run_ocr_baselines_all.sh`, `run_grouped_retrain.sh` |
+| `external_patches/` | 외부 클론(EasyOCR·OpenOCR·parseq)에 가한 수정 diff + 추가 파일 | `README.md`, `UPSTREAM.txt` |
+| `artifacts/` (대부분 git 제외) | GT·평가 CSV(`gt/`), 비교군 결과(`str_baselines/`), 학습 데이터·예측·로그 | `gt/ocr_eval_v2_summary.csv`, `str_baselines/ocr_baselines_tables.md` |
+
+루트의 `data.yaml`(YOLO 데이터셋 정의)과 `*.pt`(Ultralytics 기본 가중치, git 제외)는 경로 의존성 때문에 그대로 둡니다.
+워커를 지정하는 인자는 루트 기준 상대경로로 씁니다(예: `--worker str_baselines/openocr_rec_worker.py`).
+
+---
+
 ## 0. 연구 배경 — 논문 리비전과의 연결
 
 ### 0.1 대상 논문
