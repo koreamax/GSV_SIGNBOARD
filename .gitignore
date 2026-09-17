@@ -45,3 +45,6 @@ desktop.ini
 *.traineddata
 !artifacts/str_baselines/tesseract_ft/
 artifacts/str_baselines/tesseract_ft/tessdata/
+
+# VLM hybrid runs: keep logs/status, not per-crop checkpoints
+artifacts/vlm_probe_*.log

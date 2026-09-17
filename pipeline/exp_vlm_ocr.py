@@ -39,13 +39,29 @@ REGIONS = ["gangnam", "brooklyn", "suwon"]
 DEPLOY_RUN = "24"
 
 
-def ask(model: str, prompt: str, img: Path, timeout=240) -> str:
-    body = {"model": model, "prompt": prompt, "stream": False,
+THINK = False          # Qwen3-VL/Gemma4 의 thinking 모드 — 오프로드 환경에서는 끕니다(--think 로 켬)
+NUM_PREDICT = 400      # 간판 라인 JSON 은 짧음. 폭주(반복 출력) 방지 상한
+NUM_CTX = 8192
+
+
+def ask(model: str, prompt: str, img: Path, timeout=1500) -> str:
+    body = {"model": model, "prompt": prompt, "stream": False, "think": THINK,
+            "keep_alive": "2h",
             "images": [base64.b64encode(img.read_bytes()).decode()],
-            "options": {"temperature": 0}}
-    req = urllib.request.Request(OLLAMA, data=json.dumps(body).encode())
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        return json.loads(r.read())["response"]
+            "options": {"temperature": 0, "num_predict": NUM_PREDICT, "num_ctx": NUM_CTX}}
+    last = None
+    for attempt in range(3):
+        try:
+            b = dict(body)
+            if attempt == 1:            # 구버전 서버/모델이 think 필드를 거부하는 경우
+                b.pop("think", None)
+            req = urllib.request.Request(OLLAMA, data=json.dumps(b).encode())
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return json.loads(r.read())["response"]
+        except Exception as e:          # noqa: BLE001
+            last = e
+            time.sleep(5)
+    raise last
 
 
 def parse_lines(resp: str, fallback: list[str]) -> list[str]:
@@ -186,7 +202,7 @@ def compose(args) -> None:
     for region in REGIONS:
         sfx = "_rag" if args.rag else ""
         # 탐지 크롭(4.16)에는 3모델 후보 파일이 없어 fixcand 대신 fix 를 씁니다.
-        fix_name = "vlmfix" if args.use_fix else "vlmfixcand"
+        fix_name = args.fix_name or ("vlmfix" if args.use_fix else "vlmfixcand")
         fix = E.load_csv_map(OUT_DIR / f"ocr_{region}_{fix_name}{sfx}{args.out_suffix}.csv")
         solo = E.load_csv_map(OUT_DIR / f"ocr_{region}_vlmsolo{args.out_suffix}.csv")
         # GT 크롭 평가는 GT 키를 순회하지만, 탐지 크롭은 GT에 없는 이름이라
@@ -251,9 +267,19 @@ def main() -> None:
     ap.add_argument("--no-score", action="store_true",
                     help="내부 채점 생략. 탐지 크롭은 이름이 GT와 달라 "
                          "eval_e2e_cascade.py 로 따로 채점합니다")
+    # ---- 다중 VLM 비교(4.20) ----
+    ap.add_argument("--cand-tags", default="v5,v4,pre",
+                    help="fixcand 후보 모델 태그(ocr_{region}_cand_{tag}.csv). 5모델: v5,v4,pre,svtrv2,parseq")
+    ap.add_argument("--name", default=None,
+                    help="출력 파일의 모드 이름 override (예: fixcand5). 기본은 --mode")
+    ap.add_argument("--fix-name", default=None,
+                    help="compose 재료가 되는 교정 출력 이름 (예: vlmfixcand5). 기본 vlmfixcand/vlmfix")
+    ap.add_argument("--think", action="store_true", help="thinking 모드 켜기(느림)")
+    ap.add_argument("--limit", type=int, default=0, help="지역당 앞 N 크롭만 (속도 측정·스모크용)")
     args = ap.parse_args()
 
-    global CROP, DEPLOY_RUN
+    global CROP, DEPLOY_RUN, THINK
+    THINK = args.think
     if args.crop_dir:
         CROP = Path(args.crop_dir)
     if args.deploy_run:
@@ -276,7 +302,7 @@ def main() -> None:
         deploy = E.load_csv_map(OCR_DIR / f"ocr_{region}_{DEPLOY_RUN}_paddle.csv")
         cand_maps = {}
         if args.mode == "fixcand":
-            for tag in ("v5", "v4", "pre"):
+            for tag in [t for t in args.cand_tags.split(",") if t]:
                 p = OUT_DIR / f"ocr_{region}_cand_{tag}.csv"
                 if p.exists():
                     cand_maps[tag] = E.load_csv_map(p)
@@ -286,10 +312,26 @@ def main() -> None:
             retr = RAG.get(region)
             print(f"  [rag] {region}: POI 사전 {len(retr)}건")
         pred, t0 = {}, time.time()
+        stem = f"ocr_{region}_vlm{args.name or args.mode}{'_rag' if args.rag else ''}{args.out_suffix}"
+        ckpt = OUT_DIR / (stem + ".partial.jsonl")
+        if ckpt.exists():               # 중단 후 재실행 시 끝난 크롭은 건너뜀
+            for ln in ckpt.open(encoding="utf-8"):
+                try:
+                    d = json.loads(ln); pred[d["key"]] = d["text"]
+                except Exception:       # noqa: BLE001
+                    pass
+            print(f"  [resume] {region}: {len(pred)} 크롭 복원")
+        ck = ckpt.open("a", encoding="utf-8")
+        def _save(k, t):
+            ck.write(json.dumps({"key": k, "text": t}, ensure_ascii=False) + "\n"); ck.flush()
         # 탐지 크롭(4.16)은 GT에 없는 이름이라 GT 키를 돌면 안 됩니다.
         # 배포 예측(run30) 키 = 실제 탐지 크롭 목록입니다.
         keys = sorted(deploy.keys()) if args.no_score else list(gt.keys())
+        if args.limit:
+            keys = keys[:args.limit]
         for i, key in enumerate(keys, 1):
+            if key in pred:
+                continue
             img = CROP / region / f"{key}.jpg"
             base_lines = E.split_lines(deploy.get(key, "")) if deploy.get(key, "").strip() else []
             try:
@@ -299,6 +341,7 @@ def main() -> None:
                 else:
                     if not base_lines:
                         pred[key] = ""
+                        _save(key, "")
                         continue
                     if args.mode == "fixcand" and cand_maps:
                         ml = {t: E.split_lines(m.get(key, "")) if m.get(key, "").strip() else []
@@ -314,13 +357,14 @@ def main() -> None:
             except Exception:
                 lines = base_lines
             pred[key] = "\n".join(lines)
-            if i % 30 == 0:
+            _save(key, pred[key])
+            if i % 10 == 0:
                 el = time.time() - t0
                 print(f"  [{region}] {i}/{len(keys)}  {el/i:.1f}s/크롭  "
                       f"ETA {(len(keys)-i)*el/i/60:.0f}분", flush=True)
 
-        dst = (OUT_DIR / f"ocr_{region}_vlm{args.mode}"
-               f"{'_rag' if args.rag else ''}{args.out_suffix}.csv")
+        ck.close()
+        dst = OUT_DIR / (stem + ".csv")
         with dst.open("w", encoding="utf-8", newline="") as f:
             w = csv.writer(f, quoting=csv.QUOTE_ALL)
             w.writerow(["image_name", "gt_text"])

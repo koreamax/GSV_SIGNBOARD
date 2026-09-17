@@ -17,6 +17,9 @@
 봅니다. 필터가 TP 를 같이 버리면 의미가 없기 때문입니다.
 """
 from __future__ import annotations
+
+from pathlib import Path as _P
+import sys as _sys; _sys.path[:0] = [str(_P(__file__).resolve().parents[1] / _d) for _d in ("pipeline", "ocr", "vlm", "str_baselines", "detection", "data")]  # 형제 폴더 모듈 import (로컬 import 보다 먼저)
 import csv, sys
 from pathlib import Path
 import eval_e2e_cascade as C

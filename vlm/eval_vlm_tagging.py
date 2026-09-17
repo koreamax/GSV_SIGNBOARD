@@ -173,14 +173,25 @@ def build_prompt(tags: list[str], ocr_text: str | None, hints: str = "",
 출력 형식: {{"name": "...", "tag": "..."}}"""
 
 
-def ask(model: str, prompt: str, img_path: Path | None, timeout=180) -> str:
-    body = {"model": model, "prompt": prompt, "stream": False,
-            "options": {"temperature": 0}}
+def ask(model: str, prompt: str, img_path: Path | None, timeout=1500) -> str:
+    # think=False: Qwen3-VL/Gemma4 의 thinking 출력은 CPU 오프로드(32B급)에서 크롭당 수 분이 걸려 끕니다.
+    body = {"model": model, "prompt": prompt, "stream": False, "think": False, "keep_alive": "2h",
+            "options": {"temperature": 0, "num_predict": 300, "num_ctx": 8192}}
     if img_path is not None:
         body["images"] = [base64.b64encode(img_path.read_bytes()).decode()]
-    req = urllib.request.Request(OLLAMA, data=json.dumps(body).encode())
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        return json.loads(r.read())["response"]
+    last = None
+    for attempt in range(3):
+        try:
+            b = dict(body)
+            if attempt == 1:
+                b.pop("think", None)      # think 필드를 모르는 모델/서버용
+            req = urllib.request.Request(OLLAMA, data=json.dumps(b).encode())
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return json.loads(r.read())["response"]
+        except Exception as e:            # noqa: BLE001
+            last = e
+            import time as _t; _t.sleep(5)
+    raise last
 
 
 def parse(resp: str) -> tuple[str, str]:

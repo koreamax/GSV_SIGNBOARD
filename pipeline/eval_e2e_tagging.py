@@ -20,6 +20,9 @@ Usage:
 """
 from __future__ import annotations
 
+from pathlib import Path as _P
+import sys as _sys; _sys.path[:0] = [str(_P(__file__).resolve().parents[1] / _d) for _d in ("pipeline", "ocr", "vlm", "str_baselines", "detection", "data")]  # 형제 폴더 모듈 import (로컬 import 보다 먼저)
+
 import argparse
 import csv
 import sys
