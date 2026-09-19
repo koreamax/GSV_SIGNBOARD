@@ -47,8 +47,9 @@ NUM_CTX = 8192
 def ask(model: str, prompt: str, img: Path, timeout=1500) -> str:
     body = {"model": model, "prompt": prompt, "stream": False, "think": THINK,
             "keep_alive": "2h",
-            "images": [base64.b64encode(img.read_bytes()).decode()],
             "options": {"temperature": 0, "num_predict": NUM_PREDICT, "num_ctx": NUM_CTX}}
+    if img is not None:                       # fixtext(텍스트 전용 교정)는 이미지를 주지 않음
+        body["images"] = [base64.b64encode(img.read_bytes()).decode()]
     last = None
     for attempt in range(3):
         try:
@@ -162,6 +163,16 @@ def prompt_fixcand(cands: list[list[str]], hints: str = "") -> str:
             f"- 확정된 라인 {len(cands)}개를 JSON 배열로만 출력한다.")
 
 
+def prompt_fixtext(lines: list[str]) -> str:
+    """텍스트 전용 post-OCR 교정 (문헌의 표준 기준선: LLM 이 OCR 출력만 보고 교정. 이미지 없음)."""
+    numbered = "\n".join(f"{i+1}. {l}" for i, l in enumerate(lines))
+    return (f"다음은 OCR 이 한 간판에서 읽은 텍스트 라인들이다 (사진은 제공되지 않는다):\n{numbered}\n\n"
+            "언어 지식만으로 **명백한 오독 글자만** 고쳐라 (예: 상호·업종 표기에서 흔한 한글 자모 혼동, 영문 철자).\n"
+            "- 라인 개수와 순서를 그대로 유지한다 (합치거나 나누지 말 것).\n"
+            "- 확신이 없으면 원문 그대로 둔다. 새 텍스트를 추가하거나 라인을 삭제하지 않는다.\n"
+            f'- 교정된 라인 {len(lines)}개를 JSON 배열로만 출력한다.')
+
+
 def prompt_fix(lines: list[str]) -> str:
     numbered = "\n".join(f"{i+1}. {l}" for i, l in enumerate(lines))
     return (f"간판 사진과, OCR이 이 사진에서 읽은 텍스트 라인들이다:\n{numbered}\n\n"
@@ -246,7 +257,7 @@ def compose(args) -> None:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--mode", choices=["solo", "fix", "fixcand", "compose"], required=True)
+    ap.add_argument("--mode", choices=["solo", "fix", "fixtext", "fixcand", "compose"], required=True)
     ap.add_argument("--model", default="gemma3:12b")
     ap.add_argument("--emit-run", default=None,
                     help="compose 모드: 최종 하이브리드를 ocr_{region}_{N}_ensemble.csv로 출력")
@@ -349,6 +360,8 @@ def main() -> None:
                         cands = [line_variants(b, ml) for b in base_lines]
                         hints = retr.hint_block(base_lines, k=args.rag_k) if retr else ""
                         resp = ask(args.model, prompt_fixcand(cands, hints), img)
+                    elif args.mode == "fixtext":
+                        resp = ask(args.model, prompt_fixtext(base_lines), None)
                     else:
                         resp = ask(args.model, prompt_fix(base_lines), img)
                     lines = parse_lines(resp, base_lines)
