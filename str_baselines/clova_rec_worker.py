@@ -59,6 +59,40 @@ def load_credentials(path: Path) -> tuple[str, str]:
     )
 
 
+def preflight(url: str) -> None:
+    """호출 전에 엔드포인트가 이 망에서 닿는지 확인 — 잘못된 URL 로 타임아웃만 쌓는 것을 막습니다.
+
+    CLOVA 콘솔에는 공인(APIGW Invoke URL)과 VPC 내부용 주소가 함께 보입니다.
+    내부용(`clovaocr-api-kr.ncloud.com` → 10.x.x.x)을 복사하면 외부망에서는 영영 닿지 않습니다."""
+    import ipaddress
+    import socket
+    from urllib.parse import urlparse
+
+    u = urlparse(url)
+    host, port = u.hostname, u.port or (443 if u.scheme == "https" else 80)
+    if not host:
+        sys.exit(f"CLOVA URL 형식이 올바르지 않습니다: {url!r}")
+    try:
+        ips = sorted({ai[4][0] for ai in socket.getaddrinfo(host, port, proto=socket.IPPROTO_TCP)})
+    except socket.gaierror as e:
+        sys.exit(f"CLOVA 호스트 DNS 조회 실패: {host} ({e})")
+    if all(ipaddress.ip_address(ip).is_private for ip in ips):
+        sys.exit(
+            f"CLOVA 엔드포인트 {host} 가 사설 IP({', '.join(ips)})로 풀립니다 — VPC 내부 전용 주소입니다.\n"
+            "  콘솔의 **APIGW Invoke URL**(공인)을 쓰세요. 형태:\n"
+            "    https://<식별자>.apigw.ntruss.com/custom/v1/<도메인ID>/<키>/general\n"
+            "  CLOVA OCR → 도메인 → [API Gateway 연동] 에서 확인할 수 있습니다."
+        )
+    s = socket.socket()
+    s.settimeout(8)
+    try:
+        s.connect((ips[0], port))
+    except OSError as e:
+        sys.exit(f"CLOVA 엔드포인트에 연결할 수 없습니다: {host}:{port} ({e})")
+    finally:
+        s.close()
+
+
 class Budget:
     """호출 상한 — 유료 API 사고 방지."""
 
@@ -188,6 +222,7 @@ def main() -> None:
         sys.exit(2)
 
     url, secret = load_credentials(Path(args.credentials))
+    preflight(url)
     budget = Budget(args.max_calls)
     lock = threading.Lock()
     ck = ckpt.open("a", encoding="utf-8")
