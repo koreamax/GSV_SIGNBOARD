@@ -125,6 +125,7 @@ OCR은 **검출기 union + 라인 병합 Paddle(배포, run22 — D20·D21·D23)
 | D33 | **탐지 fold 누수 규명 + group-aware 재분할·4모델 재학습** | "OOF 가 제일 높다"는 지적에서 출발. 증강→분할 누수는 없었고(파일 증강 0), **같은 가게 간판이 train/val 에 걸친 누수**(val 20.8%, 강남 31%)를 GT 텍스트 대조로 발견. 가게 연결성분 단위 group-aware 5-fold 로 재분할(fold 간 공유 0) 후 4모델 재학습(37.6h). **누수는 mAP 를 부풀리지 않았음**(전 모델 +0.003~+0.040). 대신 **FRCNN(0.878) ≈ YOLO26x(0.872) 로 순위 격차 소멸** — 0.05 미만 차이는 우열 아님. group-aware 분할을 정본으로 채택 | 4.17 |
 | D31 | **연쇄(end-to-end) 측정 — 파이프라인 실제 성능** | 지금까지 OCR·태깅 평가가 전부 **GT 크롭** 기준이라 탐지 손실이 빠져 있었음. OOF 탐지 박스로 동일 전처리 크롭을 다시 만들어 3모듈 전체 재측정: **OCR 연쇄 54.4%** (GT 크롭 80.9%) · **태깅 연쇄 66.6%** (GT 크롭 83.5%) — D36 재측정값. 곱셈 추정(65.5%)보다 실측이 22%p 낮아 **난이도 상관을 실증**. **VLM 하이브리드가 박스 품질 저하를 흡수**(TP 위 정확도가 GT 크롭 기준을 역전: 52.1→64.0 vs 57.8). **허위 POI: FP 124건 중 112건(90%)에 업종 태그가 붙음** — 지도 구축에서 precision이 결정적인 이유. 다음 투자처는 탐지 recall(25.6%p 손실의 전부) | 4.16 |
 | D30 | **하이브리드 검색 (lexical + dense RRF)** | bge-m3 임베딩을 현행 lexical 검색에 RRF 융합(`rag_hybrid.py`). 오프라인 hit@5 **강남 78.6→88.1 · 브루클린 91.4→94.3 · 수원 55.0→75.0**, dense 단독은 어디서도 lexical에 못 미치지만 융합은 둘 다를 상회(4.14와 동형의 시너지). 종단 태깅 69.4→**71.1%**, 다만 **in-DB −3.9%p / off-DB +3.7%p로 개선되는 층이 바뀜** — 신규 POI 발굴이 목적이므로 채택. 부수: 약국 451건 오태깅 수정은 예측 1건만 바꿈(간판 텍스트가 업종을 결정하면 힌트는 무시됨) | 4.15 ⑥⑦ |
+| D37 | **상용 API 비교군 — NAVER CLOVA OCR General** | "상용 API 를 그냥 쓰면 되지 않는가"에 답하기 위해 추가. 검출·라인 병합 고정, 인식기만 교체(다른 워커와 동일 IO). 제로샷 **GSV 57.9%** / in-domain 실라인 67.3% / 단어 66.5% — 기성 엔진 최고(Surya 40.2)를 크게 앞서지만 **미세조정 SVTRv2(70.6/75.3/94.2)에는 미달**. API 10,734건. 유료 API 안전장치(체크포인트·호출 상한·사전 점검) 포함 | 4.19 |
 | D36 | **VLM 32B급 교체 + 교정 방식 재정의 (fix / fixcand) + 태깅 재측정** | gemma3:12b 기반 결과(구 D27~D29) 전부 폐기. Gemma 4 31B·Qwen3-VL-32B-Instruct(Ollama 4-bit, GPU/RAM 오프로드)로 멀티모달 post-OCR 교정 fix / 후보 그라운딩 fixcand·fixcand5(+SVTRv2·PARSeq) 와 문헌 기준선 fixtext(텍스트 전용) 측정. **GSV exact 69.9 → fixtext 72.5 → fix 79.9 → fixcand5 80.9%**(Gemma 4; Qwen 79.7) — 교정 이득의 3/4가 이미지에서. 태깅 vlmrag **83.5%**(Gemma 4) / 80.0%(Qwen). 연쇄: OCR 54.4% · 태깅 66.6%. 배포 = Gemma 4 fixcand5 | 4.13·4.14·4.16 |
 | D26 | **탐지 모델 통합 프로토콜 재측정 (T2 완료) — 순위 역전** | 4모델을 **저장 best 체크포인트 + 단일 AP@0.5 + 동일 5-Fold**로 재측정(`eval_det_unified.py`, 예측 캐시). **FRCNN 0.874 > YOLO26x 0.832 > YOLOv5x 0.814 ≈ EffDet 0.812** — 구 표의 YOLO 우위는 ① 평가도구 격차(~0.05) ② Ultralytics가 fitness 기준으로 best.pt를 골라 생긴 peak 보고의 합작이었음. 비-YOLO 수치는 기존값 재현(FRCNN 0.8736 vs 0.8734, EffDet 0.8042 vs 0.8050)으로 평가기 검증. thr 0.0/0.05 양쪽에서 순위 동일. 교란: 모델별 입력 해상도 상이 | 4.3 |
 | D25 | **지역별 탐지 mAP@0.5 산출 (T4 완료)** | GSV 사진이 곧 5-Fold 학습셋이라 **out-of-fold**(각 사진 = 그 사진을 held-out한 fold 모델로만 예측)로 측정, 도구는 표 2와 동일한 Ultralytics `val()`. **강남 0.853 / 브루클린 0.887 / 수원 0.899, 전체 0.880** (fold별 평균 0.8785와 정합). 표 2의 0.9006은 **에폭 중 최고치**라 낙관 편향 — 동일 가중치의 정직한 값은 0.8785. **수원은 탐지 최고·OCR 최저**로, 병목이 인식 쪽임을 교차 확인 | 4.12 |
@@ -1053,8 +1054,7 @@ pooled AP@0.5(298장 OOF), 텍스트 열은 test 2,706장 단일 채점(score_th
 **배경.** 기존 OCR 비교표(4.4)의 EasyOCR·TrOCR 는 PP-OCRv5 와 체급이 다릅니다(2015년 CRNN / 인쇄 문서용 모델).
 PaddleOCR 비교 논문들이 실제로 쓰는 상대는 세 부류입니다 — ① 범용 오픈소스 엔진(Tesseract·EasyOCR·Surya·MMOCR·docTR),
 ② 학술 STR 인식기(PARSeq·ABINet·SVTR 계열·MAERec·CLIP4STR), ③ VLM(Qwen2.5-VL·GOT-OCR 등; 우리 표 3 의 "VLM alone").
-이 절은 ①에서 Tesseract·Surya, ②에서 PARSeq·SVTRv2 를 추가한 결과입니다. ④ **상용 API**(NAVER CLOVA OCR General)는
-2026-09-20 에 비교군으로 추가했습니다 — 워커·러너·표 슬롯은 준비 완료이고 실행만 남았습니다(아래 '상용 API' 참고).
+이 절은 ①에서 Tesseract·Surya, ②에서 PARSeq·SVTRv2, ④ **상용 API** 에서 NAVER CLOVA OCR General 을 추가한 결과입니다.
 
 **학습 (PARSeq·SVTRv2, 분할→학습, 섞임 0).** 배포 Paddle v5_lines 와 **같은 학습 혼합**(단어 62,464 + 실라인 13,148 =
 75,612 크롭, signboard_v3 분할 상속; `prep_str_baselines_data.py` → `artifacts/str_baselines/parseq_data` LMDB), val 9,609 으로
@@ -1082,6 +1082,7 @@ DB 추가 박스 537 / 스트립 1,342 로 전 엔진 일치)하고 인식기만
 | Tesseract 5.5 (kor **미세조정**+eng) | 범용, 미세조정 | 35.9% / 0.526 / 0.971 | 42.7% / 0.370 / 1.180 | 18.8% / 0.699 / 1.245 | 32.9% / 0.484 / 1.128 | 0.287 |
 | EasyOCR (v3 미세조정, per-box) | 범용 | 37.3% / 0.538 / 1.459 | 43.2% / 0.406 / 2.110 | 34.8% / 0.428 / 1.510 | 38.5% / 0.449 / 1.741 | 0.290 |
 | Surya 0.14 | 범용 기성 | 41.0% / 0.502 / 1.167 | 60.3% / 0.198 / 0.760 | 17.1% / 0.650 / 1.137 | 40.2% / 0.381 / 0.991 | 0.396 |
+| **CLOVA OCR General** (NAVER) | **상용 API, 제로샷** | 57.1% / 0.318 / 0.967 | 67.8% / 0.171 / 0.859 | 48.1% / 0.383 / 1.153 | **57.9% / 0.258** / 0.971 | 0.563 |
 | TrOCR-small (v3 미세조정, per-box) | 문서 STR | 26.9% / 0.635 / 1.469 | 46.2% / 0.384 / 2.154 | 27.6% / 0.516 / 1.510 | 33.6% / 0.485 / 1.762 | 0.343 |
 | PARSeq (미세조정) | 학술 STR | 63.7% / 0.248 / 0.652 | 70.9% / 0.151 / 0.483 | 50.3% / 0.299 / 0.830 | 62.0% / 0.210 / 0.629 | 0.619 |
 | **SVTRv2-B (미세조정)** | 학술 STR | 72.6% / 0.209 / 0.593 | **77.4% / 0.096 / 0.433** | **60.8% / 0.249** / 0.743 | **70.6% / 0.161** / 0.566 | **0.682** |
@@ -1095,6 +1096,7 @@ DB 추가 박스 537 / 스트립 1,342 로 전 엔진 일치)하고 인식기만
 | Tesseract 5.5 | 21.0% / 0.602 / 0.815 | 34.4% / 0.571 / 0.789 |
 | Tesseract 5.5 (kor 미세조정+eng) | 24.9% / 0.567 / 0.940 | 42.4% / 0.486 / 0.643 |
 | Surya 0.14 | 36.4% / 0.793 / 0.802 | — (CPU 4h 소요라 생략) |
+| **CLOVA OCR General** (NAVER) | **67.3% / 0.233 / 0.502** | 66.5% / 0.271 / 0.628 |
 | PARSeq | 61.4% / 0.153 / 0.344 | 89.2% / 0.047 / 0.130 |
 | **SVTRv2-B** | **75.3% / 0.081 / 0.256** | **94.2% / 0.023 / 0.077** |
 | PP-OCRv5 rec (v5_lines) | 71.8% / 0.102 / 0.336 | 87.2% / 0.070 / 0.146 |
@@ -1125,26 +1127,50 @@ tesstrain 식 `WordStr` box 파일을 요구(없으면 lstmf 0개, 오류 없음
 출력층이 이어지지 않아 1시간 동안 오류율 78% 정체 → recoder 기본값(자모 분해)으로 재생성하니 정상 학습; (d) 새 traineddata 에 `kor.config`(`preserve_interword_spaces 1`)를
 넣지 않으면 Windows Tesseract 5 가 한글 음절마다 띄어 써 WER 1.77 → config 내장 후 0.88. 산출물 `artifacts/str_baselines/tesseract_ft/`(traineddata, lstmtraining 로그, 병합 문자표).
 
-**상용 API — NAVER CLOVA OCR General (준비 완료, 실행 대기).** Tesseract·Surya 와 같은 **범용 기성 엔진** 취급으로,
-배포 파이프라인과 동일한 라인 스트립을 그대로 API 에 넘기고 응답 `fields[]` 를 `lineBreak` 기준으로 이어 붙여 라인을 만듭니다
-(`str_baselines/clova_rec_worker.py` — 다른 워커와 같은 IO 계약). 유료이므로 크롭 단위 체크포인트로 재과금을 막고,
-`--max-calls` 호출 상한과 `--dry-run` 을 둡니다. 인증 정보는 환경변수 또는 git 제외 파일에서만 읽습니다.
+**상용 API — NAVER CLOVA OCR General (D37).** Tesseract·Surya 와 같은 **범용 기성 엔진** 취급입니다. 배포 파이프라인과
+동일한 라인 스트립을 그대로 API 에 넘기고(검출·라인 병합 고정, 인식기만 교체), 응답 `fields[]` 를 이어 붙여 라인을 만듭니다
+(`str_baselines/clova_rec_worker.py` — 다른 워커와 같은 IO 계약). **제로샷**입니다 — 이 API 는 미세조정 경로가 없어
+우리 간판 데이터를 학습시키지 못합니다. 총 API 호출 10,734건(GSV 1,342 · test_line 1,631 · test_word 7,756 · 스모크 5).
 
-| 단계 | API 호출 | 비고 |
-|---|---|---|
-| 스모크 | 5건 | 응답·라인 복원 확인 |
-| GSV 라인 스트립 | 1,342건 | 표 5 행 (강남·수원 ko 767 + 브루클린 575) |
-| in-domain `test_line` | 1,631건 | 표 6 행 |
-| in-domain `test_word` | 7,756건 | 선택 — 비용이 커서 기본 제외 |
+| 구간 | exact | CER | 같은 구간 최고(미세조정) |
+|---|---|---|---|
+| GSV 전역 592라인 | 57.9% | 0.258 | SVTRv2 70.6% / 0.161 |
+| in-domain 실라인 1,631 | 67.3% | 0.233 | SVTRv2 75.3% / 0.081 |
+| in-domain 단어 7,756 | 66.5% | 0.271 | SVTRv2 94.2% / 0.023 |
+
+**해석 — 이 실험이 답하는 질문은 '상용 API 를 그냥 쓰면 되지 않는가'입니다.**
+1. **기성 엔진 중에서는 압도적입니다.** GSV 57.9% 로 Surya(40.2)·EasyOCR(38.5)·Tesseract(30.6)를 17%p 이상 앞섭니다.
+   한국어 간판을 학습 없이 읽는 성능만 놓고 보면 공개 엔진과 상용 API 사이에 큰 격차가 있습니다.
+2. **그럼에도 도메인 미세조정 모델에는 미치지 못합니다.** 같은 스트립에서 SVTRv2 70.6% · 배포 PP-OCRv5 69.9% 로 12%p 앞서고,
+   단어 크롭에서는 격차가 66.5 vs 94.2% 로 벌어집니다. **간판 도메인 데이터로 직접 학습한 것이 옳았다**는 정량 근거입니다.
+3. **격차가 가장 큰 곳이 단어 크롭**인 이유는 CLOVA 가 검출+인식 일체형이라, 단어 하나만 담긴 타이트한 크롭에서 오히려
+   텍스트 영역 판정이 불리해지기 때문입니다(GSV 411크롭 중 빈 출력 18건 — Paddle 3건). 라인 단위 입력에서는 이 손해가 줄어듭니다.
+4. 지역 순서는 다른 엔진과 같습니다(브루클린 67.8 > 강남 57.1 > 수원 48.1). 수원의 양각·캘리그래피 간판은 상용 API 에도 어렵습니다.
+
+**운영 메모.** 유료 API 라 워커에 크롭 단위 체크포인트(재실행 시 재과금 없음), `--max-calls` 상한, `--dry-run`,
+엔드포인트 사전 점검을 넣었습니다. 인증 정보는 환경변수 또는 git 제외 파일에서만 읽습니다.
 
 ```bash
-bash scripts/run_clova_ocr.sh smoke     # 5건만
-bash scripts/run_clova_ocr.sh all       # 스모크 + GSV + test_line + 표 재생성
+bash scripts/run_clova_ocr.sh smoke     # 5건만 호출해 응답 확인
+bash scripts/run_clova_ocr.sh gsv       # GSV 라인 스트립
+bash scripts/run_clova_ocr.sh line      # in-domain 실라인
+bash scripts/run_clova_ocr.sh word      # in-domain 단어
+bash scripts/run_clova_ocr.sh report    # 표 재생성
 ```
+
+**함정 기록(D37).** ① 콘솔에는 공인 APIGW Invoke URL 과 VPC 내부 주소가 함께 보이는데, 내부 주소
+(`clovaocr-api-kr.ncloud.com` → 10.x)를 쓰면 외부망에서 영영 닿지 않습니다 → 워커에 DNS/연결 사전 점검 추가.
+② CLOVA 는 글자 간격이 넓으면 **같은 줄도 `lineBreak` 로 쪼개** 내놓습니다. 우리 프로토콜은 입력 1장 = 라인 1줄이라
+그대로 두면 없는 라인을 삽입한 것으로 채점돼 CLOVA 만 손해를 봅니다 → Tesseract(`--psm 7`)·Surya 와 같게 한 줄로 합칩니다.
+③ 드물게 정상 이미지에 HTTP 400 이 돌아오는데 **재시도하면 바로 성공**합니다(게이트웨이 순간 제한). 처음에는 한 건 실패로
+전체를 중단시켜 단어 세트 4,584건이 빈 값이 됐습니다 → 400 도 재시도하고, **연속** 15건 실패에만 중단하도록 변경.
+④ VLM 연쇄 실험이 결과를 `ocr_<지역>_5{1,2}_paddle.csv` 로 저장해, 엔진별 최신 파일을 고르는 `eval_ocr_v2` 가 배포 행을
+탐지 크롭 결과로 잘못 채점했습니다(강남 73.1 → 37.7%) → 연쇄 산출물을 `vlmfix` 태그로 분리.
 
 **산출물:** `artifacts/str_baselines/{svtrv2/best.pth, parseq/checkpoints/*.ckpt, indomain_summary.csv, ocr_baselines_tables.md}`,
 GSV 예측 `artifacts/ocr_gt/ocr_<region>_{40 tesseract,41 surya,42 parseq,43 svtrv2,44 paddle}.csv`, 워커 `{tesseract,surya,openocr,parseq}_rec_worker.py`,
-러너 `run_str_baselines.sh` / `run_ocr_baselines_all.sh`, 워드 `Desktop/GSV_results_v7.docx` (Table 5·6; v6 = Tesseract 미세조정 전).
+러너 `run_str_baselines.sh` / `run_ocr_baselines_all.sh`, CLOVA `artifacts/str_baselines/{indomain/clova_*.jsonl, clova_ocr/}` · GSV 예측 `artifacts/ocr_gt/ocr_<region>_47_clova.csv`,
+워드 `Desktop/GSV_results_v9.docx` (Table 5·6; v7 = CLOVA 추가 전).
 
 ---
 

@@ -11,7 +11,7 @@
 | PARSeq (ViT-S, fine-tuned) | academic STR, same data | 63.7% / 0.248 / 0.652 | 70.9% / 0.151 / 0.483 | 50.3% / 0.299 / 0.830 | 62.0% / 0.210 / 0.629 | 0.619 |
 | SVTRv2-B (fine-tuned) | academic STR, same data | 72.6% / 0.209 / 0.593 | 77.4% / 0.096 / 0.433 | 60.8% / 0.249 / 0.743 | 70.6% / 0.161 / 0.566 | 0.682 |
 | PP-OCRv5 rec (v5_lines, single model) | fine-tuned, same data, no vote | 71.7% / 0.194 / 0.554 | 70.9% / 0.122 / 0.478 | 58.0% / 0.256 / 0.693 | 67.2% / 0.171 / 0.559 | 0.643 |
-| PP-OCRv5 rec (v5_lines, deployed: 3-way vote + en model) | deployed pipeline | 37.7% / 0.611 / 0.882 | 44.7% / 0.471 / 0.901 | 41.4% / 0.571 / 0.875 | 41.2% / 0.533 / 0.888 | 0.399 |
+| PP-OCRv5 rec (v5_lines, deployed: 3-way vote + en model) | deployed pipeline | 73.1% / 0.190 / 0.534 | 76.9% / 0.110 / 0.452 | 58.6% / 0.255 / 0.689 | 69.9% / 0.163 / 0.540 | 0.648 |
 
 ### In-domain (signboard_v3 test) — exact / CER / WER, 1:1 크롭 채점
 
@@ -20,6 +20,7 @@
 | Tesseract 5.5 (kor+eng) | 21.0% / 0.602 / 0.815 | 34.4% / 0.571 / 0.789 |
 | Tesseract 5.5 (kor fine-tuned + eng) | 24.9% / 0.567 / 0.940 | 42.4% / 0.486 / 0.643 |
 | Surya 0.14 (rec2) | 36.4% / 0.793 / 0.802 | — |
+| CLOVA OCR General (NAVER, commercial API) | 67.3% / 0.233 / 0.502 | 66.5% / 0.271 / 0.628 |
 | PARSeq (ViT-S, fine-tuned) | 61.4% / 0.153 / 0.344 | 89.2% / 0.047 / 0.130 |
 | SVTRv2-B (fine-tuned) | 75.3% / 0.081 / 0.256 | 94.2% / 0.023 / 0.077 |
 | PP-OCRv5 rec (v5_lines, deployed: 3-way vote + en model) | 71.8% / 0.102 / 0.336 | 87.2% / 0.070 / 0.146 |

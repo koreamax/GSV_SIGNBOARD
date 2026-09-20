@@ -17,3 +17,6 @@ tesseract_ft_snap,test_line,1631,0.2250,0.5084,1.7701,0.0469
 tesseract_ft_snap,test_line,1631,0.2250,0.5084,0.8844,0.1275
 tesseract_ft,test_line,1631,0.2489,0.5668,0.9396,0.0992
 tesseract_ft,test_word,7756,0.4241,0.4862,0.6432,0.4221
+clova,test_line,1631,0.6726,0.2326,0.5023,0.7206
+clova,test_word,7756,0.2671,0.7079,0.8523,0.2551
+clova,test_word,7756,0.6646,0.2711,0.6285,0.6315

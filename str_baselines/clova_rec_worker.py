@@ -181,10 +181,17 @@ def call_api(url: str, secret: str, img: Path, lang: str, timeout: int,
                 # 같은 줄도 lineBreak 로 쪼개므로, Tesseract(--psm 7)·Surya 와 같게 한 줄로 합칩니다.
                 text = " ".join(text.split())
             return text, score
-        except urllib.error.HTTPError as e:          # 429/5xx 만 재시도
-            last = e
-            if e.code not in (429, 500, 502, 503, 504) or attempt == retries - 1:
-                raise
+        except urllib.error.HTTPError as e:
+            # 400 도 재시도합니다 — 실측상 같은 이미지가 한 번 400 을 받고 재시도에서 바로 성공합니다
+            # (게이트웨이 순간 제한으로 보임). 인증 오류(401/403)만 즉시 포기합니다.
+            body = ""
+            try:
+                body = e.read().decode("utf-8", "replace")[:200]
+            except Exception:                         # noqa: BLE001
+                pass
+            last = RuntimeError(f"HTTP {e.code} {body}")
+            if e.code in (401, 403) or attempt == retries - 1:
+                raise last
         except Exception as e:                        # noqa: BLE001 — 타임아웃·네트워크
             last = e
             if attempt == retries - 1:
@@ -203,6 +210,8 @@ def main() -> None:
     ap.add_argument("--timeout", type=int, default=60)
     ap.add_argument("--max-calls", type=int, default=3000, help="이번 실행의 API 호출 상한")
     ap.add_argument("--dry-run", action="store_true", help="호출 없이 필요한 건수만 출력")
+    ap.add_argument("--abort-after", type=int, default=15,
+                    help="연속 실패가 이 횟수에 이르면 중단 (인증 만료·한도 소진 방어)")
     ap.add_argument("--multi-line", action="store_true",
                     help="응답의 lineBreak 를 그대로 유지 (기본은 한 줄로 합침 — 입력이 라인 스트립이므로)")
     args = ap.parse_args()
@@ -235,6 +244,7 @@ def main() -> None:
     ck = ckpt.open("a", encoding="utf-8")
     t0, n = time.time(), 0
     stop = threading.Event()
+    fails = {"run": 0, "total": 0}          # run = 연속 실패, total = 누적 실패
 
     def run_one(it: dict) -> dict:
         nonlocal n
@@ -245,11 +255,20 @@ def main() -> None:
             text, score = call_api(url, secret, Path(it["path"]), args.lang, args.timeout,
                                    single_line=not args.multi_line)
         except Exception as e:                        # noqa: BLE001
-            print(f"[clova] 호출 실패 {it['key']}: {e}", flush=True)
-            stop.set()                                # 과금 낭비 방지: 연속 실패 시 중단
+            # 한 건의 실패로 전체를 멈추지 않습니다. 다만 연속 실패가 쌓이면(인증 만료·한도 소진)
+            # 과금 낭비를 막기 위해 중단합니다. 실패한 건은 체크포인트에 남기지 않으므로 재실행 때 다시 시도합니다.
+            with lock:
+                fails["run"] += 1
+                fails["total"] += 1
+                run_len = fails["run"]
+            print(f"[clova] 호출 실패({run_len}연속) {it['key']}: {e}", flush=True)
+            if run_len >= args.abort_after:
+                print(f"[clova] 연속 실패 {run_len}건 — 중단합니다.", flush=True)
+                stop.set()
             return {"key": it["key"], "text": "", "score": 0.0}
         d = {"key": it["key"], "text": text, "score": score}
         with lock:
+            fails["run"] = 0                # 성공하면 연속 실패 카운터 초기화
             ck.write(json.dumps(d, ensure_ascii=False) + "\n")
             ck.flush()
             n += 1
@@ -268,7 +287,11 @@ def main() -> None:
         for it in items:
             d = done.get(it["key"]) or {"key": it["key"], "text": "", "score": 0.0}
             f.write(json.dumps(d, ensure_ascii=False) + "\n")
-    print(f"[clova] done {len(items)} -> {args.out}  (API 호출 {budget.used}건)", flush=True)
+    missing = [it["key"] for it in items if it["key"] not in done]
+    print(f"[clova] done {len(items)} -> {args.out}  (API 호출 {budget.used}건, "
+          f"실패 {fails['total']}건, 미완료 {len(missing)}건)", flush=True)
+    if missing:
+        print("[clova] 같은 명령을 다시 실행하면 미완료 건만 호출합니다(재과금 없음).", flush=True)
 
 
 if __name__ == "__main__":

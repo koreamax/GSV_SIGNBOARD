@@ -128,11 +128,13 @@ code{font-family:var(--mono);font-size:12.5px;background:var(--surface-2);paddin
 <tr><td>TrOCR-small 미세조정</td><td class="kind">문서 STR</td><td>33.6%</td><td>0.485</td><td>1.762</td></tr>
 <tr><td>EasyOCR 미세조정</td><td class="kind">범용 미세조정</td><td>38.5%</td><td>0.449</td><td>1.741</td></tr>
 <tr><td>Surya 0.14</td><td class="kind">범용 기성</td><td>40.2%</td><td>0.381</td><td>0.991</td></tr>
+<tr><td>CLOVA OCR General (NAVER)</td><td class="kind">상용 API, 제로샷</td><td>57.9%</td><td>0.258</td><td>0.971</td></tr>
 <tr><td>PARSeq 미세조정</td><td class="kind">학술 STR</td><td>62.0%</td><td>0.210</td><td>0.629</td></tr>
 <tr><td>PP-OCRv5 단일 모델</td><td class="kind">배포 STR</td><td>67.2%</td><td>0.171</td><td>0.559</td></tr>
 <tr class="mark"><td>PP-OCRv5 배포 구성</td><td class="kind">배포 파이프라인</td><td>69.9%</td><td>0.163</td><td>0.540</td></tr>
 <tr><td>SVTRv2-B 미세조정</td><td class="kind">학술 STR</td><td>70.6%</td><td>0.161</td><td>0.566</td></tr></tbody></table></div>
  <p>같은 데이터로 학습하면 <strong>SVTRv2가 배포 PaddleOCR과 동급</strong>(70.6 vs 69.9%)입니다. 반대로 Tesseract는 같은 데이터로 미세조정해도 32.9%에 그칩니다. 문서 OCR 구조가 간판 크롭에서 텍스트 라인 자체를 못 잡기 때문이고, 낮은 점수가 <em>학습 부족이 아니라 구조 문제</em>라는 근거입니다.</p>
+ <p><strong>상용 API를 그냥 쓰면 되지 않는가.</strong> NAVER CLOVA OCR을 학습 없이 같은 스트립에 넣으면 57.9%로, 공개 기성 엔진 최고인 Surya(40.2%)를 17.7%p 앞섭니다. 그래도 간판 데이터로 학습한 SVTRv2(70.6%)에는 12.7%p 뒤집니다. 격차는 단어 크롭에서 66.5 vs 94.2%로 더 벌어집니다. 직접 학습한 선택의 근거입니다.</p>
 </section>
 
 <section>
