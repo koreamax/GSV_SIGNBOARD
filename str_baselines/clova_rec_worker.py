@@ -154,7 +154,7 @@ def lines_from_fields(fields: list[dict]) -> tuple[str, float]:
 
 
 def call_api(url: str, secret: str, img: Path, lang: str, timeout: int,
-             retries: int = 4) -> tuple[str, float]:
+             single_line: bool = True, retries: int = 4) -> tuple[str, float]:
     fmt = EXT2FMT.get(img.suffix.lower(), "jpg")
     body = {
         "version": "V2",
@@ -175,7 +175,12 @@ def call_api(url: str, secret: str, img: Path, lang: str, timeout: int,
             im = (res.get("images") or [{}])[0]
             if im.get("inferResult") != "SUCCESS":
                 return "", 0.0                      # 인식 실패는 빈 문자열(= 다른 엔진과 동일 취급)
-            return lines_from_fields(im.get("fields") or [])
+            text, score = lines_from_fields(im.get("fields") or [])
+            if single_line:
+                # 입력 1장 = 라인 스트립 1줄이 우리 프로토콜입니다. CLOVA 는 글자 간격이 넓으면
+                # 같은 줄도 lineBreak 로 쪼개므로, Tesseract(--psm 7)·Surya 와 같게 한 줄로 합칩니다.
+                text = " ".join(text.split())
+            return text, score
         except urllib.error.HTTPError as e:          # 429/5xx 만 재시도
             last = e
             if e.code not in (429, 500, 502, 503, 504) or attempt == retries - 1:
@@ -198,6 +203,8 @@ def main() -> None:
     ap.add_argument("--timeout", type=int, default=60)
     ap.add_argument("--max-calls", type=int, default=3000, help="이번 실행의 API 호출 상한")
     ap.add_argument("--dry-run", action="store_true", help="호출 없이 필요한 건수만 출력")
+    ap.add_argument("--multi-line", action="store_true",
+                    help="응답의 lineBreak 를 그대로 유지 (기본은 한 줄로 합침 — 입력이 라인 스트립이므로)")
     args = ap.parse_args()
 
     items = [json.loads(l) for l in open(args.manifest, encoding="utf-8") if l.strip()]
@@ -235,7 +242,8 @@ def main() -> None:
             stop.set()
             return {"key": it["key"], "text": "", "score": 0.0}
         try:
-            text, score = call_api(url, secret, Path(it["path"]), args.lang, args.timeout)
+            text, score = call_api(url, secret, Path(it["path"]), args.lang, args.timeout,
+                                   single_line=not args.multi_line)
         except Exception as e:                        # noqa: BLE001
             print(f"[clova] 호출 실패 {it['key']}: {e}", flush=True)
             stop.set()                                # 과금 낭비 방지: 연속 실패 시 중단
