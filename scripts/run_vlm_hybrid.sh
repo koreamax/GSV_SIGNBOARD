@@ -22,7 +22,7 @@ step() { # step <name> <cmd...>
 emit_fix_run() { # emit_fix_run <TAG> <RUN> : fix_det 출력을 연쇄 채점용 run 파일로 복사 (compose 없음)
   local TAG=$1 RUN=$2 r
   for r in gangnam brooklyn suwon; do
-    cp "artifacts/ocr_gt/ab_v4_spacecat/ocr_${r}_vlmfix_det_${TAG}.csv" "artifacts/ocr_gt/ocr_${r}_${RUN}_paddle.csv" || return 1
+    cp "artifacts/ocr_gt/ab_v4_spacecat/ocr_${r}_vlmfix_det_${TAG}.csv" "artifacts/ocr_gt/ocr_${r}_${RUN}_vlmfix.csv" || return 1
   done
   echo "[EMIT] run $RUN <- vlmfix_det_$TAG"
 }
@@ -41,8 +41,8 @@ step "A_matrix" $PY pipeline/eval_vlm_hybrid_matrix.py --models gemma4_31b,qwen3
 for m in "${MODELS[@]}"; do IFS='|' read -r TAG NAME RUN <<< "$m"
   step "B_${TAG}_fix_det"  $PY pipeline/exp_vlm_ocr.py --mode fix --model "$NAME" --crop-dir artifacts/gt/crop_det --deploy-run 30 --out-suffix "_det_$TAG" --no-score
   step "B_${TAG}_emit"     emit_fix_run "$TAG" "$RUN"
-  step "B_${TAG}_cascade"  $PY pipeline/eval_e2e_cascade.py --ocr-run "$RUN"
-  step "B_${TAG}_tagging"  $PY pipeline/eval_e2e_tagging.py --ocr-run "$RUN" --model "$NAME" --out "artifacts/gt/e2e_tagging_results_$TAG.csv"
+  step "B_${TAG}_cascade"  $PY pipeline/eval_e2e_cascade.py --ocr-run "$RUN" --engine vlmfix
+  step "B_${TAG}_tagging"  $PY pipeline/eval_e2e_tagging.py --ocr-run "$RUN" --engine vlmfix --model "$NAME" --out "artifacts/gt/e2e_tagging_results_$TAG.csv"
 done
 # ---------- C) GT 크롭 태깅 (이미지 + POI 후보) ----------
 for m in "${MODELS[@]}"; do IFS='|' read -r TAG NAME RUN <<< "$m"

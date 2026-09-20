@@ -54,6 +54,8 @@ def load_ocr_run(run: str, engine: str = "paddle") -> dict[str, str]:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--ocr-run", default="31", help="탐지 크롭 OCR run (하이브리드 합성본)")
+    ap.add_argument("--engine", default="vlmfix",
+                    help="run 파일의 엔진 태그. 연쇄 하이브리드 출력은 vlmfix (배포 paddle 과 파일명이 겹치지 않게 분리)")
     ap.add_argument("--model", default="gemma3:12b")
     ap.add_argument("--retriever", choices=["lexical", "hybrid"], default="hybrid")
     ap.add_argument("--rag-k", type=int, default=5)
@@ -68,7 +70,7 @@ def main() -> None:
 
     gt_rows = {r["image_name"]: r for r in T.load_gt()}
     tags = sorted({r["tag"] for r in gt_rows.values() if r["eval_tag"] == "1"})
-    ocr = load_ocr_run(args.ocr_run)
+    ocr = load_ocr_run(args.ocr_run, args.engine)
 
     detail, t0 = [], time.time()
     stat = {r: {"tp_ok": 0, "tp_n": 0, "fn_n": 0, "fp": 0, "fp_tagged": 0}

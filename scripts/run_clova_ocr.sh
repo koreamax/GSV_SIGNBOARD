@@ -53,14 +53,14 @@ fi
 
 if [ "$STEP" = "line" ] || [ "$STEP" = "all" ]; then
   say "3) in-domain test_line (API 약 1,631건)"
-  $PY pipeline/eval_str_indomain.py --engine clova --worker str_baselines/clova_rec_worker.py \
+  $PY str_baselines/eval_str_indomain.py --engine clova --worker str_baselines/clova_rec_worker.py \
       --worker-args "--max-calls 1800 --workers 3" --sets test_line > "$L/ind_clova.log" 2>&1
   say "in-domain 종료 (exit $?)"; grep "n=" "$L/ind_clova.log" | tail -n 2
 fi
 
 if [ "$STEP" = "word" ]; then
   say "4) in-domain test_word (API 약 7,756건 — 추가 과금)"
-  $PY pipeline/eval_str_indomain.py --engine clova --worker str_baselines/clova_rec_worker.py \
+  $PY str_baselines/eval_str_indomain.py --engine clova --worker str_baselines/clova_rec_worker.py \
       --worker-args "--max-calls 8000 --workers 3" --sets test_word > "$L/ind_clova_word.log" 2>&1
   grep "n=" "$L/ind_clova_word.log" | tail -n 1
 fi
