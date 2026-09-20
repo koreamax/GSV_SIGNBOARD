@@ -53,3 +53,6 @@ artifacts/vlm_probe_*.log
 !artifacts/report/
 artifacts/report/*
 !artifacts/report/results_page.html
+
+# CLOVA OCR 인증 정보는 절대 커밋하지 않습니다
+artifacts/str_baselines/clova_ocr/credentials.json

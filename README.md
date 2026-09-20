@@ -1053,8 +1053,8 @@ pooled AP@0.5(298장 OOF), 텍스트 열은 test 2,706장 단일 채점(score_th
 **배경.** 기존 OCR 비교표(4.4)의 EasyOCR·TrOCR 는 PP-OCRv5 와 체급이 다릅니다(2015년 CRNN / 인쇄 문서용 모델).
 PaddleOCR 비교 논문들이 실제로 쓰는 상대는 세 부류입니다 — ① 범용 오픈소스 엔진(Tesseract·EasyOCR·Surya·MMOCR·docTR),
 ② 학술 STR 인식기(PARSeq·ABINet·SVTR 계열·MAERec·CLIP4STR), ③ VLM(Qwen2.5-VL·GOT-OCR 등; 우리 표 3 의 "VLM alone").
-이 절은 ①에서 Tesseract·Surya, ②에서 PARSeq·SVTRv2 를 추가한 결과입니다. Clova OCR 은 유료 API 뿐이라
-(오픈소스는 2019년 CRAFT·deep-text-recognition-benchmark, CRAFT 는 이미 검출 단계에서 사용) 제외했습니다.
+이 절은 ①에서 Tesseract·Surya, ②에서 PARSeq·SVTRv2 를 추가한 결과입니다. ④ **상용 API**(NAVER CLOVA OCR General)는
+2026-09-20 에 비교군으로 추가했습니다 — 워커·러너·표 슬롯은 준비 완료이고 실행만 남았습니다(아래 '상용 API' 참고).
 
 **학습 (PARSeq·SVTRv2, 분할→학습, 섞임 0).** 배포 Paddle v5_lines 와 **같은 학습 혼합**(단어 62,464 + 실라인 13,148 =
 75,612 크롭, signboard_v3 분할 상속; `prep_str_baselines_data.py` → `artifacts/str_baselines/parseq_data` LMDB), val 9,609 으로
@@ -1124,6 +1124,23 @@ GPU 에 검출 작업을 올리면 SVTRv2 가 segfault — GPU 작업은 `run_oc
 tesstrain 식 `WordStr` box 파일을 요구(없으면 lstmf 0개, 오류 없음); (c) `combine_lang_model --pass_through_recoder` 로 문자표를 만들면 원본 kor 의 자모 recoder 와 달라
 출력층이 이어지지 않아 1시간 동안 오류율 78% 정체 → recoder 기본값(자모 분해)으로 재생성하니 정상 학습; (d) 새 traineddata 에 `kor.config`(`preserve_interword_spaces 1`)를
 넣지 않으면 Windows Tesseract 5 가 한글 음절마다 띄어 써 WER 1.77 → config 내장 후 0.88. 산출물 `artifacts/str_baselines/tesseract_ft/`(traineddata, lstmtraining 로그, 병합 문자표).
+
+**상용 API — NAVER CLOVA OCR General (준비 완료, 실행 대기).** Tesseract·Surya 와 같은 **범용 기성 엔진** 취급으로,
+배포 파이프라인과 동일한 라인 스트립을 그대로 API 에 넘기고 응답 `fields[]` 를 `lineBreak` 기준으로 이어 붙여 라인을 만듭니다
+(`str_baselines/clova_rec_worker.py` — 다른 워커와 같은 IO 계약). 유료이므로 크롭 단위 체크포인트로 재과금을 막고,
+`--max-calls` 호출 상한과 `--dry-run` 을 둡니다. 인증 정보는 환경변수 또는 git 제외 파일에서만 읽습니다.
+
+| 단계 | API 호출 | 비고 |
+|---|---|---|
+| 스모크 | 5건 | 응답·라인 복원 확인 |
+| GSV 라인 스트립 | 1,342건 | 표 5 행 (강남·수원 ko 767 + 브루클린 575) |
+| in-domain `test_line` | 1,631건 | 표 6 행 |
+| in-domain `test_word` | 7,756건 | 선택 — 비용이 커서 기본 제외 |
+
+```bash
+bash scripts/run_clova_ocr.sh smoke     # 5건만
+bash scripts/run_clova_ocr.sh all       # 스모크 + GSV + test_line + 표 재생성
+```
 
 **산출물:** `artifacts/str_baselines/{svtrv2/best.pth, parseq/checkpoints/*.ckpt, indomain_summary.csv, ocr_baselines_tables.md}`,
 GSV 예측 `artifacts/ocr_gt/ocr_<region>_{40 tesseract,41 surya,42 parseq,43 svtrv2,44 paddle}.csv`, 워커 `{tesseract,surya,openocr,parseq}_rec_worker.py`,

@@ -26,6 +26,7 @@ LABEL = {
     "tesseract_ft": ("Tesseract 5.5 (kor fine-tuned + eng)", "general engine, fine-tuned, same data"),
     "easyocr": ("EasyOCR (CRNN, fine-tuned v3)", "general engine, per-box"),
     "surya": ("Surya 0.14 (rec2)", "general engine, off-the-shelf"),
+    "clova": ("CLOVA OCR General (NAVER, commercial API)", "commercial API, off-the-shelf"),
     "trocr": ("TrOCR-small (fine-tuned v3)", "document STR, per-box"),
     "parseq": ("PARSeq (ViT-S, fine-tuned)", "academic STR, same data"),
     "svtrv2": ("SVTRv2-B (fine-tuned)", "academic STR, same data"),
@@ -62,7 +63,7 @@ def cell(r):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--engines", default="tesseract,tesseract_ft,easyocr,surya,trocr,parseq,svtrv2,paddle1,paddle")
+    ap.add_argument("--engines", default="tesseract,tesseract_ft,easyocr,surya,clova,trocr,parseq,svtrv2,paddle1,paddle")
     ap.add_argument("--no-docx", action="store_true")
     args = ap.parse_args()
     engines = [e for e in args.engines.split(",") if e]
