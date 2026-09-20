@@ -48,3 +48,8 @@ artifacts/str_baselines/tesseract_ft/tessdata/
 
 # VLM hybrid runs: keep logs/status, not per-crop checkpoints
 artifacts/vlm_probe_*.log
+
+# 결과 페이지(아티팩트 소스) — 표·사례 이미지 포함 단일 HTML
+!artifacts/report/
+artifacts/report/*
+!artifacts/report/results_page.html
