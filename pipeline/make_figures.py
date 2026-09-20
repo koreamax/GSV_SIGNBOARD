@@ -91,8 +91,13 @@ def draw_box(dr, box, color, width, label=None, fs=0):
         dr.text((box[0] + pad, y + pad - tw[1]), label, font=f, fill=(255, 255, 255))
 
 
+BARE = True          # True 면 그림 아래 설명 띠를 붙이지 않고 이미지만 남깁니다
+
+
 def caption_bar(img: Image.Image, title: str, sub: str, legend: list[tuple[str, tuple]]) -> Image.Image:
-    """그림 아래 제목·설명·범례 띠를 붙입니다."""
+    """그림 아래 제목·설명·범례 띠를 붙입니다 (BARE=True 면 그대로 반환)."""
+    if BARE:
+        return img
     W = img.width
     fs_t, fs_s = max(17, W // 52), max(14, W // 68)
     pad = max(14, W // 70)
