@@ -93,7 +93,7 @@ def main():
     if args.no_docx:
         return
     from docx import Document
-    src, dst = DESK / "GSV_results_v5.docx", DESK / "GSV_results_v7.docx"
+    src, dst = DESK / "GSV_results_v5.docx", DESK / "GSV_results_v9.docx"
     shutil.copy(src, dst); d = Document(dst)
     d.add_paragraph("")
     d.add_paragraph("Table 5. OCR engines on GSV signboard crops by region (line exact / CER / WER)")
