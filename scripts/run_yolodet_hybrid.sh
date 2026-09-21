@@ -13,8 +13,10 @@ CONF=0.01
 DET="--text-detector yolo --yolo-det-conf $CONF"
 V5=output/paddle_signboard_rec_v5_lines/inference
 V4=output/paddle_signboard_rec_v4_spacecat/inference
-SV=artifacts/str_baselines/svtrv2/best.pth
-SVCFG=external/OpenOCR/configs/rec/svtrv2/svtrv2_rctc_signboard.yml
+ROOT=$(pwd -W 2>/dev/null || pwd)          # OpenOCR·parseq 워커는 chdir 하므로 모델 경로는 절대경로여야 합니다
+SV="$ROOT/artifacts/str_baselines/svtrv2/best.pth"
+SVCFG="$ROOT/external/OpenOCR/configs/rec/svtrv2/svtrv2_rctc_signboard.yml"
+PQ="$ROOT/artifacts/str_baselines/parseq/checkpoints/epoch=19-step=11820-val_accuracy=81.7359-val_NED=93.1267.ckpt"
 say() { echo "[$(date '+%m-%d %H:%M')] $*" | tee -a "$ST"; }
 step() {
   local name=$1; shift
@@ -39,7 +41,7 @@ if [ "$STEP" = "cand" ] || [ "$STEP" = "all" ]; then
   step "cand_svtrv2" $PY pipeline/run_ocr_line.py --run 83 $DET \
       --worker str_baselines/openocr_rec_worker.py --worker-args "--config $SVCFG --weights $SV" --engine-tag cysvtrv2
   step "cand_parseq" $PY pipeline/run_ocr_line.py --run 84 $DET \
-      --worker str_baselines/parseq_rec_worker.py --engine-tag cyparseq
+      --worker str_baselines/parseq_rec_worker.py --worker-args "--ckpt $PQ" --engine-tag cyparseq
   for spec in "80 cy5 y5" "81 cy4 y4" "82 cypre ypre" "83 cysvtrv2 ysvtrv2" "84 cyparseq yparseq"; do
     set -- $spec; cand_from_run "$1" "$2" "$3" | tee -a "$ST"
   done

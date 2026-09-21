@@ -88,6 +88,9 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--ocr-run", default="30", help="탐지 크롭으로 돌린 OCR run 번호")
     ap.add_argument("--gt-run", default="24", help="GT 크롭 기준 비교용 run")
+    ap.add_argument("--gt-engine", default=None,
+                    help="기준 run 의 엔진 태그 (기본: --engine 과 동일). 연쇄 출력이 vlmfix 태그인데 "
+                         "기준은 paddle 인 경우처럼 둘이 다를 때 지정합니다")
     ap.add_argument("--engine", default="paddle")
     ap.add_argument("--tag", default="",
                     help="탐지 구성 태그 (예: _lowconf, _union). 매칭표 선택")
@@ -99,7 +102,7 @@ def main() -> None:
     for region in REGIONS:
         gt_txt = load_map(GT_DIR / f"ocr_{region}_gt.csv")
         det_pred = load_map(OCR_DIR / f"ocr_{region}_{args.ocr_run}_{args.engine}.csv")
-        gtc_pred = load_map(OCR_DIR / f"ocr_{region}_{args.gt_run}_{args.engine}.csv")
+        gtc_pred = load_map(OCR_DIR / f"ocr_{region}_{args.gt_run}_{args.gt_engine or args.engine}.csv")
         match = load_match(region, args.tag)
 
         ok_tp = n_tp_lines = 0          # TP 크롭에서 맞은 라인 / 그 크롭들의 GT 라인
