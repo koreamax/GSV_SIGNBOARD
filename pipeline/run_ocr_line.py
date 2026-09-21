@@ -150,6 +150,23 @@ def db_detect(files_by_region: dict[str, list[Path]], tmp: Path) -> dict[str, li
     return boxes
 
 
+def yolo_detect(files_by_region: dict[str, list[Path]], tmp: Path, conf: float) -> dict[str, list]:
+    """학습된 YOLO26x 단어 탐지기 박스 (별도 프로세스 — paddle_det_worker 와 같은 계약)."""
+    man, out = tmp / "ydet_man.jsonl", tmp / "ydet_out.jsonl"
+    with man.open("w", encoding="utf-8") as f:
+        for region, files in files_by_region.items():
+            for p in files:
+                f.write(json.dumps({"key": f"{region}::{p.stem}", "path": str(p)}) + "\n")
+    subprocess.run([str(PY), str(HERE / "str_baselines" / "yolo_text_det_worker.py"),
+                    "--manifest", str(man), "--out", str(out), "--conf", str(conf)], check=True)
+    boxes = {}
+    with out.open(encoding="utf-8") as f:
+        for line in f:
+            d = json.loads(line)
+            boxes[d["key"]] = d["boxes"]
+    return boxes
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--run", required=True)
@@ -161,6 +178,13 @@ def main() -> None:
                     help="override Korean-region inference dir (default: v5_lines)")
     ap.add_argument("--no-det-union", action="store_true",
                     help="CRAFT boxes only (pre-D23 behaviour)")
+    ap.add_argument("--text-detector", choices=["union", "craft", "yolo", "yolo_union"],
+                    default="union",
+                    help="검출 단계만 교체 (D38). union=CRAFT∪PaddleOCR-DB(배포) · craft=CRAFT 단독 · "
+                         "yolo=학습된 YOLO26x 단어 탐지기 단독 · yolo_union=YOLO26x∪CRAFT. "
+                         "라인 병합·패딩·인식기·전처리는 어느 쪽이든 동일합니다")
+    ap.add_argument("--yolo-det-conf", type=float, default=0.25,
+                    help="--text-detector yolo/yolo_union 의 confidence 임계값")
     ap.add_argument("--pad", type=float, default=0.04,
                     help="strip crop margin (fraction of strip w/h); 0.04 = swept optimum")
     ap.add_argument("--y-tol", type=float, default=0.04,
@@ -206,32 +230,48 @@ def main() -> None:
     files_by_region = {r: sorted((crop_root / r).glob("*.jpg"), key=lambda p: natural_key(p.stem))
                        for r in regions}
 
-    # ---- CRAFT boxes (this torch process) ----
+    # ---- 검출 단계 (D38: --text-detector 로만 교체, 이후 단계는 전부 동일) ----
+    mode = "craft" if args.no_det_union else args.text_detector
     craft: dict[str, list] = {}
-    for region in regions:
-        kind, _ = REGION_CFG[region]
-        reader = reader_for(kind)
-        print(f"[DETECT/CRAFT] {region}: {len(files_by_region[region])} crops (reader={kind})")
-        for img_path in files_by_region[region]:
-            img = Image.open(img_path).convert("RGB")
-            lines = RO.easyocr_detect_lines(
-                reader, img, line_y_tol=0.06, craft_text_threshold=0.7,
-                craft_link_threshold=0.4, craft_low_text=0.4)
-            lines, _ = RO.filter_boxes(lines, img.height, FILTER_ARGS)
-            craft[f"{region}::{img_path.stem}"] = [
-                [[float(c[0]), float(c[1])] for c in b["bbox"]] for ln in lines for b in ln]
 
-    # ---- PaddleOCR DB boxes (isolated process) + union (D23) ----
-    db: dict[str, list] = {}
-    if not args.no_det_union:
-        print("[DETECT/DB] PaddleOCR DB detector (isolated worker) ...")
-        db = db_detect(files_by_region, tmp)
+    def run_craft() -> dict[str, list]:
+        out: dict[str, list] = {}
+        for region in regions:
+            kind, _ = REGION_CFG[region]
+            reader = reader_for(kind)
+            print(f"[DETECT/CRAFT] {region}: {len(files_by_region[region])} crops (reader={kind})")
+            for img_path in files_by_region[region]:
+                img = Image.open(img_path).convert("RGB")
+                lines = RO.easyocr_detect_lines(
+                    reader, img, line_y_tol=0.06, craft_text_threshold=0.7,
+                    craft_link_threshold=0.4, craft_low_text=0.4)
+                lines, _ = RO.filter_boxes(lines, img.height, FILTER_ARGS)
+                out[f"{region}::{img_path.stem}"] = [
+                    [[float(c[0]), float(c[1])] for c in b["bbox"]] for ln in lines for b in ln]
+        return out
+
+    def merge_into(base: dict[str, list], extra_src: dict[str, list], label: str) -> None:
         n_add = 0
-        for k, cb in craft.items():
-            extra = [b for b in db.get(k, []) if not any(_overlaps(b, c) for c in cb)]
-            craft[k] = cb + extra
+        for k in list(base.keys()) + [k for k in extra_src if k not in base]:
+            cb = base.get(k, [])
+            extra = [b for b in extra_src.get(k, []) if not any(_overlaps(b, c) for c in cb)]
+            base[k] = cb + extra
             n_add += len(extra)
-        print(f"[DETECT/DB] added {n_add} non-overlapping DB boxes")
+        print(f"[DETECT/{label}] added {n_add} non-overlapping boxes")
+
+    if mode in ("union", "craft"):
+        craft = run_craft()
+        if mode == "union":
+            print("[DETECT/DB] PaddleOCR DB detector (isolated worker) ...")
+            merge_into(craft, db_detect(files_by_region, tmp), "DB")
+    elif mode == "yolo":
+        print(f"[DETECT/YOLO] trained YOLO26x word detector (conf {args.yolo_det_conf}) ...")
+        craft = yolo_detect(files_by_region, tmp, args.yolo_det_conf)
+    elif mode == "yolo_union":
+        print(f"[DETECT/YOLO] trained YOLO26x word detector (conf {args.yolo_det_conf}) ...")
+        craft = yolo_detect(files_by_region, tmp, args.yolo_det_conf)
+        merge_into(craft, run_craft(), "CRAFT")
+    print(f"[DETECT] mode={mode}  boxes={sum(len(v) for v in craft.values())}")
 
     # ---- line grouping + strip crops ----
     for region in regions:

@@ -37,6 +37,7 @@ OUT_DIR = OCR_DIR / "ab_v4_spacecat"
 OLLAMA = "http://localhost:11434/api/generate"
 REGIONS = ["gangnam", "brooklyn", "suwon"]
 DEPLOY_RUN = "24"
+DEPLOY_ENGINE = "paddle"
 
 
 THINK = False          # Qwen3-VL/Gemma4 의 thinking 모드 — 오프로드 환경에서는 끕니다(--think 로 켬)
@@ -273,6 +274,9 @@ def main() -> None:
                     help="artifacts/gt/crop 대신 쓸 크롭 루트 (예: artifacts/gt/crop_det)")
     ap.add_argument("--deploy-run", default=None,
                     help="기준 OCR run (기본 24). 탐지 크롭은 30")
+    ap.add_argument("--deploy-engine", default="paddle",
+                    help="기준 run 파일의 엔진 태그 (D38: YOLO 검출기 구성은 yolo01). "
+                         "engine 태그를 분리해야 eval_ocr_v2 의 '엔진별 최신 run' 선택과 충돌하지 않습니다")
     ap.add_argument("--out-suffix", default="",
                     help="출력 파일명 접미사 (예: _det) — GT 크롭 산출물과 분리")
     ap.add_argument("--no-score", action="store_true",
@@ -289,8 +293,9 @@ def main() -> None:
     ap.add_argument("--limit", type=int, default=0, help="지역당 앞 N 크롭만 (속도 측정·스모크용)")
     args = ap.parse_args()
 
-    global CROP, DEPLOY_RUN, THINK
+    global CROP, DEPLOY_RUN, DEPLOY_ENGINE, THINK
     THINK = args.think
+    DEPLOY_ENGINE = args.deploy_engine
     if args.crop_dir:
         CROP = Path(args.crop_dir)
     if args.deploy_run:
@@ -310,7 +315,7 @@ def main() -> None:
     print(f"[VLM-OCR] mode={args.mode} model={args.model}")
     for region in REGIONS:
         gt = E.load_csv_map(GT / f"ocr_{region}_gt.csv")
-        deploy = E.load_csv_map(OCR_DIR / f"ocr_{region}_{DEPLOY_RUN}_paddle.csv")
+        deploy = E.load_csv_map(OCR_DIR / f"ocr_{region}_{DEPLOY_RUN}_{DEPLOY_ENGINE}.csv")
         cand_maps = {}
         if args.mode == "fixcand":
             for tag in [t for t in args.cand_tags.split(",") if t]:
