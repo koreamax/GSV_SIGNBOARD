@@ -1,6 +1,6 @@
 """OCR 인식기 통제 비교 — 단일 모델 기준 · 사진 단위 val/test 분리 · 차이의 부트스트랩 신뢰구간.
 
-무엇을 고정했나: 검출기(CRAFT ∪ PaddleOCR-DB), 라인 병합(y_tol 0.04), 스트립 패딩(0.04),
+무엇을 고정했나: 검출기(학습된 YOLO26x 단어 탐지기 @conf 0.01), 라인 병합(y_tol 0.04), 스트립 패딩(0.04),
 전처리, 채점 규칙(eval_ocr_v2 --mask-phone, 브루클린 en-only). 바꾼 것은 인식기 하나뿐입니다.
 미세조정군은 전부 같은 75,612 크롭 · 같은 signboard_v3 분할로 학습했습니다.
 
@@ -19,18 +19,18 @@ sys.argv = saved
 GT = Path("artifacts/gt"); OCR = Path("artifacts/ocr_gt")
 REG = ["gangnam", "brooklyn", "suwon"]
 
+# 전부 같은 YOLO26x 스트립에서 나온 라인 스트립 인식 결과입니다.
+# EasyOCR·TrOCR 는 라인 스트립 방식으로 돌린 적이 없어(옛 per-box 파이프라인 전용) 통제 비교에서 제외합니다.
 ENGINES = [                                  # (태그, 표기, 학습 조건)
-    ("tesseract",    "Tesseract 5.5",            "zero-shot"),
-    ("surya",        "Surya 0.14",               "zero-shot"),
-    ("clova",        "CLOVA OCR General",        "zero-shot (상용 API)"),
-    ("tesseract_ft", "Tesseract 5.5",            "fine-tuned"),
-    ("trocr",        "TrOCR-small",              "fine-tuned"),
-    ("easyocr",      "EasyOCR (CRNN)",           "fine-tuned"),
-    ("parseq",       "PARSeq (ViT-S)",           "fine-tuned"),
-    ("paddle1",      "PP-OCRv5 rec",             "fine-tuned"),
-    ("svtrv2",       "SVTRv2-B",                 "fine-tuned"),
+    ("ytess",     "Tesseract 5.5",              "zero-shot"),
+    ("ysurya",    "Surya 0.14",                 "zero-shot"),
+    ("yclova",    "CLOVA OCR General",          "zero-shot (상용 API)"),
+    ("ytessft",   "Tesseract 5.5",              "fine-tuned"),
+    ("cyparseq",  "PARSeq (ViT-S)",             "fine-tuned"),
+    ("cy5",       "PaddleOCR (PP-OCRv5 rec)",   "fine-tuned"),
+    ("cysvtrv2",  "SVTRv2-B",                   "fine-tuned"),
 ]
-REF = "paddle1"                              # 기준 = 배포 인식기의 단일 모델
+REF = "cy5"                                  # 기준 = PaddleOCR 인식기 (단일 모델)
 
 # ---------- 사진 단위 val/test 분할 ----------
 gt_maps = {r: E.load_csv_map(GT / f"ocr_{r}_gt.csv") for r in REG}
@@ -80,7 +80,7 @@ for eng, name, cond in ENGINES:
         print("missing:", eng); continue
     data[eng] = rows
 
-print("검증: 전체(=기존 공식 수치와 대조)")
+print("전체(참고)")
 for eng, name, cond in ENGINES:
     if eng in data:
         e, c, n = agg(data[eng])
@@ -94,7 +94,7 @@ for eng, name, cond in ENGINES:
     print(f"{name:<22}{cond:<22}{v[0]:>7.1f}%{t[0]:>7.1f}%{t[1]:>10.3f}")
 
 # ---------- 기준(PP-OCRv5 단일) 대비 차이의 부트스트랩 95% CI (test 절반, 크롭 단위 페어) ----------
-print(f"\n기준 = PP-OCRv5 rec 단일 모델. test 절반에서 차이(%p)와 95% 신뢰구간 (크롭 단위 부트스트랩 2000회)")
+print(f"\n기준 = PaddleOCR(PP-OCRv5 rec) 단일 모델. test 절반에서 차이(%p)와 95% 신뢰구간 (크롭 단위 부트스트랩 2000회)")
 ref_rows = {(x[4], x[5], i): x for i, x in enumerate(data[REF])}
 ref_list = [x for x in data[REF] if x[5] in split[x[4]]["test"]]
 B = 2000
