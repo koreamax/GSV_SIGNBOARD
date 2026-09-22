@@ -124,6 +124,7 @@ GSV GT 크롭 411개 / 592 라인.
 | TrOCR-base | 미세조정 | (학습 대기) | | | | |
 | ABINet | 미세조정 | (학습 대기) | | | | |
 | MAERec (ViT-S) | 미세조정 | (학습 대기) | | | | |
+| Surya 0.14 | 제로샷 | 43.9 / .532 | 59.3 / .194 | 22.1 / .759 | 42.4% | .411 |
 | CLOVA OCR General | 제로샷(상용 API) | 58.0 / .317 | 59.8 / .186 | 48.1 / .415 | 55.6% | .272 |
 | PARSeq (ViT-S) | 미세조정 | 70.8 / .242 | 71.9 / .133 | 62.4 / .290 | 68.6% | .197 |
 | PaddleOCR PP-OCRv5 rec | 미세조정 | 73.6 / .190 | 77.9 / .108 | 68.5 / .190 | 73.5% | .149 |
@@ -135,6 +136,7 @@ GSV GT 크롭 411개 / 592 라인.
 |---|---|---|---|
 | Tesseract 5.5 | LSTM 라인 인식기, 오픈소스 문서 OCR 표준 | 응용 OCR 논문의 기본 기준선. 같은 데이터로 미세조정까지 되는 유일한 비-STR 엔진이라 "데이터 부족"과 "구조 문제"를 가릅니다 | 아래 |
 | EasyOCR (CRNN) | CRNN 인식기 (JaidedAI) | 문헌에서 PaddleOCR 와 가장 자주 함께 벤치마크되는 상대 | 아래 |
+| Surya 0.14 | 최신 다국어 문서 OCR 툴킷 (transformer) | **기성 엔진 기준선.** 학습 없이 그대로 썼을 때 얼마가 나오는지를 보는 자리로, Tesseract 제로샷의 현대판 대조군입니다. 공개된 학습 코드가 없어 미세조정이 **불가능**하므로 제로샷으로만 들어갑니다 | 비슷 |
 | TrOCR-base | Transformer encoder-decoder OCR (Microsoft) | 같은 이유. small(62M) 대신 **base(334M)** 로 체급을 올림 | 비슷 |
 | ABINet | 언어모델 결합 STR (CVPR 2021, 확장판 ABINet++ 는 IEEE TPAMI) | STR 비교표의 표준 기준선. **미세조정 가능**하고 SVTRv2 와 같은 학습 하네스(OpenOCR) 사용 | 비슷 |
 | MAERec (ViT-S) | MAE 사전학습 ViT + NRTR 디코더 (ICCV 2023, Union14M) | 더 최신 STR 기준선. 역시 같은 하네스로 미세조정 가능 | 비슷 |
@@ -143,12 +145,25 @@ GSV GT 크롭 411개 / 592 라인.
 | **SVTRv2-B** | Single visual model + CTC, OpenOCR (ICCV 2025) | **현행 배포** | 위 |
 | CLOVA OCR General | NAVER 상용 API | 상용 기준점. 미세조정이 **불가능**(가중치 비공개)하므로 "유료 범용 API 가 미세조정 모델을 대체할 수 있나"에만 답합니다 | 비공개 |
 
-**Surya 는 제외합니다.** ① 저장소(`datalab-to/surya`, v0.22.1)의 `surya/scripts/` 에는 추론
-스크립트만 있고 **학습 스크립트가 없습니다**(GitHub API 로 직접 확인). README 도 미세조정은
-`hi@datalab.to` 문의, 즉 자사 유료 학습 서비스로 안내합니다. 설치된 `.venv_surya` 도 CPU 전용 torch 라
-학습 자체가 안 됩니다. ② 그래서 제로샷 행 하나만 미세조정군에 섞이는 **불공정 비교**가 됩니다.
-③ 논문이 없고 JCR Q1 저널 사용 선례도 찾지 못했습니다(arXiv 프리프린트와 RANLP 2025 학회 논문뿐,
-전부 문서 OCR 맥락). 그 자리를 같은 하네스로 학습 가능한 **ABINet** 으로 대체합니다.
+**제로샷 행 둘(Surya · CLOVA)은 미세조정군과 다른 질문에 답합니다.** 하나의 순위로 읽으면 안 됩니다.
+미세조정 7종은 "같은 데이터·같은 파이프라인에서 어느 구조가 나은가"에 답하고, 제로샷 2종은
+**"학습 없이 그대로 가져다 쓰면 얼마가 나오는가"**에 답합니다. 표에 학습 조건 열을 둔 이유가 이것입니다.
+
+둘 다 미세조정이 **불가능해서** 제로샷인 것이지, 안 한 것이 아닙니다.
+- **Surya**: 저장소(`datalab-to/surya`, v0.22.1)의 `surya/scripts/` 에 추론 스크립트만 있고 **학습
+  스크립트가 없습니다**(GitHub API 로 디렉터리 목록 직접 확인). README 도 미세조정은 `hi@datalab.to`
+  문의, 즉 자사 유료 학습 서비스로 안내합니다. 설치된 `.venv_surya`(surya-ocr 0.14.6)도 CPU 전용
+  torch 라 학습 자체가 안 됩니다.
+- **CLOVA OCR General**: 상용 API 로 가중치가 비공개입니다.
+
+따라서 이 두 행으로는 **"구조가 낫다/못하다"를 주장할 수 없습니다.** 쓸 수 있는 서술은
+"기성 엔진을 그대로 가져다 쓰면 이 도메인에서 이 정도"까지입니다.
+
+> 인용 주의: Surya 는 논문이 없고(GitHub 도구) JCR Q1 저널 사용 선례도 찾지 못했습니다 — 확인된
+> 사용례는 arXiv 프리프린트와 RANLP 2025 학회 논문뿐이고 전부 문서 OCR 맥락, 장면 텍스트 사례는
+> 없습니다. 기성 엔진 기준선이라는 **역할**은 [A Survey of OCR Evaluation Methods](https://arxiv.org/html/2603.25761v1)
+> 가 Tesseract v5·olmOCR 2 와 함께 Surya 를 묶어 비교한 용례와 같지만, 저널 선례로 인용할 수는
+> 없습니다.
 
 > 한 번 틀렸던 기록: 검색 요약만 보고 "Surya 에 `finetune_ocr.py` 가 있어 미세조정 가능"이라고 적었다가
 > 저장소를 직접 열어보고 정정했습니다. 근거는 검색 요약이 아니라 원본에서 확인합니다.
@@ -163,6 +178,7 @@ GSV GT 크롭 411개 / 592 라인.
 | SVTRv2-B | +3.5 | [-0.7, +7.9] | **미판정** |
 | PARSeq | -3.5 | [-8.4, +1.0] | **미판정** |
 | CLOVA OCR General | -13.8 | [-19.6, -8.2] | 유의 |
+| Surya 0.14 | -28.7 | [-34.4, -23.1] | 유의 |
 | Tesseract (미세조정) | -39.1 | [-45.1, -33.2] | 유의 |
 | Tesseract (제로샷) | -40.5 | [-45.9, -34.7] | 유의 |
 
@@ -250,7 +266,8 @@ detection/   train_*_kfold.py       간판 탐지 4모델 (Table 1)
              eval_text_chain.py     단어 박스 AP (간판→단어 연쇄)
              e2e_det_boxes.py       연쇄용 탐지 크롭 생성
 
-str_baselines/  *_rec_worker.py     인식기 워커 7종 — 같은 IO 계약, --worker 로 교체
+str_baselines/  *_rec_worker.py     인식기 워커 8종 — 같은 IO 계약, --worker 로 교체
+                                    (surya 만 .venv_surya 에서 실행: --worker-py 로 지정)
                 yolo_text_det_worker.py  단어 탐지기 워커
                 eval_ocr_controlled.py   통제 비교 + 부트스트랩 신뢰구간
 
