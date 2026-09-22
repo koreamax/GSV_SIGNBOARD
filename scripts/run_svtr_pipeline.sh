@@ -3,11 +3,12 @@
 #
 #   (chain : 단어 박스 GT 라벨링 대기 — 보류)
 #   rec   : EasyOCR · TrOCR 를 같은 YOLO26x 라인 스트립에서 실행 (Table 3 채우기)
+#   str   : ABINet · MAERec 미세조정 + 추론 (Table 3)
 #   vlm   : SVTRv2 배포 기준선 위에서 Gemma 4 31B × Qwen3-VL 32B × fixtext/fix/fixcand (Table 4)
 #
 # 앞 작업(SVTRv2 연쇄 재측정)이 GPU 를 비울 때까지 기다렸다 시작합니다.
 # 기존 산출물은 덮어쓰지 않습니다(run 112~115, 태그 _svtr).
-# 루트에서: bash scripts/run_svtr_pipeline.sh [rec|trocr|vlm|all]
+# 루트에서: bash scripts/run_svtr_pipeline.sh [rec|trocr|str|vlm|all]
 cd "$(dirname "$0")/.." || exit 1
 export PYTHONIOENCODING=utf-8 PYTHONUTF8=1
 PY=.venv/Scripts/python.exe
@@ -54,6 +55,17 @@ if [ "$STEP" = "trocr" ] || [ "$STEP" = "all" ]; then
       --worker str_baselines/trocr_rec_worker.py \
       --worker-args "--model $TB/trocr_model --processor $TB/trocr_model" \
       --engine-tag ytrocrb
+fi
+
+# ---------- ABINet · MAERec 미세조정 (SVTRv2 와 같은 하네스·같은 데이터) ----------
+# 사전학습 가중치가 external/OpenOCR/pretrained/{abinet,maerec}/best.pth 에 있으면 그것으로 시작하고
+# (strict=False 로 로드되어 분류층만 무작위), 없으면 스크래치로 학습합니다 — 표에 그 사실을 적어야 합니다.
+ROOT=$(pwd -W 2>/dev/null || pwd)
+if [ "$STEP" = "str" ] || [ "$STEP" = "all" ]; then
+  step "train_abinet" bash -c 'cd external/OpenOCR && ../../.venv/Scripts/python.exe tools/train_rec.py -c configs/rec/abinet/abinet_signboard.yml'
+  step "rec_abinet" $PY pipeline/run_ocr_line.py --run 114 $DET       --worker str_baselines/openocr_rec_worker.py       --worker-args "--config $ROOT/external/OpenOCR/configs/rec/abinet/abinet_signboard.yml --weights $ROOT/artifacts/str_baselines/abinet/best.pth"       --engine-tag yabinet
+  step "train_maerec" bash -c 'cd external/OpenOCR && ../../.venv/Scripts/python.exe tools/train_rec.py -c configs/rec/maerec/maerec_signboard.yml'
+  step "rec_maerec" $PY pipeline/run_ocr_line.py --run 115 $DET       --worker str_baselines/openocr_rec_worker.py       --worker-args "--config $ROOT/external/OpenOCR/configs/rec/maerec/maerec_signboard.yml --weights $ROOT/artifacts/str_baselines/maerec/best.pth"       --engine-tag ymaerec
 fi
 
 # ---------- 3) Table 4 — SVTRv2 배포 기준선 × 2 VLM × 3 모드 ----------

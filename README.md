@@ -123,6 +123,7 @@ GSV GT 크롭 411개 / 592 라인.
 | EasyOCR (CRNN) | 미세조정 | (미측정) | (미측정) | (미측정) | (미측정) | |
 | TrOCR-base | 미세조정 | (학습 대기) | | | | |
 | ABINet | 미세조정 | (학습 대기) | | | | |
+| MAERec (ViT-S) | 미세조정 | (학습 대기) | | | | |
 | CLOVA OCR General | 제로샷(상용 API) | 58.0 / .317 | 59.8 / .186 | 48.1 / .415 | 55.6% | .272 |
 | PARSeq (ViT-S) | 미세조정 | 70.8 / .242 | 71.9 / .133 | 62.4 / .290 | 68.6% | .197 |
 | PaddleOCR PP-OCRv5 rec | 미세조정 | 73.6 / .190 | 77.9 / .108 | 68.5 / .190 | 73.5% | .149 |
@@ -135,7 +136,8 @@ GSV GT 크롭 411개 / 592 라인.
 | Tesseract 5.5 | LSTM 라인 인식기, 오픈소스 문서 OCR 표준 | 응용 OCR 논문의 기본 기준선. 같은 데이터로 미세조정까지 되는 유일한 비-STR 엔진이라 "데이터 부족"과 "구조 문제"를 가릅니다 | 아래 |
 | EasyOCR (CRNN) | CRNN 인식기 (JaidedAI) | 문헌에서 PaddleOCR 와 가장 자주 함께 벤치마크되는 상대 | 아래 |
 | TrOCR-base | Transformer encoder-decoder OCR (Microsoft) | 같은 이유. small(62M) 대신 **base(334M)** 로 체급을 올림 | 비슷 |
-| ABINet | 언어모델 결합 STR (CVPR 2021) | STR 비교표의 표준 기준선. **미세조정 가능**하고 SVTRv2 와 같은 학습 하네스(OpenOCR) 사용 | 비슷 |
+| ABINet | 언어모델 결합 STR (CVPR 2021, 확장판 ABINet++ 는 IEEE TPAMI) | STR 비교표의 표준 기준선. **미세조정 가능**하고 SVTRv2 와 같은 학습 하네스(OpenOCR) 사용 | 비슷 |
+| MAERec (ViT-S) | MAE 사전학습 ViT + NRTR 디코더 (ICCV 2023, Union14M) | 더 최신 STR 기준선. 역시 같은 하네스로 미세조정 가능 | 비슷 |
 | PARSeq (ViT-S) | Permuted AR STR (ECCV 2022) | 파라미터 수가 배포 인식기와 가장 가까운 **체급 일치** 비교 | 일치 |
 | PaddleOCR PP-OCRv5 rec | 이전 배포 인식기 | 교체 판단의 기준 행 | 기준 |
 | **SVTRv2-B** | Single visual model + CTC, OpenOCR (ICCV 2025) | **현행 배포** | 위 |
@@ -183,7 +185,8 @@ GSV GT 크롭 411개 / 592 라인.
 | PaddleOCR PP-OCRv5 rec | 실라인 13,148 + 단어 크롭, v5_lines | — |
 | SVTRv2-B | OpenOCR `svtrv2_rctc_signboard.yml`, 같은 75,612 | 3h41m |
 | PARSeq (ViT-S) | 같은 분할·같은 혼합 | 2h15m |
-| ABINet | OpenOCR `configs/rec/abinet/`, 같은 조건 (예정) | ~3~4h |
+| ABINet | OpenOCR `configs/rec/abinet/abinet_signboard.yml`, 같은 조건 (예정) | ~3~4h |
+| MAERec | OpenOCR `configs/rec/maerec/maerec_signboard.yml`, 같은 조건 (예정) | ~3~4h |
 | TrOCR-base | `ocr/train_textinthewild_ocr.py`, base-printed, 10ep@5e-5, batch 4, 증강, **바이트레벨 BPE 토크나이저**(기본 sentencepiece 는 한글 음절을 `<unk>` 로 손상시킴) | ~11h (예정) |
 | EasyOCR (CRNN) | VGG+BiLSTM+CTC, imgH 64 / imgW 600 → `make_easyocr_plugin.py` 로 `signboard_v3_custom` 플러그인화 | 완료 |
 | Tesseract 5.5 | WordStr box 파일 + 자모 recoder, `preserve_interword_spaces` | 완료 |
@@ -305,10 +308,24 @@ bash scripts/run_svtr_pipeline.sh all
 |---|---|
 | Table 3 — EasyOCR 라인 스트립 | 대기 (큐) |
 | Table 3 — TrOCR-base 학습 + 추론 | 대기 (큐, ~11h) |
-| Table 3 — ABINet 학습 + 추론 | 미착수 (~3~4h) |
+| Table 3 — ABINet 학습 + 추론 | 대기 (큐, ~3~4h) |
+| Table 3 — MAERec 학습 + 추론 | 대기 (큐, ~3~4h) |
 | Table 4 — VLM 2모델 × 3모드 | 대기 (큐, ~21h) |
 | 연쇄 태깅 — SVTRv2 구성 | 실행 중 |
 | Table 2 — 연쇄 AP@0.5 | **보류** — GSV 단어 박스 라벨 후 |
+
+### ABINet · MAERec 사전학습 가중치
+
+SVTRv2 는 Union14M 사전학습 가중치에서 출발했고 PARSeq 도 사전학습을 썼습니다. ABINet·MAERec 만
+스크래치로 학습하면 **반대 방향의 불공정**이 됩니다. OpenOCR 모델 zoo 는 Google Drive 폴더에 있는데
+스크립트로는 목록 조회가 막혀 있어 수동 다운로드가 필요합니다.
+
+- <https://drive.google.com/drive/folders/1Po1LSBQb87DxGJuAgLNxhsJ-pdXxpIfS>
+- <https://drive.google.com/drive/folders/1x1LC8C_W-Frl3sGV9i9_i_OD-bqNdodJ>
+
+받은 파일을 `external/OpenOCR/pretrained/abinet/best.pth`, `external/OpenOCR/pretrained/maerec/best.pth`
+로 두면 설정이 자동으로 집어 씁니다(`strict=False` 로 로드되어 한국어 분류층만 무작위 초기화).
+없으면 스크래치로 학습되며, 그때는 **표에 "사전학습 없음"을 반드시 명시**해야 합니다.
 
 ### GSV 단어 박스 라벨링
 
