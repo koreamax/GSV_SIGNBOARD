@@ -1,13 +1,13 @@
 #!/bin/bash
 # 배포 인식기를 SVTRv2-B 로 확정한 뒤의 전체 재측정 (D40).
 #
-#   chain : 간판 검출 → 단어 검출 연쇄 AP@0.5 (4 아키텍처) — 단독 AP 와 같은 단위
+#   (chain : 단어 박스 GT 라벨링 대기 — 보류)
 #   rec   : EasyOCR · TrOCR 를 같은 YOLO26x 라인 스트립에서 실행 (Table 3 채우기)
 #   vlm   : SVTRv2 배포 기준선 위에서 Gemma 4 31B × Qwen3-VL 32B × fixtext/fix/fixcand (Table 4)
 #
 # 앞 작업(SVTRv2 연쇄 재측정)이 GPU 를 비울 때까지 기다렸다 시작합니다.
 # 기존 산출물은 덮어쓰지 않습니다(run 112~115, 태그 _svtr).
-# 루트에서: bash scripts/run_svtr_pipeline.sh [chain|rec|vlm|all]
+# 루트에서: bash scripts/run_svtr_pipeline.sh [rec|trocr|vlm|all]
 cd "$(dirname "$0")/.." || exit 1
 export PYTHONIOENCODING=utf-8 PYTHONUTF8=1
 PY=.venv/Scripts/python.exe
@@ -30,11 +30,10 @@ if [ ! -f "$W/cas_eval_tag.done" ]; then
   say "대기 해제"
 fi
 
-# ---------- 1) 연쇄 AP@0.5 — 간판 검출 실패가 그대로 넘어가는 진짜 연쇄 ----------
-if [ "$STEP" = "chain" ] || [ "$STEP" = "all" ]; then
-  step "chain_ap" $PY detection/eval_text_chain.py --models yolo26x,yolov5x,frcnn,effdet
-  grep -E "chained AP|signboards on|NO crop" "$L/chain_ap.log" 2>/dev/null | tee -a "$ST"
-fi
+# ---------- 1) 연쇄 AP@0.5 — 보류 ----------
+# GSV 지역별 단어 박스 GT(930개)를 만든 뒤에 돌립니다. 그 전에는 AI Hub 에서만 잴 수 있어
+# 지역 칸을 못 채우므로, 라벨이 준비될 때까지 실행하지 않습니다.
+#   .venv/Scripts/python.exe detection/eval_text_chain.py --models yolo26x,yolov5x,frcnn,effdet
 
 # ---------- 2) Table 3 — EasyOCR (이미 미세조정됨) ----------
 if [ "$STEP" = "rec" ] || [ "$STEP" = "all" ]; then

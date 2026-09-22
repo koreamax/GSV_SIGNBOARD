@@ -5,7 +5,7 @@
 #   1) 스모크  : 크롭 5장만 호출해 응답·라인 복원 확인          (API 5건)
 #   2) GSV     : 배포 파이프라인과 동일한 라인 스트립           (API 1,342건)
 #   3) in-domain 실라인 test_line                                (API 1,631건)
-#   4) 표 재생성 (eval_ocr_v2 + make_ocr_baselines_report)
+#   4) 표 재생성 (eval_ocr_v2)
 # 단어 크롭(test_word, 7,756건)은 비싸서 기본 제외 — 필요하면 STEP=word 로 따로 실행합니다.
 # 모든 단계는 .partial.jsonl 체크포인트로 이어하기가 되며, 이미 끝난 건은 다시 호출하지 않습니다.
 # 루트에서:  bash scripts/run_clova_ocr.sh [smoke|gsv|line|word|report|all]
@@ -68,8 +68,7 @@ fi
 if [ "$STEP" = "report" ] || [ "$STEP" = "all" ]; then
   say "5) 표 재생성"
   $PY pipeline/eval_ocr_v2.py --mask-phone --en-only-regions brooklyn \
-      --engines easyocr,trocr,paddle,paddle1,tesseract,tesseract_ft,surya,clova,parseq,svtrv2 > "$L/eval_gsv.log" 2>&1
+      --engines easyocr,trocr,paddle,paddle1,tesseract,tesseract_ft,clova,parseq,svtrv2 > "$L/eval_gsv.log" 2>&1
   grep -A 12 "^GLOBAL" "$L/eval_gsv.log"
-  $PY str_baselines/make_ocr_baselines_report.py
 fi
 say "완료"
