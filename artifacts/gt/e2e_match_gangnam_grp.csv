@@ -43,12 +43,6 @@ gangnam__31__crop_001,gangnam__31,1,0.8125,0.7637,TP
 gangnam__32__crop_001,gangnam__32,1,0.7038,0.8732,TP
 gangnam__33__crop_001,gangnam__33,1,0.951,0.8982,TP
 gangnam__34__crop_001,gangnam__34,1,0.8302,0.9257,TP
-,gangnam__35,1,0.0,,FN
-,gangnam__35,2,0.0,,FN
-,gangnam__35,3,0.0,,FN
-,gangnam__35,4,0.0,,FN
-,gangnam__35,5,0.0,,FN
-,gangnam__35,6,0.0,,FN
 gangnam__36__crop_001,gangnam__36,,0.0,0.6392,FP
 gangnam__36__crop_002,gangnam__36,,0.0,0.4056,FP
 gangnam__36__crop_003,gangnam__36,,0.0,0.3564,FP

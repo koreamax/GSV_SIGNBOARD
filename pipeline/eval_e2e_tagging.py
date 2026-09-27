@@ -67,7 +67,13 @@ def main() -> None:
     ap.add_argument("--tag", default="",
                     help="매칭표 접미사 (e2e_match_{region}{tag}.csv)")
     ap.add_argument("--out", default="artifacts/gt/e2e_tagging_results.csv")
+    ap.add_argument("--rescore", default=None,
+                    help="VLM 을 다시 부르지 않고, 이전 실행이 저장한 --out CSV 의 pred_tag 로 "
+                         "재채점합니다(매칭표만 바뀐 경우). 결과 CSV 는 쓰지 않습니다")
     args = ap.parse_args()
+    saved = None
+    if args.rescore:
+        saved = {r["det_crop"]: r for r in csv.DictReader(open(args.rescore, encoding="utf-8"))}
 
     if args.retriever == "hybrid":
         import rag_hybrid as HINT
@@ -106,16 +112,21 @@ def main() -> None:
 
         text = ocr.get(m["det_crop"], "")
         hints = ""
-        if text:
+        if text and saved is None:            # 재채점은 검색 힌트가 필요 없습니다
             hints = HINT.get(region).hint_block(
                 [l for l in text.split(" / ") if l.strip()],
                 k=args.rag_k, allowed_tags=set(tags))
-        try:
-            resp = T.ask(args.model, T.build_prompt(tags, text, hints,
-                                                    args.no_abstain), None)
-            pn, pt = T.parse(resp)
-        except Exception:
-            pn, pt = "", ""
+        if saved is not None:
+            if m["det_crop"] not in saved:
+                raise SystemExit(f"[오류] 재채점 원본에 없는 크롭: {m['det_crop']}")
+            pn, pt = saved[m["det_crop"]]["pred_name"], saved[m["det_crop"]]["pred_tag"]
+        else:
+            try:
+                resp = T.ask(args.model, T.build_prompt(tags, text, hints,
+                                                        args.no_abstain), None)
+                pn, pt = T.parse(resp)
+            except Exception:
+                pn, pt = "", ""
 
         if st == "TP" and g and g["eval_tag"] == "1":
             stat[region]["tp_n"] += 1
@@ -158,6 +169,9 @@ def main() -> None:
     print(f"기권(unknown): 진짜 간판(TP) {T_n}건 중 {T_unk}건 · 간판 아님(FP) {T_fp}건 중 "
           f"{T_fp - T_ft}건 — 기권={'금지' if args.no_abstain else '허용'}")
 
+    if saved is not None:
+        print(f"[rescore] {args.rescore} 의 예측으로 재채점 — 결과 CSV 는 쓰지 않습니다")
+        return
     out = Path(args.out)
     with out.open("w", encoding="utf-8", newline="") as f:
         w = csv.DictWriter(f, fieldnames=["region", "det_crop", "status", "gt_crop",

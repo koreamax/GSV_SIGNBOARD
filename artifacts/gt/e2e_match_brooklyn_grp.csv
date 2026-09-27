@@ -66,10 +66,6 @@ brooklyn__36__crop_001,brooklyn__36,1,0.9317,0.9781,TP
 brooklyn__36__crop_002,brooklyn__36,2,0.7722,0.9571,TP
 brooklyn__37__crop_001,brooklyn__37,1,0.9496,0.9223,TP
 brooklyn__37__crop_002,brooklyn__37,2,0.9358,0.6121,TP
-,brooklyn__38,1,0.0,,FN
-,brooklyn__38,2,0.0,,FN
-,brooklyn__38,3,0.0,,FN
-,brooklyn__38,4,0.0,,FN
 brooklyn__39__crop_001,brooklyn__39,,0.0,0.8295,FP
 brooklyn__4__crop_001,brooklyn__4,1,0.9028,0.5778,TP
 brooklyn__40__crop_001,brooklyn__40,,0.0,0.9659,FP

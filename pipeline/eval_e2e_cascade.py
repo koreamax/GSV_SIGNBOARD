@@ -160,7 +160,10 @@ def main() -> None:
         gt_lines = n_tp_lines + fn_lines
         # GT 크롭 기준(기존 프로토콜) 재계산 — 같은 채점기로 재서 비교 가능하게
         E.EN_ONLY = region in E.EN_ONLY_REGIONS
-        a_g = E.eval_engine(gt_txt, gtc_pred, []) if gtc_pred else None
+        # 같은 사진 집합에서 비교합니다 — 매칭표에 없는 사진(fold 밖)의 GT 크롭은 뺍니다.
+        photos = {m["photo"] for m in match}
+        gt_same = {k: v for k, v in gt_txt.items() if k.split("__crop_")[0] in photos}
+        a_g = E.eval_engine(gt_same, gtc_pred, []) if gtc_pred else None
         ok_g, n_g = (a_g.exact, a_g.lines) if a_g else (0, 0)
         print(f"{region:10s} {gt_lines:7d} {n_tp:7d} {n_fn:7d} {n_fp:7d} | "
               f"{ok_tp/max(gt_lines,1)*100:10.1f}% {ok_tp/max(n_tp_lines,1)*100:10.1f}% "

@@ -119,8 +119,14 @@ def main() -> None:
         # ---- 크롭 입력 CSV (GT와 동일 스키마 → 크롭 스크립트 재사용) ----
         det_rows, match_rows = [], []
         n_tp = n_fp = n_fn = 0
-        for key in sorted(set(list(preds[region]) + [k for k in gt_boxes
-                                                     if k.startswith(region + "__")])):
+        # 어느 fold 의 val 에도 없는 사진(brooklyn__38, gangnam__35)은 out-of-fold 예측이 없습니다.
+        # 합집합으로 돌면 그 사진의 GT 간판이 전부 FN 이 되어, 검출기가 보지도 않은 사진을
+        # 놓친 것으로 셉니다. 표 1·2 와 같은 298장만 채점합니다.
+        skipped = sorted(k for k in gt_boxes if k.startswith(region + "__") and k not in preds[region])
+        if skipped:
+            print(f"[{region}] fold 밖 사진 {len(skipped)}장 제외 (GT 간판 "
+                  f"{sum(len(gt_boxes[k]) for k in skipped)}개): {', '.join(skipped)}")
+        for key in sorted(preds[region]):
             pl = sorted(preds[region].get(key, []), key=lambda t: -t[1])
             gl = gt_boxes.get(key, [])
             used = set()
