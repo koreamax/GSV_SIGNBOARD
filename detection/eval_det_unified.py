@@ -73,12 +73,16 @@ def load_fold_val(i: int):
     return out
 
 
-def predict_ultra(weights: Path, items, imgsz=960, conf=0.001):
+def predict_ultra(weights: Path, items, imgsz=960, conf=0.001, device=None):
+    # device=None 이면 기존 동작 그대로(ultralytics 자동 선택). GPU 가 다른 작업에
+    # 잡혀 있을 때만 "cpu" 를 넘겨 씁니다 — 채점 경로의 기본값은 바뀌지 않습니다.
     from ultralytics import YOLO
     model = YOLO(str(weights))
+    extra = {} if device is None else {"device": device}
     preds = []
     for ip, _, _ in items:
-        r = model.predict(source=str(ip), conf=conf, iou=0.7, imgsz=imgsz, verbose=False)[0]
+        r = model.predict(source=str(ip), conf=conf, iou=0.7, imgsz=imgsz, verbose=False,
+                          **extra)[0]
         p = []
         if r.boxes is not None:
             for b in r.boxes:

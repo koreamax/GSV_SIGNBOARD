@@ -56,6 +56,34 @@ def gt_crop_name(photo: str, idx: int) -> str:
     return f"{photo}__crop_{idx:03d}"
 
 
+_E = None
+
+
+def scorer():
+    """표 3·4 와 **같은 채점기**(eval_ocr_v2 의 eval_engine)를 불러옵니다.
+
+    예전 line_score 는 전화번호 마스킹·브루클린 영어 전용 규칙이 없는 간이 버전이라, 같은
+    출력을 재도 표 4(83.6%)와 여기 'GT크롭 기준'(72.3%)이 달랐습니다. 이제 같은 함수로
+    재므로 'GT크롭 기준' 열이 표 4 값과 정확히 같아야 하고, 그게 이 채점의 자체 검산입니다."""
+    global _E
+    if _E is None:
+        saved = sys.argv
+        sys.argv = ["eval_ocr_v2.py", "--mask-phone", "--en-only-regions", "brooklyn"]
+        sys.path.insert(0, str(HERE / "pipeline"))
+        import eval_ocr_v2 as E
+        sys.argv = saved
+        _E = E
+    return _E
+
+
+def score_crop(pred: str, gold: str, region: str) -> tuple[int, int]:
+    """크롭 하나의 (정확히 맞은 라인 수, 채점 대상 라인 수) — 표 3·4 와 동일 규칙."""
+    E = scorer()
+    E.EN_ONLY = region in E.EN_ONLY_REGIONS
+    a = E.eval_engine({"k": gold}, {"k": pred}, [])
+    return a.exact, a.lines
+
+
 def load_match(region: str, tag: str = "") -> list[dict]:
     p = GT_DIR / f"e2e_match_{region}{tag}.csv"
     return list(csv.DictReader(p.open(encoding="utf-8")))
@@ -99,10 +127,14 @@ def main() -> None:
     print(f"{'지역':10s} {'GT라인':>7s} {'TP크롭':>7s} {'FN크롭':>7s} {'FP크롭':>7s} | "
           f"{'연쇄 recall':>11s} {'TP위 정확도':>11s} {'GT크롭 기준':>11s}")
     TOT = defaultdict(int)
+    E = scorer()
     for region in REGIONS:
-        gt_txt = load_map(GT_DIR / f"ocr_{region}_gt.csv")
-        det_pred = load_map(OCR_DIR / f"ocr_{region}_{args.ocr_run}_{args.engine}.csv")
-        gtc_pred = load_map(OCR_DIR / f"ocr_{region}_{args.gt_run}_{args.gt_engine or args.engine}.csv")
+        gt_txt = E.load_csv_map(GT_DIR / f"ocr_{region}_gt.csv")
+        det_pred = E.load_csv_map(OCR_DIR / f"ocr_{region}_{args.ocr_run}_{args.engine}.csv")
+        gtc_path = OCR_DIR / f"ocr_{region}_{args.gt_run}_{args.gt_engine or args.engine}.csv"
+        gtc_pred = E.load_csv_map(gtc_path) if gtc_path.exists() else {}
+        if not det_pred:
+            raise SystemExit(f"[오류] 연쇄 OCR 결과가 없습니다: ocr_{region}_{args.ocr_run}_{args.engine}.csv")
         match = load_match(region, args.tag)
 
         ok_tp = n_tp_lines = 0          # TP 크롭에서 맞은 라인 / 그 크롭들의 GT 라인
@@ -113,12 +145,12 @@ def main() -> None:
             if m["status"] == "TP":
                 n_tp += 1
                 g = gt_txt.get(gt_crop_name(m["photo"], int(m["gt_index"])), "")
-                ok, n = line_score(det_pred.get(m["det_crop"], ""), g)
+                ok, n = score_crop(det_pred.get(m["det_crop"], ""), g, region)
                 ok_tp += ok; n_tp_lines += n
             elif m["status"] == "FN":
                 n_fn += 1
                 g = gt_txt.get(gt_crop_name(m["photo"], int(m["gt_index"])), "")
-                _, n = line_score("", g)
+                _, n = score_crop("", g, region)
                 fn_lines += n
             else:
                 n_fp += 1
@@ -127,10 +159,9 @@ def main() -> None:
 
         gt_lines = n_tp_lines + fn_lines
         # GT 크롭 기준(기존 프로토콜) 재계산 — 같은 채점기로 재서 비교 가능하게
-        ok_g = n_g = 0
-        for name, g in gt_txt.items():
-            ok, n = line_score(gtc_pred.get(name, ""), g)
-            ok_g += ok; n_g += n
+        E.EN_ONLY = region in E.EN_ONLY_REGIONS
+        a_g = E.eval_engine(gt_txt, gtc_pred, []) if gtc_pred else None
+        ok_g, n_g = (a_g.exact, a_g.lines) if a_g else (0, 0)
         print(f"{region:10s} {gt_lines:7d} {n_tp:7d} {n_fn:7d} {n_fp:7d} | "
               f"{ok_tp/max(gt_lines,1)*100:10.1f}% {ok_tp/max(n_tp_lines,1)*100:10.1f}% "
               f"{ok_g/max(n_g,1)*100:10.1f}%")

@@ -31,9 +31,15 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parents[1]
 GT_DIR = HERE / "artifacts" / "gt"
-FOLD_DATA = HERE / "artifacts" / "yolo11x_kfold"     # fold 정의(4.12와 동일)
-WEIGHTS = HERE / "artifacts" / "yolo26x_kfold"       # 주 탐지 모델
+# 기본값은 옛 구성(비-group-aware)입니다. 표 1 의 0.860 은 group-aware 인
+# yolo26x_kfold_grouped + kfold_grouped 폴드이므로, 연쇄 측정은 반드시
+# --fold-data artifacts/kfold_grouped --weights artifacts/yolo26x_kfold_grouped 로 돌립니다.
+FOLD_DATA = HERE / "artifacts" / "yolo11x_kfold"
+WEIGHTS = HERE / "artifacts" / "yolo26x_kfold"
 REGIONS = ("gangnam", "brooklyn", "suwon")
+# 크롭 스크립트(make_crops_from_gt_polygon.py)의 --gt-size large 기준 좌표계.
+# 사진 크기가 2197/8192 두 종류라 좌표를 이 기준으로 맞춰 적어 두면 크롭 때 추측이 필요 없습니다.
+LARGE_W, LARGE_H = 8192, 4828
 
 
 def iou(a, b) -> float:
@@ -70,17 +76,28 @@ def main() -> None:
     ap.add_argument("--match-iou", type=float, default=0.5,
                     help="예측↔GT를 같은 간판으로 볼 IoU 하한")
     ap.add_argument("--folds", type=int, default=5)
+    ap.add_argument("--fold-data", default=str(FOLD_DATA),
+                    help="폴드 정의(total_fold{i}/dataset/images/val). 표 1 과 같게: artifacts/kfold_grouped")
+    ap.add_argument("--weights", default=str(WEIGHTS),
+                    help="폴드별 가중치 루트. 표 1 과 같게: artifacts/yolo26x_kfold_grouped")
+    ap.add_argument("--tag", default="",
+                    help="출력 파일 접미사 (gt_{region}_det{tag}.csv, e2e_match_{region}{tag}.csv)")
     args = ap.parse_args()
+    fold_data = Path(args.fold_data)
+    weights_root = Path(args.weights)
+    fold_data = fold_data if fold_data.is_absolute() else HERE / fold_data
+    weights_root = weights_root if weights_root.is_absolute() else HERE / weights_root
 
     from ultralytics import YOLO
 
     gt_boxes = load_gt_boxes()
     # region -> photo_key -> [(box, conf)]
     preds: dict[str, dict[str, list]] = {r: defaultdict(list) for r in REGIONS}
+    sizes: dict[str, tuple[int, int]] = {}        # photo_key -> (W, H)
 
     for fi in range(args.folds):
-        val_dir = FOLD_DATA / f"total_fold{fi}" / "dataset" / "images" / "val"
-        wt = WEIGHTS / f"fold{fi}" / "weights" / "best.pt"
+        val_dir = fold_data / f"total_fold{fi}" / "dataset" / "images" / "val"
+        wt = weights_root / f"fold{fi}" / "weights" / "best.pt"
         imgs = sorted(val_dir.glob("*.jpg"))
         print(f"[fold{fi}] {len(imgs)}장 ← {wt.relative_to(HERE)}", flush=True)
         model = YOLO(str(wt))
@@ -92,6 +109,9 @@ def main() -> None:
                 # total__brooklyn__12 → brooklyn / brooklyn__12
                 parts = p.stem.split("__")
                 region, key = parts[1], f"{parts[1]}__{parts[2]}"
+                oh, ow = r.orig_shape
+                sizes[key] = (int(ow), int(oh))
+                preds[region].setdefault(key, [])      # 예측 0개인 사진도 기록
                 for b, c in zip(r.boxes.xyxy.tolist(), r.boxes.conf.tolist()):
                     preds[region][key].append((tuple(b), float(c)))
 
@@ -109,9 +129,14 @@ def main() -> None:
                 # 매기되 별도 디렉터리에 저장합니다.
                 name = f"{key}__crop_{idx:03d}"
                 x1, y1, x2, y2 = box
-                det_rows.append({"filename": f"{key}.jpg", "w": 0, "h": 0,
-                                 "x1": x1, "y1": y1, "x2": x2, "y2": y1,
-                                 "x3": x2, "y3": y2, "x4": x1, "y4": y2,
+                # 크롭 스크립트는 좌표 크기로 2197/8192 기준을 '추측'하는데, 8K 사진의
+                # 왼쪽 위 간판은 작은 사진으로 오인해 엉뚱한 곳을 자릅니다(기존 502개 중 9개).
+                # 그래서 모든 좌표를 8192x4828 기준으로 환산해 적고 --gt-size large 로 자릅니다.
+                W, H = sizes[key]
+                sx, sy = LARGE_W / W, LARGE_H / H
+                det_rows.append({"filename": f"{key}.jpg", "w": LARGE_W, "h": LARGE_H,
+                                 "x1": x1 * sx, "y1": y1 * sy, "x2": x2 * sx, "y2": y1 * sy,
+                                 "x3": x2 * sx, "y3": y2 * sy, "x4": x1 * sx, "y4": y2 * sy,
                                  "class": "signboard"})
                 best_j, best_i = -1, 0.0
                 for j, g in enumerate(gl):
@@ -138,11 +163,11 @@ def main() -> None:
                                        "gt_index": j + 1, "iou": 0.0, "conf": "",
                                        "status": "FN"})
 
-        with (GT_DIR / f"gt_{region}_det.csv").open("w", encoding="utf-8", newline="") as f:
+        with (GT_DIR / f"gt_{region}_det{args.tag}.csv").open("w", encoding="utf-8", newline="") as f:
             w = csv.DictWriter(f, fieldnames=["filename", "w", "h", "x1", "y1", "x2",
                                               "y2", "x3", "y3", "x4", "y4", "class"])
             w.writeheader(); w.writerows(det_rows)
-        with (GT_DIR / f"e2e_match_{region}.csv").open("w", encoding="utf-8", newline="") as f:
+        with (GT_DIR / f"e2e_match_{region}{args.tag}.csv").open("w", encoding="utf-8", newline="") as f:
             w = csv.DictWriter(f, fieldnames=["det_crop", "photo", "gt_index", "iou",
                                               "conf", "status"])
             w.writeheader(); w.writerows(match_rows)
@@ -150,6 +175,18 @@ def main() -> None:
         prec = n_tp / max(n_tp + n_fp, 1)
         print(f"[{region}] 예측 {len(det_rows)}개  TP {n_tp} / FP {n_fp} / FN {n_fn}  "
               f"recall {rec:.3f}  precision {prec:.3f}")
+
+    # 단어 박스 연쇄 AP 가 같은 간판 검출 결과를 쓰도록 원본 좌표 그대로 남깁니다.
+    import json
+    out = {k: {"size": list(sizes[k]),
+               "boxes": [[*b, c] for b, c in sorted(preds[k.split("__")[0]].get(k, []),
+                                                   key=lambda t: -t[1])]}
+           for k in sorted(sizes)}
+    jp = GT_DIR / f"det_oof{args.tag}.json"
+    jp.write_text(json.dumps(out), encoding="utf-8")
+    print(f"[saved] {jp.name}: 사진 {len(out)}장 · 간판 박스 {sum(len(v['boxes']) for v in out.values())}개")
+    print(f"[다음] 크롭은 반드시 --gt-size large 로: make_crops_from_gt_polygon.py "
+          f"--gt-csv artifacts/gt/gt_{{region}}_det{args.tag}.csv --gt-size large")
 
 
 if __name__ == "__main__":

@@ -122,6 +122,15 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--lr", type=float, default=5e-5)
     p.add_argument("--num-workers", type=int, default=0, help="Windows default is 0 for fewer surprises.")
     p.add_argument("--max-target-length", type=int, default=64)
+    p.add_argument("--clip-grad", type=float, default=1.0,
+                   help="그래디언트 노름 상한. 0 이면 끄지만, 끄면 학습 도중 무너집니다.")
+    # 클리핑은 gradient 크기만 막고 Adam 의 파라미터별 step 크기는 못 막습니다. 고정 lr 로
+    # 오래 돌리면 에폭 말에 val 이 튀는 일이 있어, warmup 후 선형 감쇠를 옵션으로 둡니다.
+    # 기본값(0 / 끔)은 기존 동작과 같습니다.
+    p.add_argument("--warmup-steps", type=int, default=0,
+                   help="선형 warmup 스텝 수. 0 이면 없음.")
+    p.add_argument("--lr-decay", choices=["none", "linear"], default="none",
+                   help="linear 면 warmup 뒤 총 스텝에 걸쳐 lr 을 0 까지 선형 감쇠.")
     p.add_argument("--save-every-epoch", action="store_true")
     p.add_argument("--augment", action="store_true", help="Enable train-set image augmentation (TrOCR).")
 
@@ -604,6 +613,7 @@ def train_trocr(args: argparse.Namespace) -> None:
         from transformers import AutoTokenizer
 
         new_tok = AutoTokenizer.from_pretrained(str(args.tokenizer_dir))
+        old_vocab = model.config.decoder.vocab_size
         processor = TrOCRProcessor(image_processor=processor.image_processor, tokenizer=new_tok)
         n_vocab = len(new_tok)
         model.decoder.resize_token_embeddings(n_vocab)
@@ -611,14 +621,39 @@ def train_trocr(args: argparse.Namespace) -> None:
         print(f"[INFO] Swapped tokenizer <- {args.tokenizer_dir} "
               f"({type(new_tok).__name__}, vocab={n_vocab}); decoder embeddings resized.")
 
-    model.config.decoder_start_token_id = processor.tokenizer.cls_token_id
+        # 새 사전의 id 는 체크포인트가 학습한 id 와 아무 관계가 없습니다. 크기가 우연히
+        # 같으면 resize 가 아무것도 하지 않아, **뒤섞인 임베딩을 그대로 쓰게** 됩니다.
+        # (실제로 trocr-base-printed 50265 에 같은 크기의 다른 BPE 를 끼웠다가 학습이
+        #  전부 pad 토큰만 내놓는 상태로 붕괴한 적이 있습니다.) 그래서 크기가 같아
+        # resize 가 무의미했던 경우에는 토큰 임베딩과 출력층을 명시적으로 초기화합니다.
+        if n_vocab == old_vocab:
+            std = getattr(model.config.decoder, "init_std", 0.02)
+            emb = model.decoder.get_input_embeddings()
+            emb.weight.data.normal_(mean=0.0, std=std)
+            if new_tok.pad_token_id is not None:
+                emb.weight.data[new_tok.pad_token_id].zero_()
+            out = model.decoder.get_output_embeddings()
+            if out is not None and out.weight is not emb.weight:
+                out.weight.data.normal_(mean=0.0, std=std)
+            print(f"[INFO] vocab 크기가 {n_vocab} 로 같아 resize 가 무효였습니다 — "
+                  f"디코더 토큰 임베딩/출력층을 재초기화합니다.")
+
+    # 체크포인트가 이미 쓰던 시작 토큰이 있으면 그대로 둡니다. TrOCR 계열은 </s> 로
+    # 디코딩을 시작하는 관례인데 cls 로 덮어쓰면 사전학습 디코더의 관례를 버리게 됩니다.
+    # 토크나이저를 갈아끼운 경우에는 새 사전 기준으로 다시 정해야 합니다.
+    ckpt_start = model.generation_config.decoder_start_token_id
+    start_id = (processor.tokenizer.cls_token_id
+                if (args.tokenizer_dir or ckpt_start is None) else ckpt_start)
+    model.config.decoder_start_token_id = start_id
     model.config.pad_token_id = processor.tokenizer.pad_token_id
     model.config.eos_token_id = processor.tokenizer.sep_token_id
+    print(f"[INFO] decoder_start={start_id} pad={processor.tokenizer.pad_token_id} "
+          f"eos={processor.tokenizer.sep_token_id}")
     model.config.vocab_size = model.config.decoder.vocab_size
     # transformers>=4.4x prefers generation_config at generate() time; keep it in
     # sync with the training-time config or saved models decode from the wrong
     # start token (symptom: leading syllables truncated despite low loss).
-    model.generation_config.decoder_start_token_id = processor.tokenizer.cls_token_id
+    model.generation_config.decoder_start_token_id = start_id
     model.generation_config.pad_token_id = processor.tokenizer.pad_token_id
     model.generation_config.eos_token_id = processor.tokenizer.sep_token_id
     model.generation_config.bos_token_id = processor.tokenizer.cls_token_id
@@ -643,6 +678,16 @@ def train_trocr(args: argparse.Namespace) -> None:
 
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr)
     scaler = torch.cuda.amp.GradScaler(enabled=(device.type == "cuda"))   # torch 2.2-compatible
+    scheduler = None
+    if args.warmup_steps > 0 or args.lr_decay != "none":
+        from transformers import get_linear_schedule_with_warmup, get_constant_schedule_with_warmup
+        total_steps = args.epochs * len(train_loader)
+        if args.lr_decay == "linear":
+            scheduler = get_linear_schedule_with_warmup(optimizer, args.warmup_steps, total_steps)
+        else:
+            scheduler = get_constant_schedule_with_warmup(optimizer, args.warmup_steps)
+        print(f"[INFO] lr schedule: warmup={args.warmup_steps} decay={args.lr_decay} "
+              f"total_steps={total_steps}")
 
     print(f"[INFO] Training on {device} | train={len(train_rows)} val={len(val_rows)}")
     best_val = float("inf")
@@ -656,27 +701,48 @@ def train_trocr(args: argparse.Namespace) -> None:
             with torch.autocast("cuda", enabled=(device.type == "cuda")):
                 loss = model(**batch).loss
             scaler.scale(loss).backward()
+            # 그래디언트 클리핑 없이 두면 학습이 잘 되다가 한 번의 스파이크로 무너집니다.
+            # (batch 4 · lr 5e-5 로 trocr-base 를 돌렸을 때 3,000스텝에서 티처포싱 정확도
+            #  75% 까지 갔다가, grad 노름이 195 → 610 으로 튄 구간에서 25% 로 주저앉고
+            #  끝내 상수 토큰만 내놓는 상태로 죽었습니다.)
+            if args.clip_grad > 0:
+                scaler.unscale_(optimizer)
+                torch.nn.utils.clip_grad_norm_(model.parameters(), args.clip_grad)
             scaler.step(optimizer)
             scaler.update()
+            if scheduler is not None:
+                scheduler.step()
             total_loss += float(loss.detach().cpu())
             if step % 50 == 0:
                 print(f"[TRAIN] epoch={epoch} step={step}/{len(train_loader)} loss={total_loss / step:.4f}")
 
         train_loss = total_loss / max(1, len(train_loader))
         val_loss = None
+        val_loss_trainmode = None
         if val_loader:
+            # eval 모드(dropout 끔, fp32)와 train 모드(dropout 켬, autocast) 두 가지로 잽니다.
+            # 학습 손실은 1.0 인데 eval 모드 val 만 10 을 넘는 일이 있었는데, 둘을 같이 찍으면
+            # "모델이 나쁜가"와 "eval 경로가 다른가"를 에폭마다 바로 가를 수 있습니다.
             model.eval()
-            losses = []
+            losses, losses_tm = [], []
             with torch.no_grad():
                 for batch in val_loader:
                     batch = {k: v.to(device) for k, v in batch.items()}
                     losses.append(float(model(**batch).loss.detach().cpu()))
+                model.train()
+                for i, batch in enumerate(val_loader):
+                    if i >= 200:                      # 표본 800장이면 충분합니다
+                        break
+                    batch = {k: v.to(device) for k, v in batch.items()}
+                    with torch.autocast("cuda", enabled=(device.type == "cuda")):
+                        losses_tm.append(float(model(**batch).loss.detach().cpu()))
             val_loss = sum(losses) / max(1, len(losses))
+            val_loss_trainmode = sum(losses_tm) / max(1, len(losses_tm))
 
         elapsed = time.time() - t0
         msg = f"[EPOCH] {epoch}/{args.epochs} train_loss={train_loss:.4f}"
         if val_loss is not None:
-            msg += f" val_loss={val_loss:.4f}"
+            msg += f" val_loss={val_loss:.4f} val_loss_trainmode={val_loss_trainmode:.4f}"
         msg += f" time={elapsed:.1f}s"
         print(msg)
 

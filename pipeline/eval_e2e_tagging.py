@@ -59,7 +59,13 @@ def main() -> None:
     ap.add_argument("--model", default="gemma3:12b")
     ap.add_argument("--retriever", choices=["lexical", "hybrid"], default="hybrid")
     ap.add_argument("--rag-k", type=int, default=5)
-    ap.add_argument("--no-abstain", action="store_true", default=True)
+    # 예전에는 action="store_true", default=True 라서 **끌 수 없는** 기권 금지였습니다.
+    # 그러면 간판이 아닌 크롭에도 반드시 업종을 붙이게 되어 '허위 POI 124/124' 가 측정이
+    # 아니라 설정의 결과가 됩니다. 기본은 기권 허용("unknown"), 금지는 대조군으로만 씁니다.
+    ap.add_argument("--no-abstain", action="store_true",
+                    help="대조군: unknown 금지(확신 없어도 하나를 고르게 함)")
+    ap.add_argument("--tag", default="",
+                    help="매칭표 접미사 (e2e_match_{region}{tag}.csv)")
     ap.add_argument("--out", default="artifacts/gt/e2e_tagging_results.csv")
     args = ap.parse_args()
 
@@ -73,15 +79,18 @@ def main() -> None:
     ocr = load_ocr_run(args.ocr_run, args.engine)
 
     detail, t0 = [], time.time()
-    stat = {r: {"tp_ok": 0, "tp_n": 0, "fn_n": 0, "fp": 0, "fp_tagged": 0}
+    stat = {r: {"tp_ok": 0, "tp_n": 0, "fn_n": 0, "fp": 0, "fp_tagged": 0, "tp_unknown": 0}
             for r in REGIONS}
 
+    if not ocr:
+        raise SystemExit(f"[오류] OCR 결과가 없습니다: ocr_*_{args.ocr_run}_{args.engine}.csv")
     work = []
     for region in REGIONS:
-        for m in csv.DictReader((GT_DIR / f"e2e_match_{region}.csv").open(encoding="utf-8")):
+        for m in csv.DictReader((GT_DIR / f"e2e_match_{region}{args.tag}.csv").open(encoding="utf-8")):
             work.append((region, m))
     print(f"[E2E-TAG] {len(work)}건 (모델={args.model}, 검색={args.retriever}, "
-          f"OCR run={args.ocr_run})")
+          f"OCR run={args.ocr_run}, 매칭표={args.tag or '(기본)'}, "
+          f"기권={'금지' if args.no_abstain else '허용'})")
 
     for i, (region, m) in enumerate(work, 1):
         st = m["status"]
@@ -112,6 +121,8 @@ def main() -> None:
             stat[region]["tp_n"] += 1
             if pt == g["tag"]:
                 stat[region]["tp_ok"] += 1
+            elif not pt or pt == "unknown":
+                stat[region]["tp_unknown"] += 1      # 기권은 오답으로 셉니다(분모 유지)
         elif st == "FP":
             stat[region]["fp"] += 1
             if pt and pt != "unknown":
@@ -141,8 +152,11 @@ def main() -> None:
     print(f"{'전체':10s} {D:7d} {T_n:5d} {T_fn:5d} {T_fp:5d} | "
           f"{T_ok/max(D,1)*100:10.1f}% {T_ok/max(T_n,1)*100:10.1f}% "
           f"{T_ft:4d}/{T_fp:<4d}")
+    T_unk = sum(stat[r]["tp_unknown"] for r in REGIONS)
     print(f"\n허위 POI: 탐지 오류 {T_fp}건 중 {T_ft}건에 업종 태그가 붙었습니다 "
           f"({T_ft/max(T_fp,1)*100:.0f}%) — 지도에 없는 가게가 등록될 수 있는 건수입니다.")
+    print(f"기권(unknown): 진짜 간판(TP) {T_n}건 중 {T_unk}건 · 간판 아님(FP) {T_fp}건 중 "
+          f"{T_fp - T_ft}건 — 기권={'금지' if args.no_abstain else '허용'}")
 
     out = Path(args.out)
     with out.open("w", encoding="utf-8", newline="") as f:

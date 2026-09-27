@@ -33,6 +33,9 @@ if [ "$STEP" = "vlm" ] || [ "$STEP" = "all" ]; then
 fi
 
 # ---------- 2) 연쇄 (탐지 크롭 502개) ----------
+# ⚠ 대체됨 (D42): 이 연쇄 결과는 쓰지 않습니다 — scripts/run_final_measure.sh 참고.
+#   crop_det 는 표 1 과 다른(비-group-aware) 검출기로 만들어졌고 9개는 좌표를 오인해 엉뚱한 곳을
+#   잘랐으며, 채점기는 표 3·4 와 규칙이 달랐고, 태깅은 기권이 금지돼 있었습니다.
 if [ "$STEP" = "cascade" ] || [ "$STEP" = "all" ]; then
   step "cas_ocr"  $PY pipeline/run_ocr_line.py --run 110 --crop-dir artifacts/gt/crop_det $DET \
       --worker str_baselines/openocr_rec_worker.py --worker-args "--config $SVCFG --weights $SV" \

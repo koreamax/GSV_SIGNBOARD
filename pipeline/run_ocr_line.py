@@ -112,15 +112,23 @@ def crop_strip(img: Image.Image, polys, pad: float = 0.04):
     return img.crop((X0, Y0, X1, Y1))
 
 
-def yolo_detect(files_by_region: dict[str, list[Path]], tmp: Path, conf: float) -> dict[str, list]:
-    """학습된 YOLO26x 단어 탐지기 박스 (별도 프로세스 — paddle_det_worker 와 같은 계약)."""
+def yolo_detect(files_by_region: dict[str, list[Path]], tmp: Path, conf: float,
+                weights: str | None = None) -> dict[str, list]:
+    """학습된 YOLO 단어 탐지기 박스 (별도 프로세스 — paddle_det_worker 와 같은 계약).
+
+    weights 를 주지 않으면 워커 기본값(YOLO26x hold-out best.pt)입니다. 같은 하네스로 학습한
+    다른 아키텍처(예: YOLOv5x)로 바꿀 때만 넘깁니다 — 라인 병합·전처리·인식은 그대로입니다.
+    """
     man, out = tmp / "ydet_man.jsonl", tmp / "ydet_out.jsonl"
     with man.open("w", encoding="utf-8") as f:
         for region, files in files_by_region.items():
             for p in files:
                 f.write(json.dumps({"key": f"{region}::{p.stem}", "path": str(p)}) + "\n")
-    subprocess.run([str(PY), str(HERE / "str_baselines" / "yolo_text_det_worker.py"),
-                    "--manifest", str(man), "--out", str(out), "--conf", str(conf)], check=True)
+    cmd = [str(PY), str(HERE / "str_baselines" / "yolo_text_det_worker.py"),
+           "--manifest", str(man), "--out", str(out), "--conf", str(conf)]
+    if weights:
+        cmd += ["--weights", str(weights)]
+    subprocess.run(cmd, check=True)
     boxes = {}
     with out.open(encoding="utf-8") as f:
         for line in f:
@@ -143,6 +151,9 @@ def main() -> None:
                          "이전의 CRAFT/union 경로는 제거됐습니다")
     ap.add_argument("--yolo-det-conf", type=float, default=0.25,
                     help="단어 탐지기 confidence 임계값 (배포 0.01 — 0.35~0.001 스윕의 최댓값)")
+    ap.add_argument("--yolo-det-weights", default=None,
+                    help="단어 탐지기 가중치 (.pt). 기본은 YOLO26x hold-out best.pt. "
+                         "예: artifacts/yolov5x_text_holdout/run/weights/best.pt")
     ap.add_argument("--pad", type=float, default=0.04,
                     help="strip crop margin (fraction of strip w/h); 0.04 = swept optimum")
     ap.add_argument("--y-tol", type=float, default=0.04,
@@ -174,8 +185,9 @@ def main() -> None:
                        for r in regions}
 
     # ---- 검출: 학습된 YOLO26x 단어 탐지기 (D38) ----
-    print(f"[DETECT/YOLO] trained YOLO26x word detector (conf {args.yolo_det_conf}) ...")
-    boxes_by_key = yolo_detect(files_by_region, tmp, args.yolo_det_conf)
+    print(f"[DETECT/YOLO] trained word detector "
+          f"({args.yolo_det_weights or 'YOLO26x default'}, conf {args.yolo_det_conf}) ...")
+    boxes_by_key = yolo_detect(files_by_region, tmp, args.yolo_det_conf, args.yolo_det_weights)
     print(f"[DETECT] boxes={sum(len(v) for v in boxes_by_key.values())}")
 
     # ---- line grouping + strip crops ----

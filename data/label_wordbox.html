@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>GSV 단어 박스 라벨링</title>
+<style>
+  :root {
+    --bg: #14161a; --panel: #1c2027; --line: #2c323c; --fg: #e6e9ef;
+    --dim: #97a0ae; --accent: #5aa9ff; --seed: #f2b544; --done: #5ad18b; --warn: #ff6b6b;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    background: var(--bg); color: var(--fg); overflow: hidden;
+    font: 13px/1.5 "Malgun Gothic", "맑은 고딕", system-ui, sans-serif;
+    display: grid; grid-template-columns: 250px 1fr;
+  }
+  button {
+    background: #232833; color: var(--fg); border: 1px solid var(--line);
+    border-radius: 5px; padding: 5px 10px; cursor: pointer; font: inherit; font-size: 12px;
+  }
+  button:hover { background: #2c3340; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #0b1220; font-weight: 700; }
+  button.danger { color: #ffb4b4; border-color: #4a2f33; }
+  button.danger:hover { background: #3a2529; }
+
+  /* ── 사이드바 ─────────────────────────────────────────── */
+  aside { background: var(--panel); border-right: 1px solid var(--line);
+          display: flex; flex-direction: column; min-height: 0; }
+  aside h1 { font-size: 14px; margin: 0; padding: 11px 14px; border-bottom: 1px solid var(--line); }
+  .prog { padding: 10px 14px; border-bottom: 1px solid var(--line); }
+  .prog .row { display: flex; justify-content: space-between; margin-bottom: 4px; }
+  .prog .name { color: var(--dim); }
+  .bar { height: 5px; background: #2a3039; border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
+  .bar i { display: block; height: 100%; background: var(--accent); }
+  .filters { display: flex; gap: 5px; padding: 9px 14px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  .filters button { flex: 1 1 auto; padding: 4px 6px; }
+  .filters button.on { background: var(--accent); border-color: var(--accent); color: #0b1220; font-weight: 700; }
+  #list { flex: 1; overflow-y: auto; }
+  #list .it { padding: 6px 14px; cursor: pointer; border-left: 3px solid transparent;
+              display: flex; justify-content: space-between; gap: 6px; }
+  #list .it:hover { background: #222833; }
+  #list .it.cur { background: #263140; border-left-color: var(--accent); }
+  #list .it .id { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #list .it .n { color: var(--dim); font-variant-numeric: tabular-nums; }
+  #list .it.done .n { color: var(--done); }
+  #list .it.nogt .id { color: var(--dim); font-style: italic; }
+
+  /* ── 본문 ─────────────────────────────────────────────── */
+  main { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+  header { display: flex; align-items: center; gap: 12px; padding: 8px 14px;
+           border-bottom: 1px solid var(--line); background: var(--panel); }
+  header .idx { color: var(--dim); font-variant-numeric: tabular-nums; }
+  header .cur { font-weight: 700; }
+  header .gt { color: var(--dim); flex: 1; overflow: hidden; text-overflow: ellipsis;
+               white-space: nowrap; }
+  header .gt b { color: var(--fg); font-weight: 600; }
+  .tag { border-radius: 4px; padding: 1px 7px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+  .tag.done { background: var(--done); color: #08130d; }
+  .tag.todo { background: #39414e; color: var(--dim); }
+  .tag.nogt { background: #5b4a22; color: #ffd489; }
+  #tools { display: flex; align-items: center; gap: 6px; padding: 7px 14px;
+           border-bottom: 1px solid var(--line); background: #191d24; flex-wrap: wrap; }
+  #tools .sep { width: 1px; height: 20px; background: var(--line); margin: 0 4px; }
+  #tools .lbl { color: var(--dim); font-size: 12px; }
+  #tools select { background: #232833; color: var(--fg); border: 1px solid var(--line);
+                  border-radius: 5px; padding: 4px 6px; font: inherit; font-size: 12px; }
+  #save { margin-left: auto; font-size: 12px; color: var(--dim); }
+  #save.dirty { color: var(--seed); font-weight: 700; }
+  #save.ok { color: var(--done); }
+  #save.err { color: var(--warn); font-weight: 700; }
+  #wrap { position: relative; flex: 1; min-height: 0; background: #0d0f12; }
+  canvas { position: absolute; inset: 0; display: block; }
+  footer { border-top: 1px solid var(--line); background: var(--panel); color: var(--dim);
+           padding: 6px 14px; display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; }
+  footer kbd { background: #2b313c; border: 1px solid #3a424f; border-bottom-width: 2px;
+               border-radius: 4px; padding: 0 5px; color: var(--fg); font-size: 11px; }
+  #hint { position: absolute; left: 50%; top: 14px; transform: translateX(-50%);
+          background: #000d; padding: 6px 14px; border-radius: 6px; pointer-events: none;
+          opacity: 0; transition: opacity .18s; }
+  #hint.on { opacity: 1; }
+</style>
+</head>
+<body>
+<aside>
+  <h1>GSV 단어 박스 라벨링</h1>
+  <div class="prog" id="prog"></div>
+  <div class="filters">
+    <button data-f="all" class="on">전체</button>
+    <button data-f="todo">남은 것</button>
+    <button data-f="done">완료</button>
+    <button data-f="gangnam">강남</button>
+    <button data-f="brooklyn">브루클린</button>
+    <button data-f="suwon">수원</button>
+  </div>
+  <div id="list"></div>
+</aside>
+
+<main>
+  <header>
+    <span class="idx" id="idx"></span>
+    <span class="cur" id="cur"></span>
+    <span class="tag" id="stat"></span>
+    <span class="gt" id="gt"></span>
+  </header>
+
+  <div id="tools">
+    <button id="bSave" class="primary">저장</button>
+    <button id="bDone">완료 후 다음</button>
+    <button id="bEmpty">글자 없음</button>
+    <span class="sep"></span>
+    <button id="bDel" class="danger">선택 삭제</button>
+    <button id="bClear" class="danger">전체 지우기</button>
+    <button id="bUndo">되돌리기</button>
+    <span class="sep"></span>
+    <span class="lbl">제안 기준</span>
+    <select id="selSeed">
+      <option value="1">1개 이상 모델</option>
+      <option value="2" selected>2개 이상 모델</option>
+      <option value="3">3개 이상 모델</option>
+      <option value="4">4개 모두</option>
+    </select>
+    <button id="bSeed">제안 다시 깔기</button>
+    <span class="lbl" id="cnt"></span>
+    <span id="save"></span>
+  </div>
+
+  <div id="wrap"><canvas id="cv"></canvas><div id="hint"></div></div>
+
+  <footer>
+    <span><kbd>빈 곳 드래그</kbd> 새 박스</span>
+    <span><kbd>박스 클릭</kbd> 선택 · 안쪽 드래그로 이동 · 모서리로 크기</span>
+    <span><kbd>Del</kbd> 삭제</span>
+    <span><kbd>Ctrl+Z</kbd> 되돌리기</span>
+    <span><kbd>Ctrl+S</kbd> 저장</span>
+    <span><kbd>←</kbd><kbd>→</kbd> 이동</span>
+    <span><kbd>Enter</kbd> 완료 후 다음</span>
+    <span><kbd>0</kbd> 글자 없음</span>
+    <span><kbd>휠</kbd> 확대 · <kbd>Space</kbd>+드래그 이동 · <kbd>F</kbd> 화면 맞춤</span>
+  </footer>
+</main>
+
+<script>
+'use strict';
+
+const HANDLE = 8;        // 모서리 손잡이 한 변(화면 px)
+const CLOSE = 11;        // ✕ 단추 반지름(화면 px)
+const MIN_BOX = 5;       // 이보다 작게 그리면 실수로 봅니다
+const REGION_KO = { gangnam: '강남', brooklyn: '브루클린', suwon: '수원' };
+
+let ITEMS = [], LABELS = {}, SEEDS = {}, TARGETS = {};
+let view = [];           // 필터가 적용된 목록
+let cursor = 0;
+let boxes = [];          // 현재 이미지의 박스 [x0,y0,x1,y1] (0~1 정규화)
+let undoStack = [];
+let sel = -1, hover = -1;
+let dirty = false;       // 저장 안 된 변경이 있는가
+let seedMin = 2, showPending = true;
+let img = new Image(), imgReady = false;
+let cam = { x: 0, y: 0, z: 1 };
+let drag = null, spaceDown = false;
+
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+const $ = (id) => document.getElementById(id);
+const item = () => view[cursor];
+
+/* 아직 박스로 깔리지 않은(기준 미달) 제안 — 참고용으로 흐리게만 그립니다. */
+const pendingSeeds = (it) => (SEEDS[it?.id] || []).filter((s) => s.by.length < seedMin);
+const seedsAt = (it, minBy) => (SEEDS[it?.id] || []).filter((s) => s.by.length >= minBy);
+
+/* ── 좌표 변환 ─────────────────────────────────────────── */
+const toScreen = (u, v) => [u * cam.z + cam.x, v * cam.z + cam.y];
+const toImage = (sx, sy) => [(sx - cam.x) / cam.z, (sy - cam.y) / cam.z];
+const px = (b) => [b[0] * img.width, b[1] * img.height, b[2] * img.width, b[3] * img.height];
+
+function fit() {
+  if (!imgReady || !img.width) return;
+  const r = cv.getBoundingClientRect();
+  if (r.width < 2 || r.height < 2) { requestAnimationFrame(fit); return; }
+  cam.z = Math.min(r.width / img.width, r.height / img.height) * 0.96;
+  cam.x = (r.width - img.width * cam.z) / 2;
+  cam.y = (r.height - img.height * cam.z) / 2;
+}
+
+function resize() {
+  const r = $('wrap').getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  cv.width = Math.round(r.width * dpr);
+  cv.height = Math.round(r.height * dpr);
+  cv.style.width = r.width + 'px';
+  cv.style.height = r.height + 'px';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  draw();
+}
+
+/* ── 그리기 ────────────────────────────────────────────── */
+function draw() {
+  const r = cv.getBoundingClientRect();
+  ctx.clearRect(0, 0, r.width, r.height);
+  if (!imgReady) return;
+  ctx.imageSmoothingQuality = 'high';
+  ctx.drawImage(img, cam.x, cam.y, img.width * cam.z, img.height * cam.z);
+
+  const it = item();
+  if (it && it.poly) {                       // 간판 외곽선
+    ctx.save();
+    ctx.strokeStyle = '#5aa9ff66';
+    ctx.setLineDash([7, 5]);
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    it.poly.forEach(([u, v], i) => {
+      const [x, y] = toScreen(u, v);
+      i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+    });
+    ctx.closePath();
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  if (showPending && it) {                   // 기준 미달 제안 — 참고용(편집 대상 아님)
+    ctx.save();
+    ctx.setLineDash([3, 4]);
+    ctx.strokeStyle = '#f2b54455';
+    ctx.lineWidth = 1;
+    for (const s of pendingSeeds(it)) {
+      const [a, b, c, d] = px(s.box);
+      const [x0, y0] = toScreen(a, b);
+      const [x1, y1] = toScreen(c, d);
+      ctx.strokeRect(x0, y0, x1 - x0, y1 - y0);
+    }
+    ctx.restore();
+  }
+
+  boxes.forEach((bb, i) => {
+    const [a, b, c, d] = px(bb);
+    const [x0, y0] = toScreen(a, b);
+    const [x1, y1] = toScreen(c, d);
+    const on = i === sel, hv = i === hover;
+    ctx.lineWidth = on ? 2.5 : (hv ? 2.2 : 1.8);
+    ctx.strokeStyle = on ? '#5ad18b' : (hv ? '#9cc9ff' : '#5aa9ff');
+    ctx.fillStyle = on ? '#5ad18b22' : (hv ? '#5aa9ff22' : '#5aa9ff10');
+    ctx.fillRect(x0, y0, x1 - x0, y1 - y0);
+    ctx.strokeRect(x0, y0, x1 - x0, y1 - y0);
+
+    if (on) {
+      ctx.fillStyle = '#5ad18b';
+      for (const [hx, hy] of [[x0, y0], [x1, y0], [x0, y1], [x1, y1]]) {
+        ctx.fillRect(hx - HANDLE / 2, hy - HANDLE / 2, HANDLE, HANDLE);
+      }
+      // 오른쪽 위 ✕ — 눌러서 삭제
+      ctx.beginPath();
+      ctx.arc(x1, y0, CLOSE, 0, Math.PI * 2);
+      ctx.fillStyle = '#ff6b6b';
+      ctx.fill();
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(x1 - 4, y0 - 4); ctx.lineTo(x1 + 4, y0 + 4);
+      ctx.moveTo(x1 + 4, y0 - 4); ctx.lineTo(x1 - 4, y0 + 4);
+      ctx.stroke();
+    }
+  });
+
+  if (drag && drag.mode === 'new') {
+    const [x0, y0] = toScreen(drag.u0, drag.v0);
+    const [x1, y1] = toScreen(drag.u1, drag.v1);
+    ctx.setLineDash([5, 3]);
+    ctx.strokeStyle = '#ffffffcc';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(Math.min(x0, x1), Math.min(y0, y1), Math.abs(x1 - x0), Math.abs(y1 - y0));
+    ctx.setLineDash([]);
+  }
+}
+
+/* ── 저장 ──────────────────────────────────────────────── */
+function markDirty() {
+  dirty = true;
+  $('save').className = 'dirty';
+  $('save').textContent = '변경됨 — 저장 안 함';
+  $('cnt').textContent = `박스 ${boxes.length}개`;
+}
+
+function save(status, then) {
+  const it = item();
+  if (!it) return;
+  const rec = LABELS[it.id] || { boxes: [], status: 'todo' };
+  rec.boxes = boxes.map((b) => b.slice());
+  if (status) rec.status = status;
+  LABELS[it.id] = rec;
+
+  $('save').className = '';
+  $('save').textContent = '저장 중…';
+  fetch('/api/save', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id: it.id, boxes: rec.boxes, status: rec.status }),
+  }).then((r) => r.json())
+    .then((j) => {
+      if (!j.ok) throw new Error(j.error || '실패');
+      dirty = false;
+      $('save').className = 'ok';
+      $('save').textContent = '저장됨';
+      renderProgress(); renderList(); renderHeader();
+      if (then) then();
+    })
+    .catch(() => {
+      $('save').className = 'err';
+      $('save').textContent = '저장 실패 — 서버가 켜져 있는지 확인하세요';
+    });
+}
+
+/* ── 항목 전환 ─────────────────────────────────────────── */
+function load(i) {
+  if (!view.length) return;
+  if (dirty) save();                       // 넘어가기 전에 반드시 내보냅니다
+  cursor = Math.max(0, Math.min(view.length - 1, i));
+  const it = item();
+
+  if (LABELS[it.id]) {
+    boxes = LABELS[it.id].boxes.map((b) => b.slice());
+  } else {
+    // 처음 여는 이미지는 제안을 **진짜 박스로** 깔아 둡니다 — 바로 고치고 지울 수 있게.
+    boxes = seedsAt(it, seedMin).map((s) => s.box.slice());
+  }
+  undoStack = [];
+  sel = hover = -1;
+  dirty = false;
+  imgReady = false;
+  img = new Image();
+  img.onload = () => { imgReady = true; resize(); fit(); draw(); };
+  img.src = '/img/' + encodeURIComponent(it.img);
+  $('save').className = '';
+  $('save').textContent = LABELS[it.id] ? '' : '제안을 깔아 뒀습니다 — 고치고 저장하세요';
+  renderHeader(); renderList();
+}
+
+function renderHeader() {
+  const it = item();
+  if (!it) { $('cur').textContent = '항목 없음'; return; }
+  const st = LABELS[it.id]?.status === 'done' ? 'done' : 'todo';
+  $('idx').textContent = `${cursor + 1} / ${view.length}`;
+  $('cur').textContent = it.id;
+  $('stat').className = 'tag ' + (it.has_ocr_gt ? st : 'nogt');
+  $('stat').textContent = it.has_ocr_gt ? (st === 'done' ? '완료' : '작업 전') : 'OCR GT 없음';
+  $('cnt').textContent = `박스 ${boxes.length}개`;
+  // 정답 텍스트에는 줄바꿈이 '\n' 두 글자로 들어 있습니다 — 한 줄로 펴서 보여줍니다.
+  const text = (it.gt_text || '').replace(/\\n|\n/g, ' / ').replace(/[<>&]/g, '').trim();
+  $('gt').innerHTML = text
+    ? `정답 텍스트: <b>${text}</b>`
+    : '<span>정답 텍스트 없음 — 보이는 글자만 박스로 치세요</span>';
+}
+
+function renderProgress() {
+  const per = {};
+  for (const r of Object.keys(TARGETS)) per[r] = { boxes: 0, done: 0, total: 0 };
+  for (const it of ITEMS) {
+    const p = per[it.region];
+    if (!p) continue;
+    p.total++;
+    const rec = LABELS[it.id];
+    if (rec) { p.boxes += rec.boxes.length; if (rec.status === 'done') p.done++; }
+  }
+  $('prog').innerHTML = Object.entries(per).map(([r, p]) => {
+    const pct = p.total ? (p.done / p.total) * 100 : 0;
+    return `<div class="row"><span class="name">${REGION_KO[r]}</span>
+      <span>${p.done}/${p.total}장 · 박스 ${p.boxes}</span></div>
+      <div class="bar"><i style="width:${pct.toFixed(1)}%"></i></div>`;
+  }).join('');
+}
+
+function renderList() {
+  const cur = item();
+  $('list').innerHTML = view.map((it, i) => {
+    const rec = LABELS[it.id];
+    const cls = ['it'];
+    if (rec?.status === 'done') cls.push('done');
+    if (!it.has_ocr_gt) cls.push('nogt');
+    if (cur && it.id === cur.id) cls.push('cur');
+    return `<div class="${cls.join(' ')}" data-i="${i}">
+      <span class="id">${it.id.replace(/^[a-z]+__/, '')}</span>
+      <span class="n">${rec ? rec.boxes.length : '·'}</span></div>`;
+  }).join('');
+  const el = $('list').querySelector('.cur');
+  if (el) el.scrollIntoView({ block: 'nearest' });
+}
+
+function applyFilter(f) {
+  const keep = {
+    all: () => true,
+    todo: (it) => LABELS[it.id]?.status !== 'done',
+    done: (it) => LABELS[it.id]?.status === 'done',
+  }[f] || ((it) => it.region === f);
+  const curId = item()?.id;
+  view = ITEMS.filter(keep);
+  if (!view.length) { view = ITEMS.slice(); flash('해당하는 항목이 없어 전체를 보여줍니다'); }
+  const at = view.findIndex((it) => it.id === curId);
+  load(at >= 0 ? at : 0);
+}
+
+function flash(msg) {
+  const h = $('hint');
+  h.textContent = msg;
+  h.classList.add('on');
+  clearTimeout(flash.t);
+  flash.t = setTimeout(() => h.classList.remove('on'), 1100);
+}
+
+/* ── 편집 동작 ─────────────────────────────────────────── */
+function pushUndo() { undoStack.push(boxes.map((b) => b.slice())); }
+
+function delSelected() {
+  if (sel < 0) { flash('먼저 박스를 클릭해 고르세요'); return; }
+  pushUndo();
+  boxes.splice(sel, 1);
+  sel = hover = -1;
+  markDirty(); save(); draw();
+}
+
+function clearAll() {
+  if (!boxes.length) return;
+  pushUndo();
+  boxes = []; sel = hover = -1;
+  markDirty(); save(); draw();
+  flash('전부 지웠습니다 (Ctrl+Z 로 되돌리기)');
+}
+
+function undo() {
+  if (!undoStack.length) { flash('되돌릴 것이 없습니다'); return; }
+  boxes = undoStack.pop();
+  sel = hover = -1;
+  markDirty(); save(); draw();
+}
+
+function refillSeeds() {
+  const s = seedsAt(item(), seedMin);
+  if (!s.length) { flash('이 기준에 맞는 제안이 없습니다'); return; }
+  pushUndo();
+  boxes = s.map((x) => x.box.slice());
+  sel = hover = -1;
+  markDirty(); save(); draw();
+  flash(`제안 ${s.length}개로 다시 깔았습니다 — 그리던 것은 Ctrl+Z 로 복구`);
+}
+
+/* ── 마우스 ────────────────────────────────────────────── */
+function hitTest(u, v, sx, sy) {
+  // ✕ 단추 → 손잡이 → 박스 안쪽 순으로 봅니다. 위에 그려진 것(나중 것)이 우선입니다.
+  if (sel >= 0 && sel < boxes.length) {
+    const [, y0, x1] = px(boxes[sel]);            // ✕ 는 오른쪽 위 모서리에 있습니다
+    const [hx, hy] = toScreen(x1, y0);
+    if (Math.hypot(sx - hx, sy - hy) <= CLOSE) return { i: sel, close: true };
+  }
+  const tol = HANDLE / cam.z;
+  for (let i = boxes.length - 1; i >= 0; i--) {
+    const [x0, y0, x1, y1] = px(boxes[i]);
+    for (const [cx, cy, name] of [[x0, y0, 'nw'], [x1, y0, 'ne'],
+                                  [x0, y1, 'sw'], [x1, y1, 'se']]) {
+      if (Math.abs(u - cx) <= tol && Math.abs(v - cy) <= tol) return { i, handle: name };
+    }
+    if (u >= x0 && u <= x1 && v >= y0 && v <= y1) return { i, handle: null };
+  }
+  return null;
+}
+
+cv.addEventListener('mousedown', (e) => {
+  if (!imgReady) return;
+  const r = cv.getBoundingClientRect();
+  const sx = e.clientX - r.left, sy = e.clientY - r.top;
+  const [u, v] = toImage(sx, sy);
+  if (spaceDown || e.button === 1) {
+    drag = { mode: 'pan', sx: e.clientX, sy: e.clientY, cx: cam.x, cy: cam.y };
+    cv.style.cursor = 'grabbing';
+    return;
+  }
+  if (e.button !== 0) return;
+
+  const hit = hitTest(u, v, sx, sy);
+  if (hit && hit.close) { delSelected(); return; }
+  if (hit) {
+    sel = hit.i;
+    pushUndo();
+    drag = { mode: hit.handle ? 'resize' : 'move', handle: hit.handle, i: hit.i, u, v,
+             orig: boxes[hit.i].slice(), moved: false };
+  } else {
+    sel = -1;
+    drag = { mode: 'new', u0: u, v0: v, u1: u, v1: v };
+  }
+  draw();
+});
+
+window.addEventListener('mousemove', (e) => {
+  const r = cv.getBoundingClientRect();
+  const sx = e.clientX - r.left, sy = e.clientY - r.top;
+  const [u, v] = toImage(sx, sy);
+
+  if (!drag) {                        // 커서만 움직일 때: 가리킨 박스를 밝게
+    if (!imgReady) return;
+    const hit = hitTest(u, v, sx, sy);
+    const nh = hit ? hit.i : -1;
+    if (nh !== hover) { hover = nh; draw(); }
+    cv.style.cursor = spaceDown ? 'grab'
+      : hit ? (hit.close ? 'pointer' : (hit.handle ? 'nwse-resize' : 'move')) : 'crosshair';
+    return;
+  }
+
+  const W = img.width, H = img.height;
+  if (drag.mode === 'pan') {
+    cam.x = drag.cx + (e.clientX - drag.sx);
+    cam.y = drag.cy + (e.clientY - drag.sy);
+  } else if (drag.mode === 'new') {
+    drag.u1 = u; drag.v1 = v;
+  } else if (drag.mode === 'move') {
+    const dx = (u - drag.u) / W, dy = (v - drag.v) / H;
+    const o = drag.orig;
+    const cx = Math.max(-o[0], Math.min(1 - o[2], dx));
+    const cy = Math.max(-o[1], Math.min(1 - o[3], dy));
+    boxes[drag.i] = [o[0] + cx, o[1] + cy, o[2] + cx, o[3] + cy];
+    drag.moved = true;
+  } else if (drag.mode === 'resize') {
+    const b = drag.orig.slice();
+    const nu = Math.max(0, Math.min(1, u / W)), nv = Math.max(0, Math.min(1, v / H));
+    if (drag.handle.includes('w')) b[0] = nu; else b[2] = nu;
+    if (drag.handle.includes('n')) b[1] = nv; else b[3] = nv;
+    boxes[drag.i] = [Math.min(b[0], b[2]), Math.min(b[1], b[3]),
+                     Math.max(b[0], b[2]), Math.max(b[1], b[3])];
+    drag.moved = true;
+  }
+  draw();
+});
+
+window.addEventListener('mouseup', () => {
+  if (!drag) return;
+  const d = drag;
+  drag = null;
+  cv.style.cursor = 'crosshair';
+  if (d.mode === 'new') {
+    const w = Math.abs(d.u1 - d.u0) * cam.z, h = Math.abs(d.v1 - d.v0) * cam.z;
+    if (w >= MIN_BOX && h >= MIN_BOX) {
+      pushUndo();
+      boxes.push([
+        Math.max(0, Math.min(d.u0, d.u1) / img.width),
+        Math.max(0, Math.min(d.v0, d.v1) / img.height),
+        Math.min(1, Math.max(d.u0, d.u1) / img.width),
+        Math.min(1, Math.max(d.v0, d.v1) / img.height),
+      ]);
+      sel = boxes.length - 1;
+      markDirty(); save();
+    }
+  } else if (d.mode === 'move' || d.mode === 'resize') {
+    if (d.moved) { markDirty(); save(); } else { undoStack.pop(); }   // 단순 클릭이면 실행취소 쌓지 않음
+  }
+  draw();
+});
+
+cv.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  const r = cv.getBoundingClientRect();
+  const mx = e.clientX - r.left, my = e.clientY - r.top;
+  const [u, v] = toImage(mx, my);
+  cam.z *= e.deltaY < 0 ? 1.15 : 1 / 1.15;
+  cam.z = Math.max(0.05, Math.min(30, cam.z));
+  cam.x = mx - u * cam.z;
+  cam.y = my - v * cam.z;
+  draw();
+}, { passive: false });
+
+/* ── 키보드 ────────────────────────────────────────────── */
+window.addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'SELECT') return;
+  if (e.code === 'Space') { spaceDown = true; cv.style.cursor = 'grab'; e.preventDefault(); }
+  if (e.ctrlKey && e.key.toLowerCase() === 'z') { undo(); e.preventDefault(); return; }
+  if (e.ctrlKey && e.key.toLowerCase() === 's') { save(); flash('저장했습니다'); e.preventDefault(); return; }
+
+  switch (e.key) {
+    case 'Delete': case 'Backspace': delSelected(); break;
+    case 'Escape': sel = -1; draw(); break;
+    case 'ArrowRight': load(cursor + 1); break;
+    case 'ArrowLeft': load(cursor - 1); break;
+    case 'Enter':
+      save('done', () => load(cursor + 1));
+      flash(`완료 — 박스 ${boxes.length}개`);
+      break;
+    case '0':
+      pushUndo();
+      boxes = []; sel = -1;
+      save('done', () => load(cursor + 1));
+      flash('글자 없음으로 표시');
+      break;
+    case 'f': case 'F': fit(); draw(); break;
+    case 'p': case 'P':
+      showPending = !showPending;
+      flash(showPending ? '기준 미달 제안 보임' : '기준 미달 제안 숨김');
+      draw();
+      break;
+    default: break;
+  }
+});
+window.addEventListener('keyup', (e) => {
+  if (e.code === 'Space') { spaceDown = false; cv.style.cursor = 'crosshair'; }
+});
+
+window.addEventListener('beforeunload', (e) => {
+  if (dirty) { e.preventDefault(); e.returnValue = ''; }
+});
+
+/* ── 단추 ──────────────────────────────────────────────── */
+$('bSave').onclick = () => { save(); flash('저장했습니다'); };
+$('bDone').onclick = () => { save('done', () => load(cursor + 1)); };
+$('bEmpty').onclick = () => { pushUndo(); boxes = []; sel = -1; save('done', () => load(cursor + 1)); };
+$('bDel').onclick = delSelected;
+$('bClear').onclick = clearAll;
+$('bUndo').onclick = undo;
+$('bSeed').onclick = refillSeeds;
+$('selSeed').onchange = (e) => { seedMin = +e.target.value; draw(); flash(`제안 기준: ${seedMin}개 이상`); };
+
+$('list').addEventListener('click', (e) => {
+  const el = e.target.closest('.it');
+  if (el) load(+el.dataset.i);
+});
+document.querySelectorAll('.filters button').forEach((b) => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.filters button').forEach((x) => x.classList.remove('on'));
+    b.classList.add('on');
+    applyFilter(b.dataset.f);
+  });
+});
+window.addEventListener('resize', resize);
+
+/* ── 시작 ──────────────────────────────────────────────── */
+(async function start() {
+  const st = await (await fetch('/api/state')).json();
+  ITEMS = st.items; LABELS = st.labels; SEEDS = st.seeds; TARGETS = st.targets;
+  view = ITEMS.slice();
+  const first = view.findIndex((it) => LABELS[it.id]?.status !== 'done');
+  renderProgress();
+  resize();
+  load(first >= 0 ? first : 0);
+})();
+</script>
+</body>
+</html>
