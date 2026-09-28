@@ -2,7 +2,7 @@
 
 무엇을 고정했나: 검출기(학습된 YOLO26x 단어 탐지기 @conf 0.01), 라인 병합(y_tol 0.04), 스트립 패딩(0.04),
 전처리, 채점 규칙(eval_ocr_v2 --mask-phone, 브루클린 en-only). 바꾼 것은 인식기 하나뿐입니다.
-학습 데이터: PARSeq·PaddleOCR·SVTRv2 는 signboard_v3 단어+라인 75,612, Tesseract 미세조정은 같은 분할의
+학습 데이터: PARSeq·PaddleOCR·SVTRv2·EasyOCR·TrOCR 는 signboard_v3 단어+라인 75,612, Tesseract 미세조정은 같은 분할의
 단어 크롭만(라인 없음)으로 학습했습니다 — Tesseract 행의 차이에는 학습 데이터 차이도 섞여 있습니다.
 분할 단위는 OCR GT 가 있는 사진 277장(크롭 411 / 라인 592)입니다.
 
@@ -22,13 +22,14 @@ GT = Path("artifacts/gt"); OCR = Path("artifacts/ocr_gt")
 REG = ["gangnam", "brooklyn", "suwon"]
 
 # 전부 같은 YOLO26x 스트립에서 나온 라인 스트립 인식 결과입니다.
-# EasyOCR·TrOCR 는 이 비교를 만들 때 라인 스트립 결과가 없어 빠져 있습니다(지금은 run 112 yeasy ·
-# run 120 ytrocrb2 로 있음). 넣으려면 ENGINES 에 추가하면 됩니다.
+# EasyOCR·TrOCR 는 PARSeq·SVTRv2 와 같은 단어+라인 75,612 로 학습한 run 138 yeasywl · run 139 ytrocrbwl.
 ENGINES = [                                  # (태그, 표기, 학습 조건)
     ("ytess",     "Tesseract 5.5",              "zero-shot"),
     ("ysurya",    "Surya 0.14",                 "zero-shot"),
     ("yclova",    "CLOVA OCR General",          "zero-shot (상용 API)"),
     ("ytessft",   "Tesseract 5.5",              "fine-tuned"),
+    ("yeasywl",   "EasyOCR (CRNN)",             "fine-tuned"),
+    ("ytrocrbwl", "TrOCR-base",                 "fine-tuned"),
     ("cyparseq",  "PARSeq (ViT-S)",             "fine-tuned"),
     ("cy5",       "PaddleOCR (PP-OCRv5 rec)",   "fine-tuned"),
     ("cysvtrv2",  "SVTRv2-B",                   "fine-tuned"),

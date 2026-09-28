@@ -55,7 +55,7 @@ PaddleOCR 대비 +3.5%p [-0.7, +7.9] 로 **유의하지 않습니다**. 즉 "더
 | 간판 탐지 (Table 1) | GSV 강남·브루클린·수원 | 298장 | 가게 단위 group-aware 5-fold (같은 가게가 train/val 에 걸치지 않음) |
 | 단어 박스 탐지 학습 (Table 2) | AI Hub signboard_v3 | 27,132장 / 78,110 박스 | 소스 이미지 단위 train 21,714 / val 2,712 / **test 2,706장 · 7,756 박스** |
 | 단어 박스 평가 (Table 2) | **GSV 단어 박스 GT** (이번 리비전 라벨) | 간판 463개 / **1,499 박스** (5-fold 298장 기준 453개 / 1,467 박스) | 전수 |
-| 인식기 학습 (Table 3) | AI Hub signboard_v3 | 단어 크롭 62,464 (+ 실라인 13,148 = 75,612) | 소스 이미지 단위, seed 42. **실라인 포함 여부가 인식기마다 다릅니다 — 5.3절** |
+| 인식기 학습 (Table 3) | AI Hub signboard_v3 | 단어 크롭 62,464 (+ 실라인 13,148 = 75,612) | 소스 이미지 단위, seed 42. 미세조정 인식기는 Tesseract 만 단어 크롭만, 나머지는 75,612 — 5.3절 |
 | OCR 평가 (Table 3·4) | GSV GT 크롭 | 411 크롭 / **592 라인** / 930 단어 | 전수 평가 (통제 비교 시 사진 단위 val/test 반분) |
 
 GSV 단어 박스 GT 는 라벨링 도구(`data/label_wordbox.py`)로 463개 간판을 전수 라벨한 것입니다(10절).
@@ -139,14 +139,14 @@ YOLOv5x 가 0.1~0.5%p 앞섭니다. 신뢰구간 없이는 판정 불가이므�
 **고정:** 단어 검출기(YOLO26x @0.01) · 라인 병합(y_tol 0.04) · 패딩(0.04) · 전처리 · 채점 규칙
 (라인 매칭, `--mask-phone`, 브루클린 영어 전용 채점). **바꾼 것은 인식기 하나뿐**입니다.
 모든 행이 **단일 모델**입니다(앙상블 없음). GSV GT 크롭 411개 / 592 라인. 전체 채점표는
-`artifacts/gt/ocr_eval_v2_summary.csv`(9개 엔진).
+`artifacts/gt/ocr_eval_v2_summary.csv`(표 행 9개 + 단어만 학습한 이전 EasyOCR·TrOCR 참고 2개).
 
 | 인식기 | 학습 | 강남 | 브루클린 | 수원 | 전체 | CER | WAR |
 |---|---|---|---|---|---|---|---|
 | Tesseract 5.5 | 제로샷 | 31.1 / .541 | 47.7 / .306 | 14.9 / .736 | 31.8% | .464 | .360 |
 | Tesseract 5.5 | 미세조정 · **단어만** | 35.8 / .507 | 44.2 / .316 | 20.4 / .688 | 34.0% | .449 | .285 |
-| EasyOCR (CRNN) | 미세조정 · **단어만** | 54.2 / .276 | 46.7 / .208 | 51.9 / .316 | 51.0% | .251 | .199 |
-| TrOCR-base | 미세조정 · **단어만** | 64.6 / .251 | 46.2 / .262 | 64.6 / .258 | 58.4% | .258 | .254 |
+| EasyOCR (CRNN) | 미세조정 · 단어+라인 | 56.6 / .259 | 56.8 / .184 | 55.2 / .298 | 56.2% | .230 | .503 |
+| TrOCR-base | 미세조정 · 단어+라인 | 71.2 / .228 | 56.8 / .168 | 68.5 / .228 | 65.5% | .198 | .609 |
 | ABINet | 미세조정 | (보류 — 10절) | | | | | |
 | MAERec (ViT-S) | 미세조정 | (보류 — 10절) | | | | | |
 | Surya 0.14 | 제로샷 | 43.9 / .532 | 59.3 / .194 | 22.1 / .759 | 42.4% | .411 | .367 |
@@ -155,21 +155,21 @@ YOLOv5x 가 0.1~0.5%p 앞섭니다. 신뢰구간 없이는 판정 불가이므�
 | PaddleOCR PP-OCRv5 rec | 미세조정 · 단어+라인 | 73.6 / .190 | 77.9 / .108 | 68.5 / .190 | 73.5% | .149 | .669 |
 | **SVTRv2-B (배포)** | 미세조정 · 단어+라인 | 74.5 / .185 | 78.9 / .105 | 72.9 / .197 | **75.5%** | **.147** | .694 |
 
-> **학습 데이터가 두 종류로 섞여 있습니다 (D42 점검에서 확인).** 이전 판은 "미세조정 행은 전부 같은
-> 75,612 크롭"이라고 적었지만 사실이 아닙니다. 실제 학습 목록을 세어 보면:
+> **학습 데이터 (D43 에서 통일).** 미세조정 행은 Tesseract 를 빼고 모두 같은 단어 62,464 + 실라인
+> 13,148 = **75,612**(val 9,609)로 학습했습니다. EasyOCR·TrOCR-base 는 처음에 단어 크롭만으로 학습돼
+> 있어(D42 점검에서 확인) 같은 목록으로 다시 학습했습니다 — 모델·하이퍼파라미터는 그대로, 학습 목록만 교체
+> (`ocr/make_wordline_manifests.py`, `scripts/run_retrain_wordline.sh`, run 138 `yeasywl` · 139 `ytrocrbwl`).
 >
-> | 학습 데이터 | 인식기 | 확인한 근거 |
-> |---|---|---|
-> | 단어 62,464 + **실라인 13,148 = 75,612** | PaddleOCR v5 · PARSeq · SVTRv2-B | LMDB `num-samples 75612` / PaddleOCR `label_file_list` 에 `lines_train.txt` |
-> | **단어 크롭 62,464 만** | EasyOCR · TrOCR-base · Tesseract | EasyOCR `train.txt` 62,464줄 / TrOCR `labels.csv` train 62,464 / Tesseract lstmf 63,301개, 라인 없음 |
+> | | 단어만 (이전) | 단어+라인 (현재) | 차이 |
+> |---|---|---|---|
+> | EasyOCR exact / CER / WAR | 51.0% / .251 / .199 | **56.2% / .230 / .503** | +5.2%p |
+> | TrOCR-base exact / CER / WAR | 58.4% / .258 / .254 | **65.5% / .198 / .609** | +7.1%p |
 >
-> 평가 입력은 여러 단어가 든 **라인 스트립**이라 아래 세 행은 라인 입력을 학습에서 본 적이 없습니다.
-> WAR(단어 정확도)이 그대로 보여줍니다 — 단어만 학습한 세 행 **0.20~0.29**, 라인까지 학습한 세 행
-> **0.67~0.69**. EasyOCR·TrOCR 는 출력 라인에 **공백이 한 번도 없습니다**(0.0%, 라인 학습 세 행은
-> 69~79%) — 라인 recall(CER<1 인 라인 비율)은 92~93% 로 라인 학습 행(93~94%)과 비슷해서, 글자는 읽지만
-> 줄 안에서 단어를 나누지 못하는 것입니다. Tesseract 는 공백은 내지만(62.6%) 라인 recall 이 67% 로 읽기
-> 자체가 약합니다. 그래서 이 세 행과의 격차에는 **구조 차이와 학습 데이터 차이가 섞여** 있고, 이 표만으로
-> "구조가 열세"라고 쓸 수 없습니다. 같은 75,612 로 재학습은 10절.
+> 단어만 학습한 두 모델은 출력 라인에 공백이 한 번도 없었고(0.0%), 라인까지 학습하자 69~71% 로 다른
+> 라인 학습 행(69~79%)과 같아졌습니다 — WAR 이 두 배 넘게 오른 이유입니다. **Tesseract 는 단어 크롭만
+> (lstmf 63,301)** 으로 학습한 그대로입니다. 단어 1개 라인과 여러 단어 라인의 exact 차이가 +2.2%p 로
+> 라인 데이터가 모자라 생긴 격차가 보이지 않고, 공백도 이미 냅니다(62.6%). 대신 라인 recall 이 67% 로
+> 읽기 자체가 약합니다. 이전 두 행의 출력은 `ocr_*_112_yeasy.csv` · `ocr_*_120_ytrocrb2.csv` 에 남아 있습니다.
 
 ### 5.1 각 인식기를 왜 넣었나
 
@@ -215,13 +215,17 @@ OCR GT 가 있는 사진 277장을 **사진 단위로 반분**(val 137 / test 14
 test 절반 296 라인에서만 차이를 계산합니다. 크롭 단위 **페어 부트스트랩 95%**(2,000회).
 `str_baselines/eval_ocr_controlled.py` — 09-28 재실행으로 아래 값 전부 재현. 이 스크립트는 크롭별로 따로
 집계해서 전체 exact 가 표 3 과 0.1~0.2%p 다릅니다(예: SVTRv2 75.7 vs 75.5).
-Tesseract 미세조정 행은 단어 크롭만으로 학습한 값입니다.
+Tesseract 미세조정 행은 단어 크롭만으로 학습한 값입니다. 09-29 에 EasyOCR·TrOCR(단어+라인) 두 행을 넣어
+다시 돌렸습니다 — 부트스트랩 난수 순서가 바뀌어 기존 행의 구간 끝이 0.2~0.3 움직였고(점추정은 동일),
+아래가 그 값입니다(`artifacts/retrain_wl/logs/ci_eval.log`).
 
 | 인식기 | vs PaddleOCR | 95% CI | 판정 |
 |---|---|---|---|
-| SVTRv2-B | +3.5 | [-0.7, +7.9] | **미판정** |
-| PARSeq | -3.5 | [-8.4, +1.0] | **미판정** |
+| SVTRv2-B | +3.5 | [-1.0, +7.9] | **미판정** |
+| PARSeq | -3.5 | [-8.2, +1.3] | **미판정** |
+| TrOCR-base (단어+라인) | -7.6 | [-12.7, -2.2] | 유의 |
 | CLOVA OCR General | -13.8 | [-19.6, -8.2] | 유의 |
+| EasyOCR (단어+라인) | -17.3 | [-22.7, -12.3] | 유의 |
 | Surya 0.14 | -28.7 | [-34.4, -23.1] | 유의 |
 | Tesseract (미세조정) | -39.1 | [-45.1, -33.2] | 유의 |
 | Tesseract (제로샷) | -40.5 | [-45.9, -34.7] | 유의 |
@@ -247,8 +251,8 @@ Tesseract 미세조정 행은 단어 크롭만으로 학습한 값입니다.
 | PARSeq (ViT-S) | 단어 + 실라인 75,612 | 같은 LMDB, 사전학습에서 시작 | 2h15m |
 | ABINet | (단어 + 실라인 예정) | OpenOCR `abinet_signboard.yml`, 사전학습 mmocr `abinet_20e_st-an_mj`(MJ+ST) 변환 | 보류 |
 | MAERec | (단어 + 실라인 예정) | OpenOCR `maerec_signboard.yml`, 사전학습 Union14M `maerec_s_union14m` 변환 | 보류 |
-| TrOCR-base | **단어 62,464 만** | `ocr/train_textinthewild_ocr.py`, base-printed, 10ep, batch 4, 증강, **lr 2e-5 · warmup 500 · linear decay · clip 1.0**, base 자체 byte-level BPE (5.4절). epoch 10 체크포인트(val 최저 0.159) | 13h |
-| EasyOCR (CRNN) | **단어 62,464 만** | VGG+BiLSTM+CTC, imgH 64 / imgW 600 → `make_easyocr_plugin.py` 로 `signboard_v3_custom` 플러그인화 | — |
+| TrOCR-base | 단어 + 실라인 75,612 | `ocr/train_textinthewild_ocr.py` (`artifacts/ocr_training/signboard_v4_wl/labels.csv`), base-printed, 10ep, batch 4, 증강, **lr 2e-5 · warmup 500 · linear decay · clip 1.0**, base 자체 byte-level BPE (5.4절). epoch 10 체크포인트(val 최저 0.188), 자체 test exact 91.1% / CER 0.039 | 9h55m (9/28 17:32 → 9/29 03:30) |
+| EasyOCR (CRNN) | 단어 + 실라인 75,612 | VGG+BiLSTM+CTC, imgH 64 / imgW 600, 50,000 iter, `config_files/signboard_v4_wl.yaml`(= signboard_v3 에서 데이터 경로만 교체) → `make_easyocr_plugin.py` 로 `signboard_v4wl_custom` 플러그인화 | 1h39m |
 | Tesseract 5.5 | **단어 크롭만** (lstmf 63,301) | WordStr box 파일 + 자모 recoder, `preserve_interword_spaces` | — |
 
 > README 이전 판의 SVTRv2 소요 "3h41m" 은 로그(9/14 11:49 → 9/15 00:06)와 맞지 않아 로그 값으로
@@ -298,10 +302,11 @@ decay** 로 재학습했습니다(`--warmup-steps`, `--lr-decay` 추가, 기본�
 | val_loss (eval 모드) | 0.291 | 0.225 | 0.201 | 0.169 | 0.169 | **0.159** |
 
 튀는 에폭 없이 수렴했고, 자체 test split(AI Hub 7,756 크롭) **exact 91.0% / CER 0.040**(붕괴본은 0.0% /
-1.000). GSV 채점 결과가 표 3 의 58.4% 입니다(run 120 `ytrocrb2`).
+1.000). 이 단어만 학습본의 GSV 채점 결과가 58.4%(run 120 `ytrocrb2`)였고, 같은 설정으로 단어+라인 75,612 를
+학습한 것이 표 3 의 65.5% 입니다(run 139 `ytrocrbwl`, 5절).
 
 > small 의 26.9% 는 ①~④ 가 전부 남아 있던 코드에서 나온 값입니다. TrOCR 를 "구조적으로 부적합"으로
-> 서술하려면 small 도 재학습해야 하고, 5절 주의대로 단어만 학습한 조건도 함께 풀어야 합니다.
+> 서술하려면 small 도 재학습해야 합니다(단어만 학습한 조건은 base 에서는 풀었습니다 — 5절).
 
 ---
 
@@ -513,8 +518,8 @@ bash artifacts/final_measure/logs/run_snapshot.sh
 | 항목 | 상태 |
 |---|---|
 | Table 1 · 2 · 4 | **완료** (Table 2 GSV 열은 D42 재측정값) |
-| Table 3 | TrOCR-base 완료(58.4%). **ABINet · MAERec 보류** — 학습 코드 오류 2건(아래), 사전학습 가중치는 변환·검증 완료 |
-| Table 3 — 학습 데이터 불일치 | EasyOCR · TrOCR-base 를 같은 75,612(단어+라인)로 **재학습 중** — `scripts/run_retrain_wordline.sh`, 로그 `artifacts/retrain_wl/logs/status.txt`, run 138 `yeasywl` · 139 `ytrocrbwl`. 모델·하이퍼파라미터는 기존 그대로, 학습 목록만 교체(`ocr/make_wordline_manifests.py`). Tesseract 는 단어/여러 단어 라인 exact 차이가 +2.2%p 라 재학습하지 않음 |
+| Table 3 | TrOCR-base · EasyOCR 단어+라인 학습 완료(65.5% · 56.2%). **ABINet · MAERec 보류** — 학습 코드 오류 2건(아래), 사전학습 가중치는 변환·검증 완료 |
+| Table 3 — 학습 데이터 불일치 | **해결** — EasyOCR · TrOCR-base 를 같은 75,612 로 학습(5절). Tesseract 는 단어만 유지(이유 5절) |
 | 연쇄 A (배포) | **완료** (7.1절) |
 | 연쇄 B (단어 검출 YOLOv5x) | **완료** (7.1절) |
 
@@ -527,6 +532,8 @@ bash artifacts/final_measure/logs/run_snapshot.sh
 | 9/27 | 연쇄 간판 검출기를 표 1 과 같은 group-aware 로 통일, 크롭 좌표 버그 수정 | FP 124 → 96, 잘못 잘린 크롭 9개 제거 |
 | 9/27 | 연쇄 채점기를 표 3·4 와 통일, 태깅 기권 허용, 배포 VLM 을 fix 로 | 7.2절 |
 | 9/27 | 인식기 학습 데이터 전수 확인 | 3개 행이 단어만(5절) |
+| 9/28 | 연쇄를 표 1·2 와 같은 298장으로(fold 밖 사진 2장의 간판 10개를 FN 으로 세던 것 제거), 구성 B 완료 | 7.1절 |
+| 9/28~29 | EasyOCR · TrOCR-base 를 단어+라인 75,612 로 학습 (TrOCR 첫 시도는 08:17 에 프로세스가 외부 종료돼 처음부터 다시) | 56.2% · 65.5% (5절) |
 
 ### ABINet · MAERec 이 멈춘 이유 (수정 전)
 
