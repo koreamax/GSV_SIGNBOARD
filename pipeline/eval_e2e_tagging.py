@@ -57,7 +57,10 @@ def main() -> None:
     ap.add_argument("--engine", default="vlmfix",
                     help="run 파일의 엔진 태그. 연쇄 하이브리드 출력은 vlmfix (배포 paddle 과 파일명이 겹치지 않게 분리)")
     ap.add_argument("--model", default="gemma3:12b")
-    ap.add_argument("--retriever", choices=["lexical", "hybrid"], default="hybrid")
+    ap.add_argument("--retriever", choices=["lexical", "hybrid", "none"], default="hybrid",
+                    help="none = RAG 힌트 없이 OCR 텍스트만(RAG 기여도 측정용 기준선)")
+    ap.add_argument("--hint-tag-min-sim", type=float, default=None,
+                    help="hybrid 전용: OCR 라인과 이 유사도 이상(또는 포함)인 후보에만 태그 표시")
     ap.add_argument("--rag-k", type=int, default=5)
     # 예전에는 action="store_true", default=True 라서 **끌 수 없는** 기권 금지였습니다.
     # 그러면 간판이 아닌 크롭에도 반드시 업종을 붙이게 되어 '허위 POI 124/124' 가 측정이
@@ -75,7 +78,9 @@ def main() -> None:
     if args.rescore:
         saved = {r["det_crop"]: r for r in csv.DictReader(open(args.rescore, encoding="utf-8"))}
 
-    if args.retriever == "hybrid":
+    if args.retriever == "none":
+        HINT = None
+    elif args.retriever == "hybrid":
         import rag_hybrid as HINT
     else:
         import rag_retrieve as HINT
@@ -112,10 +117,11 @@ def main() -> None:
 
         text = ocr.get(m["det_crop"], "")
         hints = ""
-        if text and saved is None:            # 재채점은 검색 힌트가 필요 없습니다
+        if text and saved is None and HINT is not None:   # 재채점·RAG 없음은 힌트 불필요
+            kw = {"tag_min_sim": args.hint_tag_min_sim} if args.hint_tag_min_sim is not None else {}
             hints = HINT.get(region).hint_block(
                 [l for l in text.split(" / ") if l.strip()],
-                k=args.rag_k, allowed_tags=set(tags))
+                k=args.rag_k, allowed_tags=set(tags), **kw)
         if saved is not None:
             if m["det_crop"] not in saved:
                 raise SystemExit(f"[오류] 재채점 원본에 없는 크롭: {m['det_crop']}")

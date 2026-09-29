@@ -141,11 +141,16 @@ class Hybrid:
 
     def hint_block(self, queries: list[str], k: int = 5,
                    allowed_tags: set[str] | None = None,
-                   show_tags: bool = True) -> str:
+                   show_tags: bool = True, tag_min_sim: float | None = None) -> str:
         """rag_retrieve.Retriever.hint_block 과 같은 계약, 융합 순위만 다릅니다.
 
         라인별로 lexical·dense 순위를 각각 뽑아 RRF로 합치고 상위 k개를 냅니다.
-        어휘 밖 태그를 떼는 규칙(4.15 ④)은 그대로 유지합니다."""
+        어휘 밖 태그를 떼는 규칙(4.15 ④)은 그대로 유지합니다.
+
+        `tag_min_sim` 을 주면 **같은 업소로 볼 만한 후보에만 태그를 붙입니다** — 어느 OCR 라인과
+        정규화 문자 유사도가 그 이상이거나 한쪽이 다른 쪽을 포함할 때. 나머지 후보는 이름만 냅니다.
+        RAG 점검(vlm/rag_audit.py, 09-30)에서 정답과 무관한 후보('세무사 사무소', '진미식당' 등)의
+        태그를 모델이 그대로 따라간 오답이 TP 325개 중 16개 있었습니다."""
         queries = [q for q in queries if len(RAG.norm_key(q)) >= 2]
         if not queries:
             return ""
@@ -168,10 +173,25 @@ class Hybrid:
             tag = e["tag"]
             if not show_tags or (allowed_tags is not None and tag not in allowed_tags):
                 tag = ""
+            if tag and tag_min_sim is not None and not self.same_business(e["key"], queries, tag_min_sim):
+                tag = ""
             lines.append(f"- {e['name']}" + (f" ({tag})" if tag else ""))
             if len(lines) >= k:
                 break
         return "\n".join(lines)
+
+    @staticmethod
+    def same_business(key: str, queries: list[str], min_sim: float) -> bool:
+        """후보 키가 OCR 라인 중 하나와 같은 업소로 볼 만한가 (포함 관계 또는 문자 유사도)."""
+        for q in queries:
+            qk = RAG.norm_key(q)
+            if len(qk) < 2:
+                continue
+            if len(qk) >= 3 and len(key) >= 3 and (qk in key or key in qk):
+                return True
+            if 1 - RAG.lev(qk, key) / max(len(qk), len(key)) >= min_sim:
+                return True
+        return False
 
     @staticmethod
     def rrf(rankings: list[list[int]], k: int) -> list[int]:
