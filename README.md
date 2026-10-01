@@ -318,7 +318,7 @@ decay** 로 재학습했습니다(`--warmup-steps`, `--lr-decay` 추가, 기본�
 |---|---|---|
 | fixtext | OCR 텍스트만, **이미지 없음** | 교정 이득 중 얼마가 시각 정보가 아니라 **언어 사전**에서 오는가 |
 | fix | 간판 이미지 + OCR 텍스트 | 이미지를 주면 얼마가 더 붙는가 |
-| fixcand | 간판 이미지 + 후보 3종 | 다른 인식기의 후보를 함께 보여주면 얼마가 더 붙는가 |
+| fixcand | 간판 이미지 + 라인별 후보 최대 4개(1번 SVTRv2 판독 + PaddleOCR 3종 판독, 아래) | 다른 인식기의 후보를 함께 보여주면 얼마가 더 붙는가 |
 
 | 모델 · 모드 | 강남 | 브루클린 | 수원 | 전체 | CER |
 |---|---|---|---|---|---|
@@ -334,12 +334,26 @@ decay** 로 재학습했습니다(`--warmup-steps`, `--lr-decay` 추가, 기본�
 (Qwen 이 Gemma 보다 조금 빠름). 6조합 전체 약 16시간.
 
 **읽히는 것.** 이득의 대부분은 언어 사전이 아니라 **이미지**에서 옵니다 — 75.5% → 76.5%(fixtext,
-+1.0%p) → 83.4%(fix, **+6.9%p**). 후보 3종을 더 줘도 +0.2%p(fixcand)뿐입니다. 두 모델은 fixtext 에서
++1.0%p) → 83.4%(fix, **+6.9%p**). 다른 인식기 후보를 더 줘도 +0.2%p(fixcand)뿐이고, 이는 같은 입력을 다시 돌렸을 때의
+흔들림(전체 ±0.1%p, 지역 ±1.5%p) 범위라 **차이 없음**으로 읽습니다. 두 모델은 fixtext 에서
 76.5% 로 같고 fix·fixcand 에서 Gemma 가 0.6~0.7%p 앞서지만, 이 표에는 신뢰구간이 없어 1%p 안팎 차이는
 판정 근거로 쓰지 않습니다.
 
-**배포는 Gemma 4 · fix 입니다.** fixcand 의 후보는 같은 스트립을 PaddleOCR 3종(v5 미세조정 · v4 미세조정
-· 사전학습)이 읽은 것이라, fixcand 를 배포하면 인식 패스가 4회가 됩니다. SVTRv2 결과는 fixcand 에서도
+**배포는 Gemma 4 · fix 입니다.** fixcand 는 라인마다 후보를 나열합니다 — **1번은 항상 SVTRv2-B 판독**이고, 그 뒤로
+같은 스트립을 PaddleOCR 3종이 읽은 결과 중 그 라인과 편집거리가 가까운 것을 중복 없이 붙입니다(라인당 1~4개,
+`pipeline/exp_vlm_ocr.py` 의 `line_variants`). PaddleOCR 3종은 **모두 PP-OCRv5 한국어 mobile 인식기**입니다 —
+"v4"·"v5" 는 PaddleOCR 의 PP-OCRv4/v5 가 아니라 **우리 학습 회차 이름**입니다.
+
+| 후보 태그 | 모델 | 학습 |
+|---|---|---|
+| `y5` (`v5_lines`) | PP-OCRv5 한국어 mobile 에서 미세조정 | 단어 62,464 + 실라인 13,148, 기본 RecConAug — 표 3 의 PaddleOCR 행 |
+| `y4` (`v4_spacecat`) | 같은 사전학습에서 미세조정 | 단어 62,464 만, RecConAug 를 **이어붙일 때 간격과 라벨 공백을 넣도록** 고친 증강(`ocr/train_paddle_v4_spacecat.py`) |
+| `ypre` | `korean_PP-OCRv5_mobile_rec` 사전학습 그대로 | 미세조정 없음 |
+
+두 미세조정본은 6 epoch · lr 1e-4 · batch 48 로 같고 데이터·증강만 다릅니다. 내부 라인 exact 는 v4_spacecat 7.9% ·
+v5_lines 55.7%(`artifacts/ocr_training/signboard_v3/ab_spacecat_results.csv`). 이 후보 구성은 이전 배포(PaddleOCR
+3-way 투표)에서 이어진 것이라 선정 근거가 약하고(표 3 의 PARSeq 가 빠짐), 프롬프트 문구는 "라인마다 1~3개"
+라고 적혀 있지만 실제로는 최대 4개입니다. fixcand 를 배포하면 인식 패스가 4회가 됩니다. SVTRv2 결과는 fixcand 에서도
 줄 구조와 1번 후보를 정하지만(프롬프트: "확신이 없으면 첫 번째 후보"), 후보를 만드는 비용에 비해
 얻는 것이 +0.2%p 라 표 4 의 비교 실험으로만 둡니다. 7절 연쇄 측정은 fix 로 돌립니다.
 
@@ -407,6 +421,24 @@ Gemma 4 · fix 를 같은 명령으로 한 번 더 돌려 비교했습니다(`pi
 | B | YOLOv5x | 62.8% / 75.1% / 82.4% | 67.7% / 80.6% | 67 / 96 (70%) |
 
 298장 · 간판 453개 · OCR 581 라인 · 태깅 대상 387개 기준(표 1·2 와 같은 사진 집합).
+
+**OCR 행의 line exact / CER (워드 표 5)** — 표 3·4 와 같은 채점기(`eval_ocr_v2.eval_engine`, `--mask-phone`, 브루클린
+영어 전용, 정답에 없는 예측 라인의 편집도 CER 에 포함). 전체는 세 지역의 라인·글자를 합산한 micro 평균입니다
+(`pipeline/cascade_cer.py` → `artifacts/gt/cascade_cer.csv`).
+
+| 구성 | 행 | 강남 | 브루클린 | 수원 | 전체 |
+|---|---|---|---|---|---|
+| A (YOLO26x 단어) | OCR · TP (486 line) | 77.1 / .257 | 76.5 / .178 | 78.1 / .292 | **77.2 / .223** |
+| A | OCR · GT 간판 (581) | 83.0 / .157 | 88.7 / .082 | 79.0 / .163 | **83.6 / .121** |
+| A | OCR · 연쇄 recall (581) | 63.6 / .379 | 67.0 / .258 | 63.0 / .412 | **64.5 / .325** |
+| B (YOLOv5x 단어) | OCR · TP (486) | 75.9 / .277 | 74.1 / .194 | 75.3 / .312 | **75.1 / .241** |
+| B | OCR · GT 간판 (581) | 83.5 / .178 | 85.6 / .084 | 77.9 / .188 | **82.4 / .133** |
+| B | OCR · 연쇄 recall (581) | 62.6 / .395 | 64.9 / .273 | 60.8 / .428 | **62.8 / .341** |
+
+line exact 는 위 표와 지역별까지 같게 재현됩니다(검산). TP 행의 CER 이 exact 에 비해 높은 것은 검출 crop 이 정답
+간판보다 넓거나 옆 간판을 함께 잘라, 정답에 없는 라인이 읽혀 삽입 편집으로 더해지기 때문입니다. 연쇄 recall 행은
+놓친 간판의 라인을 출력 없음(글자 전부 삭제)으로 셉니다. GT 간판 행의 CER(A .121)은 같은 출력의 표 4 값(.128)과
+다른데, 표 4 는 OCR GT 가 있는 사진 전체(411 crop), 여기는 매칭표의 298장이기 때문입니다.
 
 A 지역별 — OCR: 강남 63.6 / 77.1 / 83.0 · 브루클린 67.0 / 76.5 / 88.7 · 수원 63.0 / 78.1 / 79.0,
 태깅: 강남 72.0 / 87.2 (허위 26/37) · 브루클린 61.7 / 70.5 (19/26) · 수원 69.3 / 84.6 (24/33).
@@ -520,7 +552,7 @@ str_baselines/  *_rec_worker.py     인식기 워커 8종 — 같은 IO 계약, 
                 convert_pretrained_openocr.py  ABINet·MAERec 사전학습 가중치 → OpenOCR 키 변환
 
 ocr/         train_textinthewild_ocr.py  TrOCR 학습 (--clip-grad, --warmup-steps, --lr-decay)
-             train_paddle_v4_spacecat.py PaddleOCR 학습
+             train_paddle_v4_spacecat.py PaddleOCR 학습 (v4_spacecat — 'v4' 는 학습 회차, 모델은 PP-OCRv5)
              make_easyocr_plugin.py      EasyOCR 플러그인화
 
 vlm/         태깅 · POI 사전(OSM · 상가정보 · NYC 인허가) · RAG
