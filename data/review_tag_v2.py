@@ -5,6 +5,9 @@
     .venv/Scripts/python.exe data/review_tag_v2.py
     → http://127.0.0.1:8779
 
+기본 화면(/)은 기준 v2 를 256건 전부에 적용해 고른 **의심 항목만**(`tagging_suspects_v2.json`, 이유·제안 태그
+포함) 보여주고, 전체를 하나씩 보려면 /all 로 들어갑니다.
+
 대상은 기준 문서 1~3절 업종군(convenience · supermarket · hairdresser · beauty · restaurant · fast_food · cafe · bar ·
 bakery)에 속한 eval_tag=1 정답 **전부**입니다. 화면에는 간판 crop · 상호명 · 현재 태그만 나오고 모델 예측은 나오지
 않습니다(평가 오염 방지). 결정은 바로 `artifacts/gt/tagging_review_v2.json` 에 저장됩니다.
@@ -32,6 +35,7 @@ HERE = Path(__file__).resolve().parents[1]
 GT = HERE / "artifacts" / "gt"
 CSV = GT / "tagging_gt.csv"
 OUT = GT / "tagging_review_v2.json"
+SUSPECTS = GT / "tagging_suspects_v2.json"   # 기준 v2 를 256건에 적용해 고른 의심 항목 + 이유 + 제안 태그
 CROP = GT / "crop"
 sys.path.insert(0, str(HERE / "vlm"))
 import eval_vlm_tagging as T  # noqa: E402  (canon — 채점과 같은 정규화)
@@ -129,6 +133,66 @@ fetch('/api/state').then(r=>r.json()).then(s=>{ITEMS=s.items;DEC=s.dec;VOCAB=s.v
 </script></body></html>"""
 
 
+SPAGE = r"""<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><title>태깅 정답 의심 항목 검토</title>
+<style>
+:root{--bg:#15181e;--panel:#1d222b;--line:#2d3440;--fg:#e8ebf1;--dim:#9aa3b1;--acc:#5aa9ff;--ok:#5ad18b;--chg:#f2b544;--bad:#ff7b72}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font:14px/1.6 "Malgun Gothic",system-ui,sans-serif}
+header{position:sticky;top:0;z-index:2;background:var(--panel);border-bottom:1px solid var(--line);padding:10px 20px;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+header h1{font-size:15px;margin:0}#prog{color:var(--dim)}
+.filters{display:flex;gap:6px;margin-left:auto}.filters button{padding:4px 10px}
+main{max-width:1180px;margin:0 auto;padding:18px 20px 60px;display:flex;flex-direction:column;gap:14px}
+.card{display:grid;grid-template-columns:340px minmax(0,1fr);gap:18px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px}
+.card.done{border-color:#2f5b45}.card img{width:100%;max-height:200px;object-fit:contain;background:#000;border-radius:6px}
+.card .side{display:flex;flex-direction:column;gap:8px;min-width:0}
+.top{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.id{font-family:Consolas,monospace;color:var(--dim);font-size:12.5px}
+.chip{font-size:12px;padding:1px 9px;border-radius:999px;font-weight:700}
+.high{background:#3b1f1f;color:var(--bad)}.mid{background:#3a2e12;color:var(--chg)}.low{background:#262d39;color:var(--dim)}
+.name{font-size:16px;font-weight:700}
+.tags{display:grid;grid-template-columns:70px 1fr;gap:4px 10px;font-size:13.5px}.tags span{color:var(--dim)}
+code{font-family:Consolas,monospace;background:#262d39;padding:1px 6px;border-radius:4px}
+code.sug{background:#173327;color:var(--ok)}code.old{text-decoration:line-through;color:var(--dim)}
+.reason{background:#11151b;border-left:3px solid var(--acc);padding:8px 12px;border-radius:0 6px 6px 0;font-size:13.5px}
+.btns{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+button{background:#262d39;color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:6px 12px;cursor:pointer;font:inherit;font-size:13px}
+button.p{background:var(--ok);border-color:var(--ok);color:#08130d;font-weight:700}button:focus-visible{outline:2px solid var(--acc)}
+select{background:#232933;color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:5px 8px;font:inherit;font-size:13px}
+.st{font-size:13px;color:var(--dim)}.st.ok{color:var(--ok);font-weight:700}
+.legend{color:var(--dim);font-size:12.5px}
+@media(max-width:820px){.card{grid-template-columns:1fr}}
+</style></head><body>
+<header><h1>태깅 정답 의심 항목 검토 (기준 v2)</h1><span id="prog"></span>
+<span class="legend">확신: <span class="chip high">높음</span> <span class="chip mid">중간</span> <span class="chip low">낮음</span> · 모델 예측은 판단에 쓰지 않았습니다 · 기준: docs/tagging_guideline.md</span>
+<div class="filters"><button data-f="all">전체</button><button data-f="todo">남은 것</button><button data-f="done">완료</button></div></header>
+<main id="list"></main>
+<script>
+let S=[],DEC={},VOCAB=[],F='all';const $=id=>document.getElementById(id);
+const EX='__EXCLUDE__',show=t=>t===EX?'평가 제외 (eval_tag=0)':t,conf={high:'높음',mid:'중간',low:'낮음'};
+function decText(d,it){if(!d)return'';if(d.eval_tag==='0')return'저장됨: 평가 제외';return d.tag===it.old?'저장됨: 현재 태그 유지':`저장됨: ${it.old} → ${d.tag}`}
+function render(){const n=S.length,d=S.filter(i=>DEC[i.id]).length;$('prog').textContent=`${d} / ${n} 결정`;
+ $('list').innerHTML=S.filter(i=>F==='all'||(F==='done')===!!DEC[i.id]).map(it=>{const d=DEC[it.id];
+ const opt=VOCAB.map(v=>`<option ${v===it.old?'selected':''}>${v}</option>`).join('');
+ return `<article class="card ${d?'done':''}" id="c-${it.id}"><img src="/crop/${it.region}/${it.id}.jpg" alt="${it.id}" loading="lazy">
+ <div class="side"><div class="top"><span class="name">${it.name||'(상호명 없음)'}</span><span class="chip ${it.conf}">확신 ${conf[it.conf]}</span><span class="id">${it.id}</span></div>
+ <div class="tags"><span>현재</span><div><code class="${d?'':'old'}">${it.old}</code></div>
+ <span>제안</span><div><code class="sug">${show(it.suggest)}</code>${it.alt?` &nbsp;또는&nbsp; <code>${show(it.alt)}</code>`:''}</div></div>
+ <div class="reason">${it.reason}</div>
+ <div class="btns"><button class="p" data-a="sug" data-id="${it.id}">제안대로</button>${it.alt?`<button data-a="alt" data-id="${it.id}">대안으로</button>`:''}
+ <button data-a="keep" data-id="${it.id}">현재 유지</button><button data-a="ex" data-id="${it.id}">평가 제외</button>
+ <select data-id="${it.id}">${opt}</select><button data-a="pick" data-id="${it.id}">고른 태그로</button>
+ <span class="st ${d?'ok':''}">${decText(d,it)}</span></div></div></article>`}).join('')}
+function save(it,tag){const ev=tag===EX?'0':'1';const body={id:it.id,tag:tag===EX?'':tag,eval_tag:ev,old:it.old,note:'의심목록 v2'};
+ fetch('/api/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(r=>r.json()).then(j=>{if(!j.ok)throw 0;DEC[it.id]=body;render();
+ const nx=S.find(i=>!DEC[i.id]);if(nx){const el=document.getElementById('c-'+nx.id);if(el)el.scrollIntoView({block:'center'})}}).catch(()=>{const el=document.querySelector(`#c-${it.id} .st`);if(el){el.textContent='저장 실패 — 서버가 켜져 있는지 확인하세요';el.className='st'}})}
+$('list').onclick=e=>{const b=e.target.closest('button[data-a]');if(!b)return;const it=S.find(i=>i.id===b.dataset.id);
+ const a=b.dataset.a;if(a==='sug')save(it,it.suggest);else if(a==='alt')save(it,it.alt);else if(a==='keep')save(it,it.old);else if(a==='ex')save(it,EX);
+ else{const sel=document.querySelector(`select[data-id="${it.id}"]`);save(it,sel.value)}};
+document.querySelectorAll('.filters button').forEach(b=>b.onclick=()=>{F=b.dataset.f;render()});
+fetch('/api/suspects').then(r=>r.json()).then(s=>{S=s.items;DEC=s.dec;VOCAB=s.vocab;render()});
+</script></body></html>
+"""
+
+
 class H(BaseHTTPRequestHandler):
     protocol_version = "HTTP/1.1"
 
@@ -145,8 +209,20 @@ class H(BaseHTTPRequestHandler):
 
     def do_GET(self):
         p = self.path.split("?")[0]
-        if p in ("/", "/index.html"):
+        if p in ("/", "/index.html"):          # 기본: 의심 항목만 (tagging_suspects_v2.json)
+            return self._send(200, SPAGE.encode("utf-8"), "text/html; charset=utf-8")
+        if p == "/all":                        # 전체 256건 하나씩 보기
             return self._send(200, PAGE.encode("utf-8"), "text/html; charset=utf-8")
+        if p == "/api/suspects":
+            _, vocab, items = load_rows()
+            by = {it["id"]: it for it in items}
+            sus = json.loads(SUSPECTS.read_text(encoding="utf-8"))
+            out = [dict(id=k, region=by[k]["region"], name=by[k]["name"], **v) for k, v in sus.items()]
+            out.sort(key=lambda d: ({"high": 0, "mid": 1, "low": 2}[d["conf"]], d["old"], d["id"]))
+            with _lock:
+                dec = read_out()
+            return self._send(200, json.dumps({"items": out, "dec": dec, "vocab": vocab},
+                                              ensure_ascii=False).encode("utf-8"), "application/json")
         if p == "/api/state":
             _, vocab, items = load_rows()
             with _lock:
@@ -178,9 +254,12 @@ class H(BaseHTTPRequestHandler):
 def apply() -> None:
     rows, _, items = load_rows()
     dec = read_out()
-    todo = [it["id"] for it in items if it["id"] not in dec]
+    # 의심 항목(tagging_suspects_v2.json)은 전부 결정돼 있어야 합니다. 의심 목록에 없는 항목은 결정이
+    # 없으면 현재 태그를 유지합니다(기준 v2 를 적용해 문제가 보이지 않은 것).
+    sus = json.loads(SUSPECTS.read_text(encoding="utf-8")) if SUSPECTS.exists() else {}
+    todo = [k for k in sus if k not in dec]
     if todo:
-        raise SystemExit(f"아직 검토 안 된 항목 {len(todo)}개 — 전부 검토한 뒤 반영하세요.")
+        raise SystemExit(f"아직 결정 안 된 의심 항목 {len(todo)}개 — 전부 결정한 뒤 반영하세요.")
     backup = GT / "tagging_gt_v1.csv"
     if not backup.exists():
         shutil.copy(CSV, backup)

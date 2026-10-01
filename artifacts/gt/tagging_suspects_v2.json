@@ -1,0 +1,254 @@
+{
+ "brooklyn__32__crop_002": {
+  "old": "amenity=bar",
+  "suggest": "__EXCLUDE__",
+  "alt": null,
+  "conf": "high",
+  "reason": "간판: WINES LIQUORS — 술을 파는 가게(주류 판매점)이지 마시는 곳이 아닙니다. OSM 은 shop=alcohol 인데 42종 어휘에 없고 가까운 대체도 없어 기준 0-4 · 4절에 따라 평가 제외."
+ },
+ "brooklyn__34__crop_002": {
+  "old": "amenity=bar",
+  "suggest": "amenity=cafe",
+  "alt": "shop=convenience",
+  "conf": "mid",
+  "reason": "간판: 800 Candy & Juice Bar — 이름에 Bar 가 있지만 주스·사탕 가게라 술을 팔지 않습니다. OSM bar 정의는 '술을 그 자리에서 마시는 곳'. 기준 3절: 주스·스무디 바 → cafe. 사탕 판매가 주라면 convenience 도 가능."
+ },
+ "brooklyn__42__crop_001": {
+  "old": "amenity=bar",
+  "suggest": "amenity=fast_food",
+  "alt": "shop=bakery",
+  "conf": "mid",
+  "reason": "간판: Bagel Pub — 이름의 Pub 은 상호일 뿐 베이글 가게입니다. 기준 3절: 베이글은 카운터·포장 위주면 fast_food, 직접 굽는 빵 판매가 주면 bakery. 간판에 술 관련 단서 없음."
+ },
+ "brooklyn__54__crop_002": {
+  "old": "amenity=bar",
+  "suggest": "__EXCLUDE__",
+  "alt": "shop=convenience",
+  "conf": "mid",
+  "reason": "간판: CAROUSEL BEVERAGES · BEER SODA WATER ICE · OPEN TO THE PUBLIC — 음료(맥주·탄산·얼음) 도매/판매점입니다. 마시는 곳이 아니라 bar 가 아니고, OSM shop=beverages 는 어휘 밖 → 평가 제외. 소매 위주로 보면 convenience."
+ },
+ "brooklyn__57__crop_001": {
+  "old": "amenity=bar",
+  "suggest": "__EXCLUDE__",
+  "alt": "shop=convenience",
+  "conf": "mid",
+  "reason": "54·002 와 같은 가게(CAROUSEL BEVERAGES)를 다른 사진에서 찍은 것. 같은 판단을 적용해야 일관됩니다."
+ },
+ "brooklyn__20__crop_001": {
+  "old": "amenity=cafe",
+  "suggest": "amenity=ice_cream",
+  "alt": null,
+  "conf": "mid",
+  "reason": "간판: island pops — 아이스팝(얼음과자) 가게로 보입니다. 어휘에 amenity=ice_cream 이 있어 cafe 보다 정확합니다. 커피 단서는 간판에 없음."
+ },
+ "gangnam__38__crop_001": {
+  "old": "amenity=cafe",
+  "suggest": "__EXCLUDE__",
+  "alt": null,
+  "conf": "high",
+  "reason": "간판: CANDLE & SOAP — 양초·비누를 파는 가게로, 음료 판매 단서가 없습니다. OSM 은 shop=gift/candles 류인데 어휘에 없어 평가 제외. 현재 cafe 는 간판과 맞지 않습니다."
+ },
+ "brooklyn__70__crop_001": {
+  "old": "amenity=fast_food",
+  "suggest": "amenity=restaurant",
+  "alt": null,
+  "conf": "high",
+  "reason": "간판 아래 줄: CAJUN SEAFOOD RESTAURANT — 간판이 스스로 레스토랑이라고 적고 있습니다. 'Express' 는 상호 일부. 기준 3절: 테이블 식사 → restaurant."
+ },
+ "brooklyn__70__crop_002": {
+  "old": "amenity=fast_food",
+  "suggest": "amenity=restaurant",
+  "alt": null,
+  "conf": "high",
+  "reason": "70·001 과 같은 간판(JUICY KING CRAB, CAJUN SEAFOOD RESTAURANT)."
+ },
+ "brooklyn__45__crop_001": {
+  "old": "amenity=restaurant",
+  "suggest": "amenity=fast_food",
+  "alt": "amenity=restaurant",
+  "conf": "mid",
+  "reason": "간판: CHINESE FOOD EAT IN & TAKE OUT — 미국식 중식 테이크아웃 가게의 전형입니다. 기준 3절: 중식 Take-out → fast_food. 다만 'EAT IN' 도 적혀 있어 restaurant 유지도 가능 — 주 목적을 보고 정하세요."
+ },
+ "brooklyn__9__crop_001": {
+  "old": "amenity=restaurant",
+  "suggest": "amenity=fast_food",
+  "alt": null,
+  "conf": "high",
+  "reason": "간판: Chinese Food to Take out — 포장 전문임을 간판이 명시합니다. 기준 3절: 중식 Take-out → fast_food."
+ },
+ "brooklyn__36__crop_001": {
+  "old": "amenity=restaurant",
+  "suggest": "amenity=fast_food",
+  "alt": null,
+  "conf": "mid",
+  "reason": "상호: EL BARRIO BURRITOS — 부리토 가게. 기준 3절: 부리토·타코 → fast_food(카운터·포장). 테이블 서비스 단서가 간판에 있으면 유지."
+ },
+ "brooklyn__21__crop_002": {
+  "old": "amenity=restaurant",
+  "suggest": "shop=convenience",
+  "alt": null,
+  "conf": "high",
+  "reason": "간판 아래 줄: BREAKFAST · LUNCH · GROCERY · DELI — 델리 겸 식료품점(bodega)입니다. 기준 1절: Deli·Grocery → convenience."
+ },
+ "brooklyn__47__crop_002": {
+  "old": "amenity=restaurant",
+  "suggest": "__EXCLUDE__",
+  "alt": null,
+  "conf": "mid",
+  "reason": "간판: MISC 네온 글자만 보이고 업종 단서가 없습니다(간판 일부). 기준 0-4: 판단 근거 없음 → 평가 제외."
+ },
+ "brooklyn__63__crop_001": {
+  "old": "amenity=restaurant",
+  "suggest": "shop=convenience",
+  "alt": "__EXCLUDE__",
+  "conf": "low",
+  "reason": "간판: Brothers FOOD CENTER — 뉴욕에서 'Food Center' 는 보통 식료품점입니다. 식당 단서는 간판에 없음. 확신이 낮으니 사진을 보고 판단하세요(근거 부족이면 평가 제외)."
+ },
+ "gangnam__48__crop_001": {
+  "old": "amenity=restaurant",
+  "suggest": "amenity=cafe",
+  "alt": null,
+  "conf": "low",
+  "reason": "간판: FOOD CAFE — 간판에 CAFE 가 함께 적혀 있습니다. 식사 위주면 restaurant 유지, 음료·가벼운 식사 위주면 cafe."
+ },
+ "suwon__58__crop_002": {
+  "old": "amenity=restaurant",
+  "suggest": "amenity=fast_food",
+  "alt": null,
+  "conf": "high",
+  "reason": "간판: 한솥 · 따끈한 도시락 — 포장 도시락 체인(카운터 주문·포장 위주). 기준 3절: 카운터 선결제·포장 → fast_food."
+ },
+ "brooklyn__32__crop_003": {
+  "old": "shop=bakery",
+  "suggest": "amenity=fast_food",
+  "alt": null,
+  "conf": "high",
+  "reason": "상호: DUNKIN — 도넛·커피 카운터 체인으로, 매장에서 빵을 굽는 bakery 가 아닙니다. 기준 3절 표에 Dunkin' → fast_food 로 명시."
+ },
+ "gangnam__33__crop_001": {
+  "old": "shop=bakery",
+  "suggest": "amenity=fast_food",
+  "alt": null,
+  "conf": "high",
+  "reason": "상호: DUNKIN(던킨) — brooklyn 32·003 과 같은 체인, 같은 기준(3절) 적용."
+ },
+ "gangnam__87__crop_001": {
+  "old": "shop=beauty",
+  "suggest": "amenity=clinic",
+  "alt": null,
+  "conf": "high",
+  "reason": "간판: 엠엑스 MX 피부과 T.564-8222 — '피부과'는 의원(병원)입니다. 미용 가게가 아니라 amenity=clinic(어휘에 있음)."
+ },
+ "suwon__94__crop_001": {
+  "old": "shop=beauty",
+  "suggest": "shop=jewelry",
+  "alt": null,
+  "conf": "high",
+  "reason": "상호: 라미 웨딩쥬얼리 — 결혼 예물 보석점입니다. 어휘에 shop=jewelry 가 있습니다."
+ },
+ "brooklyn__36__crop_002": {
+  "old": "shop=hairdresser",
+  "suggest": "shop=beauty",
+  "alt": null,
+  "conf": "high",
+  "reason": "상호: Nail Salon — OSM: shop=beauty 는 'nail salon' 을 포함하고, hairdresser 는 머리 위주 가게. 기준 2절: Nail → beauty."
+ },
+ "suwon__12__crop_001": {
+  "old": "shop=hairdresser",
+  "suggest": "shop=beauty",
+  "alt": "__EXCLUDE__",
+  "conf": "mid",
+  "reason": "상호: JS 미용재료 — 미용실이 아니라 미용 재료(용품) 판매점입니다. 기준 2절: 화장품·Beauty Supply 판매점 → beauty. 미용실에 납품하는 도매점이라 애매하면 평가 제외."
+ },
+ "brooklyn__100__crop_001": {
+  "old": "shop=supermarket",
+  "suggest": "__EXCLUDE__",
+  "alt": null,
+  "conf": "high",
+  "reason": "간판: BARGAINLAND DEPARTMENT STORES — 잡화·의류 할인점(department/variety store)이지 식료품 슈퍼마켓이 아닙니다. 해당 태그가 어휘에 없어 평가 제외."
+ },
+ "brooklyn__98__crop_001": {
+  "old": "shop=supermarket",
+  "suggest": "__EXCLUDE__",
+  "alt": null,
+  "conf": "high",
+  "reason": "100·001 과 같은 가게(BARGAINLAND DEPARTMENT STORES)."
+ },
+ "brooklyn__13__crop_001": {
+  "old": "shop=supermarket",
+  "suggest": "shop=convenience",
+  "alt": "shop=supermarket",
+  "conf": "mid",
+  "reason": "간판: FOOD WINE GROCER — 'Grocer' 는 기준 1절에서 convenience 단서. supermarket 은 '카트를 쓸 만큼 큰' 가게이고 Supermarket·체인명이 있을 때. 매장이 여러 칸으로 크면 supermarket 유지."
+ },
+ "brooklyn__15__crop_002": {
+  "old": "shop=supermarket",
+  "suggest": "shop=convenience",
+  "alt": "shop=supermarket",
+  "conf": "mid",
+  "reason": "13·001 과 같은 가게(FOOD WINE GROCER)."
+ },
+ "brooklyn__21__crop_001": {
+  "old": "shop=supermarket",
+  "suggest": "__EXCLUDE__",
+  "alt": "shop=smoke_shop",
+  "conf": "mid",
+  "reason": "간판: Nostrands Nugs — 식료품 단서가 전혀 없습니다. 'Nugs' 는 대마(꽃봉오리)를 뜻하는 속어라 대마·흡연 용품점일 가능성. 확신이 없으면 평가 제외, 흡연 용품점이 확실하면 smoke_shop."
+ },
+ "brooklyn__27__crop_002": {
+  "old": "shop=supermarket",
+  "suggest": "shop=convenience",
+  "alt": null,
+  "conf": "high",
+  "reason": "상호: SHORTY CANDY (& Grocery) — 사탕·식료품 소형점(bodega). 기준 1절: Candy & Grocery → convenience."
+ },
+ "brooklyn__30__crop_002": {
+  "old": "shop=supermarket",
+  "suggest": "shop=convenience",
+  "alt": null,
+  "conf": "high",
+  "reason": "27·002 와 같은 가게(SHORTY CANDY)."
+ },
+ "brooklyn__29__crop_001": {
+  "old": "shop=supermarket",
+  "suggest": "__EXCLUDE__",
+  "alt": "shop=convenience",
+  "conf": "mid",
+  "reason": "간판: CROWN DISCOUNT STORE 99¢ · SCHOOL SUPPLIES · HOUSEWARE · KITCHEN NEEDS · LAUNDRY SUPPLIES · CANDY · SODA — 생활잡화 위주 99센트 가게(variety store). 기준 1절: 99¢ 가게는 식료품 위주일 때만 convenience. 잡화 위주라 평가 제외 권장."
+ },
+ "brooklyn__30__crop_003": {
+  "old": "shop=supermarket",
+  "suggest": "__EXCLUDE__",
+  "alt": null,
+  "conf": "mid",
+  "reason": "간판: 812 CORP. — 법인명만 있고 업종 단서가 없습니다. 기준 0-4: 판단 근거 없음 → 평가 제외."
+ },
+ "brooklyn__44__crop_001": {
+  "old": "shop=supermarket",
+  "suggest": "shop=convenience",
+  "alt": "shop=supermarket",
+  "conf": "mid",
+  "reason": "간판: SJ MARKET (작은 간판) — 기준 1절: 'Market' 만 있으면 가게 폭이 한 칸이면 convenience, 두 칸 이상이면 supermarket. 사진의 매장 폭을 보고 정하세요."
+ },
+ "brooklyn__66__crop_002": {
+  "old": "shop=supermarket",
+  "suggest": "__EXCLUDE__",
+  "alt": null,
+  "conf": "mid",
+  "reason": "간판: 871 MOZEB — 번지와 상호만 있고 업종 단서가 없습니다. 기준 0-4 → 평가 제외."
+ },
+ "brooklyn__77__crop_002": {
+  "old": "shop=supermarket",
+  "suggest": "shop=convenience",
+  "alt": null,
+  "conf": "high",
+  "reason": "상호: Mini Market — OSM 은 mini-mart 를 convenience 와 같은 것으로 봅니다. 기준 1절."
+ },
+ "brooklyn__78__crop_001": {
+  "old": "shop=supermarket",
+  "suggest": "__EXCLUDE__",
+  "alt": "shop=convenience",
+  "conf": "mid",
+  "reason": "간판: MNS 99 CENTS & UP, INC — 99센트 잡화점. 식료품 위주라는 단서가 없어 기준 1절에 따라 평가 제외(식료품 위주면 convenience)."
+ }
+}

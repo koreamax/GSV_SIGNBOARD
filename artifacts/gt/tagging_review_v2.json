@@ -1,0 +1,303 @@
+{
+ "brooklyn__32__crop_002": {
+  "tag": "",
+  "eval_tag": "0",
+  "old": "amenity=bar",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:40:50"
+ },
+ "brooklyn__34__crop_002": {
+  "tag": "amenity=bar",
+  "eval_tag": "1",
+  "old": "amenity=bar",
+  "note": "",
+  "updated": "2026-10-02T05:24:11"
+ },
+ "brooklyn__42__crop_001": {
+  "tag": "amenity=bar",
+  "eval_tag": "1",
+  "old": "amenity=bar",
+  "note": "",
+  "updated": "2026-10-02T05:24:15"
+ },
+ "brooklyn__54__crop_002": {
+  "tag": "amenity=bar",
+  "eval_tag": "1",
+  "old": "amenity=bar",
+  "note": "",
+  "updated": "2026-10-02T05:24:17"
+ },
+ "brooklyn__57__crop_001": {
+  "tag": "amenity=bar",
+  "eval_tag": "1",
+  "old": "amenity=bar",
+  "note": "",
+  "updated": "2026-10-02T05:24:21"
+ },
+ "brooklyn__80__crop_001": {
+  "tag": "amenity=bar",
+  "eval_tag": "1",
+  "old": "amenity=bar",
+  "note": "",
+  "updated": "2026-10-02T05:24:24"
+ },
+ "brooklyn__83__crop_001": {
+  "tag": "amenity=bar",
+  "eval_tag": "1",
+  "old": "amenity=bar",
+  "note": "",
+  "updated": "2026-10-02T05:24:25"
+ },
+ "gangnam__11__crop_002": {
+  "tag": "amenity=bar",
+  "eval_tag": "1",
+  "old": "amenity=bar",
+  "note": "",
+  "updated": "2026-10-02T05:24:26"
+ },
+ "gangnam__29__crop_001": {
+  "tag": "amenity=bar",
+  "eval_tag": "1",
+  "old": "amenity=bar",
+  "note": "",
+  "updated": "2026-10-02T05:24:27"
+ },
+ "gangnam__32__crop_001": {
+  "tag": "amenity=bar",
+  "eval_tag": "1",
+  "old": "amenity=bar",
+  "note": "",
+  "updated": "2026-10-02T05:24:29"
+ },
+ "gangnam__40__crop_001": {
+  "tag": "amenity=bar",
+  "eval_tag": "1",
+  "old": "amenity=bar",
+  "note": "",
+  "updated": "2026-10-02T05:24:33"
+ },
+ "gangnam__4__crop_001": {
+  "tag": "amenity=bar",
+  "eval_tag": "1",
+  "old": "amenity=bar",
+  "note": "",
+  "updated": "2026-10-02T05:24:35"
+ },
+ "gangnam__38__crop_001": {
+  "tag": "",
+  "eval_tag": "0",
+  "old": "amenity=cafe",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:41:10"
+ },
+ "brooklyn__70__crop_001": {
+  "tag": "amenity=restaurant",
+  "eval_tag": "1",
+  "old": "amenity=fast_food",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:41:19"
+ },
+ "brooklyn__70__crop_002": {
+  "tag": "amenity=restaurant",
+  "eval_tag": "1",
+  "old": "amenity=fast_food",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:41:22"
+ },
+ "brooklyn__21__crop_002": {
+  "tag": "shop=convenience",
+  "eval_tag": "1",
+  "old": "amenity=restaurant",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:41:29"
+ },
+ "brooklyn__9__crop_001": {
+  "tag": "amenity=fast_food",
+  "eval_tag": "1",
+  "old": "amenity=restaurant",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:41:37"
+ },
+ "suwon__58__crop_002": {
+  "tag": "amenity=fast_food",
+  "eval_tag": "1",
+  "old": "amenity=restaurant",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:41:43"
+ },
+ "brooklyn__32__crop_003": {
+  "tag": "amenity=fast_food",
+  "eval_tag": "1",
+  "old": "shop=bakery",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:41:46"
+ },
+ "gangnam__33__crop_001": {
+  "tag": "amenity=fast_food",
+  "eval_tag": "1",
+  "old": "shop=bakery",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:41:48"
+ },
+ "gangnam__87__crop_001": {
+  "tag": "amenity=clinic",
+  "eval_tag": "1",
+  "old": "shop=beauty",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:41:50"
+ },
+ "suwon__94__crop_001": {
+  "tag": "shop=jewelry",
+  "eval_tag": "1",
+  "old": "shop=beauty",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:41:52"
+ },
+ "brooklyn__36__crop_002": {
+  "tag": "shop=beauty",
+  "eval_tag": "1",
+  "old": "shop=hairdresser",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:41:54"
+ },
+ "brooklyn__100__crop_001": {
+  "tag": "",
+  "eval_tag": "0",
+  "old": "shop=supermarket",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:42:01"
+ },
+ "brooklyn__27__crop_002": {
+  "tag": "shop=convenience",
+  "eval_tag": "1",
+  "old": "shop=supermarket",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:42:05"
+ },
+ "brooklyn__30__crop_002": {
+  "tag": "shop=convenience",
+  "eval_tag": "1",
+  "old": "shop=supermarket",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:42:07"
+ },
+ "brooklyn__77__crop_002": {
+  "tag": "shop=convenience",
+  "eval_tag": "1",
+  "old": "shop=supermarket",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:42:10"
+ },
+ "brooklyn__98__crop_001": {
+  "tag": "",
+  "eval_tag": "0",
+  "old": "shop=supermarket",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:42:14"
+ },
+ "brooklyn__20__crop_001": {
+  "tag": "amenity=ice_cream",
+  "eval_tag": "1",
+  "old": "amenity=cafe",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:42:34"
+ },
+ "brooklyn__36__crop_001": {
+  "tag": "amenity=fast_food",
+  "eval_tag": "1",
+  "old": "amenity=restaurant",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:42:38"
+ },
+ "brooklyn__45__crop_001": {
+  "tag": "amenity=fast_food",
+  "eval_tag": "1",
+  "old": "amenity=restaurant",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:42:43"
+ },
+ "brooklyn__47__crop_002": {
+  "tag": "",
+  "eval_tag": "0",
+  "old": "amenity=restaurant",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:42:47"
+ },
+ "suwon__12__crop_001": {
+  "tag": "shop=beauty",
+  "eval_tag": "1",
+  "old": "shop=hairdresser",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:42:52"
+ },
+ "brooklyn__13__crop_001": {
+  "tag": "shop=convenience",
+  "eval_tag": "1",
+  "old": "shop=supermarket",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:43:03"
+ },
+ "brooklyn__15__crop_002": {
+  "tag": "shop=convenience",
+  "eval_tag": "1",
+  "old": "shop=supermarket",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:43:05"
+ },
+ "brooklyn__21__crop_001": {
+  "tag": "",
+  "eval_tag": "0",
+  "old": "shop=supermarket",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:43:11"
+ },
+ "brooklyn__29__crop_001": {
+  "tag": "",
+  "eval_tag": "0",
+  "old": "shop=supermarket",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:43:16"
+ },
+ "brooklyn__30__crop_003": {
+  "tag": "",
+  "eval_tag": "0",
+  "old": "shop=supermarket",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:43:20"
+ },
+ "brooklyn__44__crop_001": {
+  "tag": "shop=convenience",
+  "eval_tag": "1",
+  "old": "shop=supermarket",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:43:22"
+ },
+ "brooklyn__66__crop_002": {
+  "tag": "",
+  "eval_tag": "0",
+  "old": "shop=supermarket",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:43:22"
+ },
+ "brooklyn__78__crop_001": {
+  "tag": "",
+  "eval_tag": "0",
+  "old": "shop=supermarket",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:43:23"
+ },
+ "brooklyn__63__crop_001": {
+  "tag": "shop=convenience",
+  "eval_tag": "1",
+  "old": "amenity=restaurant",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:43:24"
+ },
+ "gangnam__48__crop_001": {
+  "tag": "amenity=cafe",
+  "eval_tag": "1",
+  "old": "amenity=restaurant",
+  "note": "의심목록 v2",
+  "updated": "2026-10-02T05:43:25"
+ }
+}
